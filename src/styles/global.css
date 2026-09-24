@@ -1,8 +1,69 @@
 @import 'tailwindcss';
 
-/* Font roles. The --font-* variables on the right are defined by Astro's <Font /> component. */
+/*
+ * Design tokens: palette "Ink" (PLAN.md → Design decisions).
+ * Each color is light-dark(<light>, <dark>), resolved by the active color-scheme.
+ * The OS preference decides by default; <html data-theme="light|dark"> overrides it.
+ */
 @theme {
+  /* Only these colors exist: Tailwind's default palette is cleared. */
+  --color-*: initial;
+  --color-ground: light-dark(#f6f7f8, #0e1116); /* page background */
+  --color-surface: light-dark(#ffffff, #161b22); /* raised areas: footer, cards */
+  --color-panel: light-dark(#eceef1, #131820); /* media panels behind screenshots */
+  --color-ink: light-dark(#111418, #e8eaed); /* primary text */
+  --color-muted: light-dark(#555d6b, #9aa3af); /* secondary text, labels */
+  --color-rule: light-dark(#d9dde3, #2a313b); /* borders, dividers */
+  --color-accent: light-dark(#1f4fd1, #8aa8ff); /* links, primary button, focus */
+  --color-on-accent: light-dark(#ffffff, #0e1116); /* text on accent fills */
+  --color-frame: light-dark(#111418, #2a313b); /* phone frame bezels */
+  --color-dot: light-dark(#c9ced6, #262c35); /* dot grid on media panels */
+
+  /* Font roles. The --font-* variables on the right come from Astro's <Font /> component. */
   --font-serif: var(--font-newsreader);
   --font-sans: var(--font-plex-sans);
   --font-mono: var(--font-plex-mono);
+
+  /* Layout widths: max-w-prose-col for reading, max-w-page for the page frame. */
+  --container-prose-col: 45rem;
+  --container-page: 75rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: light dark;
+  }
+  :root[data-theme='light'] {
+    color-scheme: light;
+  }
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-ground font-sans text-ink antialiased;
+  }
+
+  a {
+    @apply text-accent underline-offset-4 hover:text-ink;
+  }
+
+  :focus-visible {
+    @apply rounded-xs outline-2 outline-offset-4 outline-accent;
+  }
+
+  ::selection {
+    @apply bg-accent text-on-accent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
