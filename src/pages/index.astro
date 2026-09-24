@@ -1,25 +1,11 @@
 ---
-import { Font } from 'astro:assets';
-import '../styles/global.css';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../lib/site';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Mamuka Anjaparidze · Senior React Native &amp; full-stack developer</title>
-    <meta
-      name="description"
-      content="Senior React Native and full-stack developer. Payment terminals, crypto apps and booking platforms for iOS and Android."
-    />
-    <Font cssVariable="--font-newsreader" preload />
-    <Font cssVariable="--font-plex-sans" preload={[{ weight: 400, style: "normal" }]} />
-    <Font cssVariable="--font-plex-mono" />
-  </head>
-  <body class="font-sans">
-    <main class="mx-auto max-w-3xl px-5 py-24">
-      <p class="font-mono text-sm text-muted">Senior React Native &amp; full-stack developer</p>
-      <h1 class="mt-4 font-serif text-5xl font-medium">Mamuka Anjaparidze</h1>
-    </main>
-  </body>
-</html>
+<Base>
+  <section class="mx-auto max-w-page px-5 py-24 sm:px-8">
+    <p class="font-mono text-sm text-muted">{SITE.jobTitle}</p>
+    <h1 class="mt-4 font-serif text-5xl font-medium">{SITE.name}</h1>
+  </section>
+</Base>
