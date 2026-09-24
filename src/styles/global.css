@@ -1,0 +1,8 @@
+@import 'tailwindcss';
+
+/* Font roles. The --font-* variables on the right are defined by Astro's <Font /> component. */
+@theme {
+  --font-serif: var(--font-newsreader);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+}
