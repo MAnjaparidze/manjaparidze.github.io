@@ -1,5 +1,17 @@
 @import 'tailwindcss';
 
+/* dark: follows the same rule as the tokens: data-theme wins, otherwise the OS setting. */
+@custom-variant dark {
+  :root[data-theme='dark'] & {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) & {
+      @slot;
+    }
+  }
+}
+
 /*
  * Design tokens: palette "Ink" (PLAN.md → Design decisions).
  * Each color is light-dark(<light>, <dark>), resolved by the active color-scheme.
