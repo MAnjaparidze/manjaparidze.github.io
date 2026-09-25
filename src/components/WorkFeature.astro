@@ -1,0 +1,45 @@
+---
+/**
+ * One "Selected work" entry: a media panel of phone frames, then title | description, stack and link.
+ * One frame shows below md, all of them from md up.
+ */
+import type { WorkFeature } from '../lib/work';
+
+type Props = WorkFeature;
+
+const { slug, title, context, description, stack, screens, href } = Astro.props;
+const headingId = `work-${slug}`;
+---
+
+<article aria-labelledby={headingId} class="flex flex-col gap-6 lg:gap-9">
+  <div class="dot-grid flex h-[28.75rem] items-center justify-center gap-8 rounded-xl bg-panel lg:h-[37.5rem] lg:gap-12">
+    {
+      screens.map((screen, i) => (
+        <div
+          class:list={[
+            'aspect-[250/512] w-[11.875rem] shrink-0 items-center justify-center rounded-[1.75rem] border-8 border-frame bg-surface p-4 lg:w-[15.625rem] lg:rounded-[2.3rem]',
+            i === 0 ? 'flex' : 'hidden md:flex',
+          ]}
+        >
+          <span class="text-center font-mono text-xs text-muted">[Recording: {screen}]</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="grid gap-3 md:grid-cols-2 md:gap-12">
+    <div class="flex flex-col gap-3">
+      <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">{context}</p>
+      <h3 id={headingId} class="font-serif text-3xl leading-tight font-medium lg:text-[2.75rem] lg:tracking-[-0.01em]">
+        {title}
+      </h3>
+    </div>
+    <div class="flex flex-col gap-4 md:pt-7">
+      <p class="max-w-prose-col text-[1.0625rem] leading-relaxed lg:text-lg">{description}</p>
+      <ul class="flex flex-wrap gap-x-2 font-mono text-[0.8125rem] leading-relaxed tracking-[0.02em] text-muted">
+        {stack.map((item, i) => <li>{i > 0 && <span aria-hidden="true">· </span>}{item}</li>)}
+      </ul>
+      {href && <a href={href} class="inline-flex min-h-11 items-center self-start font-medium underline">Read the {title} case study</a>}
+    </div>
+  </div>
+</article>

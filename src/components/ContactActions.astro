@@ -1,0 +1,14 @@
+---
+/** "Book a call" (primary) and "Email me". Shared by the hero and the footer CTA. */
+import { CONTACT } from '../lib/site';
+---
+
+<div class="flex flex-wrap items-center gap-x-7 gap-y-3">
+  <a
+    href={CONTACT.bookingUrl}
+    class="inline-flex min-h-12 items-center rounded-md bg-accent px-6 font-semibold text-on-accent no-underline hover:bg-ink hover:text-ground"
+  >
+    Book a call
+  </a>
+  <a href={`mailto:${CONTACT.email}`} class="inline-flex min-h-12 items-center font-medium underline">Email me</a>
+</div>

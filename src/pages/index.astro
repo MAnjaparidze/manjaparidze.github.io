@@ -1,11 +1,42 @@
 ---
+import ContactActions from '../components/ContactActions.astro';
+import WorkFeature from '../components/WorkFeature.astro';
 import Base from '../layouts/Base.astro';
+import { personSchema } from '../lib/schema';
 import { SITE } from '../lib/site';
+import { FEATURED_WORK } from '../lib/work';
+
+// `site` is always set in astro.config.mjs; the fallback only satisfies the type.
+const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
 ---
 
 <Base>
-  <section class="mx-auto max-w-page px-5 py-24 sm:px-8">
-    <p class="font-mono text-sm text-muted">{SITE.jobTitle}</p>
-    <h1 class="mt-4 font-serif text-5xl font-medium">{SITE.name}</h1>
-  </section>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-34">
+    <section aria-labelledby="hero-title" class="flex flex-col gap-6 pt-14 pb-18 lg:gap-9 lg:pt-32 lg:pb-34">
+      <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
+        {SITE.jobTitle} · Currently at {SITE.currently}
+      </p>
+      {/* [MAMUKA: confirm or rewrite the headline] */}
+      <h1
+        id="hero-title"
+        class="max-w-[65rem] font-serif text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] sm:text-7xl lg:text-8xl"
+      >
+        I build the mobile apps people pay with.
+      </h1>
+      <p class="max-w-[40rem] text-lg leading-relaxed text-muted lg:text-xl">
+        Payment terminals, crypto apps and booking platforms for iOS and Android, from native modules to the
+        Node.js backend.
+      </p>
+      <ContactActions />
+    </section>
+
+    <section aria-labelledby="work-title" class="flex flex-col gap-14 lg:gap-24">
+      <h2 id="work-title" class="border-b border-rule pb-4 font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
+        Selected work
+      </h2>
+      {FEATURED_WORK.map((work) => <WorkFeature {...work} />)}
+    </section>
+  </div>
 </Base>
