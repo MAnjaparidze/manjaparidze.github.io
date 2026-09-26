@@ -4,7 +4,7 @@ import WorkFeature from '../components/WorkFeature.astro';
 import Base from '../layouts/Base.astro';
 import { personSchema } from '../lib/schema';
 import { SITE } from '../lib/site';
-import { FEATURED_WORK } from '../lib/work';
+import { EARLIER_WORK, FEATURED_WORK } from '../lib/work';
 
 // `site` is always set in astro.config.mjs; the fallback only satisfies the type.
 const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
@@ -37,6 +37,20 @@ const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
         Selected work
       </h2>
       {FEATURED_WORK.map((work) => <WorkFeature {...work} />)}
+    </section>
+
+    <section aria-labelledby="earlier-title" class="flex flex-col gap-6 pt-18 lg:pt-34">
+      <h2 id="earlier-title" class="font-serif text-3xl font-medium lg:text-[2.5rem]">Earlier work</h2>
+      <dl class="border-b border-rule">
+        {
+          EARLIER_WORK.map(({ domain, items }) => (
+            <div class="flex flex-col gap-1.5 border-t border-rule py-4 md:grid md:grid-cols-[17.5rem_minmax(0,1fr)] md:gap-12 md:py-5">
+              <dt class="pt-0.5 font-mono text-[0.8125rem] tracking-[0.02em] text-muted">{domain}</dt>
+              <dd class="max-w-prose-col leading-normal md:text-[1.0625rem]">{items.join(' · ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </section>
   </div>
 </Base>

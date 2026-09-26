@@ -50,3 +50,30 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     screens: ['receipt scan', 'points', 'rewards'],
   },
 ];
+
+export interface EarlierWorkGroup {
+  domain: string;
+  /** Rendered joined with " · ". */
+  items: readonly string[];
+}
+
+/** Homepage "Earlier work": short entries grouped by domain, no dates (PLAN.md → Resume facts). */
+export const EARLIER_WORK: readonly EarlierWorkGroup[] = [
+  {
+    domain: 'Enterprise plugins',
+    items: ['Solutions2Share Teams plugins, used by 1000+ companies including Volkswagen, Airbus and Yamaha', '365Apps'],
+  },
+  { domain: 'Fintech', items: ['Kernel Invoicing'] },
+  { domain: 'E-commerce', items: ['eNvite', 'NFT checkout', 'Webshop (Next.js)'] },
+  {
+    domain: 'Platforms',
+    items: [
+      'Freedom, debate matchmaking over Socket.io',
+      'CoachNow, Angular to React migration',
+      'Brandie Dog, Three.js',
+    ],
+  },
+  { domain: 'Internal tools', items: ['Webizpad, solo full-stack', 'HRMS'] },
+  { domain: 'Info sites', items: ['08.ge'] },
+  { domain: 'Teaching', items: ['Lecturer at IT Academy Step'] },
+];

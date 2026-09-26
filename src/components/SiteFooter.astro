@@ -1,11 +1,16 @@
 ---
-import { PROFILES, SITE } from '../lib/site';
+/** Site-wide closing CTA, then public profiles. The CV link joins PROFILES once the PDF exists. */
+import ContactActions from './ContactActions.astro';
+import { PROFILES } from '../lib/site';
 ---
 
 <footer class="border-t border-rule bg-surface">
-  <div class="mx-auto flex max-w-page flex-wrap items-center justify-between gap-x-8 gap-y-4 px-5 py-10 sm:px-8">
-    <p class="font-serif text-lg">{SITE.name}</p>
-    <ul class="-mx-3 flex flex-wrap font-mono text-[0.8125rem]">
+  <div class="mx-auto flex max-w-page flex-col gap-7 px-5 pt-14 pb-10 sm:px-8 lg:pt-24 lg:pb-14">
+    <p class="font-serif text-[2.125rem] leading-tight font-medium tracking-[-0.01em] lg:text-[3.5rem]">
+      Have an app to ship?
+    </p>
+    <ContactActions />
+    <ul class="-mx-3 flex flex-wrap pt-4 font-mono text-[0.8125rem]">
       {
         PROFILES.map(({ label, href }) => (
           <li>
