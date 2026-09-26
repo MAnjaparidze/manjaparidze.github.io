@@ -18,7 +18,7 @@ export const SITE = {
 
 /** Primary contact actions: hero and footer CTA. */
 export const CONTACT = {
-  bookingUrl: '[MAMUKA: booking link (Cal.com or Calendly)]',
+  bookingUrl: 'https://calendly.com/m-anjaparidze/30min',
   email: 'anjaparidzemamuka@gmail.com',
 } as const;
 
