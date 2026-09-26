@@ -38,7 +38,7 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     title: 'Coinmania',
     context: 'Coinmania',
     description:
-      'Coinmania’s crypto app, which I built from zero. Live prices stream over WebSockets from an ASP.NET SignalR backend; biometric login, OTP, saved device sessions and secure key storage protect the accounts.',
+      'Coinmania’s crypto app, which I built from zero. Live prices stream over WebSockets from an ASP.NET SignalR backend; biometric login, OTP, saved device sessions and secure key storage protect the accounts. The platform has 150–200k active users across web and mobile.',
     stack: ['React Native', 'Expo', 'Zustand', 'React Query', 'SignalR'],
     screens: ['portfolio', 'live prices', 'asset detail'],
   },
