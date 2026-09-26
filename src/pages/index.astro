@@ -18,12 +18,11 @@ const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
       <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
         {SITE.jobTitle} · Currently at {SITE.currently}
       </p>
-      {/* [MAMUKA: confirm or rewrite the headline] */}
       <h1
         id="hero-title"
-        class="max-w-[65rem] font-serif text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] sm:text-7xl lg:text-8xl"
+        class="max-w-[65rem] font-serif text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] sm:text-7xl lg:text-[5rem]"
       >
-        I build the mobile apps people pay with.
+        Mobile apps that move money, built by someone trained to break them.
       </h1>
       <p class="max-w-[40rem] text-lg leading-relaxed text-muted lg:text-xl">
         Payment terminals, crypto apps and booking platforms for iOS and Android, from native modules to the

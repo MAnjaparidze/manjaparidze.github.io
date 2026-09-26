@@ -19,7 +19,7 @@ export const SITE = {
 /** Primary contact actions: hero and footer CTA. */
 export const CONTACT = {
   bookingUrl: '[MAMUKA: booking link (Cal.com or Calendly)]',
-  email: '[MAMUKA: contact email to show on the site]',
+  email: 'anjaparidzemamuka@gmail.com',
 } as const;
 
 /** Main navigation. /projects/, /about/ and /contact/ are built in Phase 2. */

@@ -29,24 +29,26 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     title: 'ElectraPay + EPay Business',
     context: 'Coinmania',
     description:
-      'A two-sided crypto payment system. The merchant terminal shows a QR code, the customer app scans it and pays. Terminal reports export to PDF and Excel. Used in retail, including Dressup.',
-    stack: ['[MAMUKA: stack]'],
+      'A two-sided crypto payment system, built by a team I lead. The merchant terminal shows a QR code, the customer app scans it and pays in any supported coin, and the terminal polls for confirmation. Reports export to PDF and Excel. 15–20 partner merchants, including Dressup.',
+    stack: ['React Native', 'Expo modules', 'Zustand', 'React Query', 'expo-barcode-scanner'],
     screens: ['terminal QR', 'customer scan', 'terminal report'],
   },
   {
     slug: 'coinmania',
     title: 'Coinmania',
     context: 'Coinmania',
-    description: 'A crypto portfolio app with live prices over WebSockets from the Binance API. Built from the boilerplate up.',
-    stack: ['WebSockets', 'Binance API', '[MAMUKA: rest of stack]'],
+    description:
+      'Coinmania’s crypto app, which I built from zero. Live prices stream over WebSockets from an ASP.NET SignalR backend; biometric login, OTP, saved device sessions and secure key storage protect the accounts.',
+    stack: ['React Native', 'Expo', 'Zustand', 'React Query', 'SignalR'],
     screens: ['portfolio', 'live prices', 'asset detail'],
   },
   {
     slug: 'bonoapp',
     title: 'BonoApp',
     context: '2G Dev',
-    description: 'Scan the QR code on a receipt, earn loyalty points. [MAMUKA: one more sentence on the hard part]',
-    stack: ['Expo', 'EAS Build', '[MAMUKA: rest of stack]'],
+    description:
+      'Scan the QR code on a receipt, earn loyalty points. Most of the data came from one API call; batching it cut first load from 10–15 seconds to 3. I also moved legacy class components to function components during the Redux 5 upgrade, untangling the store and its listeners.',
+    stack: ['React Native 0.73', 'Expo', 'Redux 5', 'EAS Build'],
     screens: ['receipt scan', 'points', 'rewards'],
   },
 ];
