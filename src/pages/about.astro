@@ -1,0 +1,92 @@
+---
+import ContentSection from '../components/ContentSection.astro';
+import PageIntro from '../components/PageIntro.astro';
+import RuleList, { type RuleListItem } from '../components/RuleList.astro';
+import Base from '../layouts/Base.astro';
+import { profilePageSchema } from '../lib/schema';
+
+// Facts come from the resume and PLAN.md → Resume facts: no dates, the MSc is coursework, no phone number.
+const skills: readonly RuleListItem[] = [
+  { term: 'Mobile', detail: 'React Native · Expo · EAS Build · Reanimated · React Navigation · in-app purchases' },
+  { term: 'State and data', detail: 'Zustand · TanStack Query · Redux · Redux Saga · WebSockets · SignalR' },
+  { term: 'Web', detail: 'React · Next.js · TypeScript · Tailwind CSS · Three.js' },
+  { term: 'Backend', detail: 'Node.js · Express · MongoDB · Firebase · Socket.io · REST' },
+  { term: 'Security', detail: 'Biometric login · OTP · secure storage · JWT · OAuth' },
+  { term: 'Cloud and tools', detail: 'AWS · DigitalOcean · Azure · Docker · Git · Figma' },
+];
+
+const recognition: readonly string[] = [
+  'Second place, Bank of Georgia hackathon',
+  'Second place, #irespectIPrights hackathon',
+  'Global Startup Labs program, MIT',
+  'Certified teacher in Lego Robotics and Arduino programming (MIT training)',
+];
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const schema = profilePageSchema(site, new URL(Astro.url.pathname, site));
+---
+
+<Base
+  title="About"
+  description="Mamuka Anjaparidze is a senior React Native and full-stack developer with a cybersecurity background, building crypto payment and fintech apps."
+>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
+    <PageIntro
+      label="About"
+      title="About Mamuka Anjaparidze"
+      lead="I'm a senior React Native and full-stack developer. I build mobile apps that handle money: crypto payments, a crypto platform with 150–200k active users, receipt-based loyalty points. When a project needs it, I build the Node.js backend behind the app too."
+    />
+
+    <ContentSection id="what" title="What do I build?">
+      <p>
+        Mobile apps where a bug costs someone money. At Coinmania I built the company's crypto app from zero: the
+        technical flow, the MVP plan, the boilerplate and the key features. I also lead the team behind ElectraPay and
+        EPay Business, a two-sided crypto payment system used by 15–20 partner merchants.
+      </p>
+      <p>
+        Before that I led development of BonoApp at 2G Dev, a loyalty app where shoppers scan the QR code on a receipt
+        for points. Batching one oversized API call cut its first load from 10–15 seconds to 3.
+      </p>
+      <p>
+        On the web I've built Microsoft Teams plugins used by 1000+ companies, a debate matchmaking platform over
+        Socket.io, and CoachNow's migration from Angular to React.
+      </p>
+    </ContentSection>
+
+    <ContentSection id="security" title="Where does the security background come from?">
+      <p>
+        From graduate coursework in Cybersecurity at Northern Kentucky University, and from practice. In apps, that
+        means biometric login, OTP, saved device sessions and keys kept in secure storage, as in Coinmania.
+      </p>
+      <p>
+        At home, it means a self-hosted lab on Manjaro Linux: Docker, Nextcloud, WireGuard and local AI models on
+        Ollama.
+      </p>
+    </ContentSection>
+
+    <ContentSection id="background" title="What's my background?">
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        <li>BSc in Computer Science, San Diego State University, on the Dean's List</li>
+        <li>Graduate coursework in Cybersecurity, Northern Kentucky University</li>
+        <li>Web development, Israeli Tech Hub &amp; Business and Technology University, honorary graduate</li>
+        <li>Taught web development at IT Academy Step to classes of 10–15 students</li>
+        <li>Freelanced through Toptal; mentored junior developers at Solutions2Share, 2G Dev and Coinmania</li>
+      </ul>
+    </ContentSection>
+
+    <section aria-labelledby="skills" class="flex flex-col gap-6 border-t border-rule py-10 lg:py-14">
+      <h2 id="skills" class="font-serif text-[1.75rem] leading-tight font-medium lg:text-[2.25rem]">
+        What do I work with?
+      </h2>
+      <RuleList items={skills} />
+    </section>
+
+    <ContentSection id="recognition" title="Hackathons and certificates">
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        {recognition.map((item) => <li>{item}</li>)}
+      </ul>
+    </ContentSection>
+  </div>
+</Base>

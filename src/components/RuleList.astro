@@ -1,0 +1,24 @@
+---
+/** Rule-separated definition list: mono term on the left, detail on the right (stacked below md). */
+export interface RuleListItem {
+  term: string;
+  detail: string;
+}
+
+interface Props {
+  items: readonly RuleListItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<dl class="border-b border-rule">
+  {
+    items.map(({ term, detail }) => (
+      <div class="flex flex-col gap-1.5 border-t border-rule py-4 md:grid md:grid-cols-[17.5rem_minmax(0,1fr)] md:gap-12 md:py-5">
+        <dt class="pt-0.5 font-mono text-[0.8125rem] tracking-[0.02em] text-muted">{term}</dt>
+        <dd class="max-w-prose-col leading-normal md:text-[1.0625rem]">{detail}</dd>
+      </div>
+    ))
+  }
+</dl>

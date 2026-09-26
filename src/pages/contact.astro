@@ -1,0 +1,55 @@
+---
+import ContactActions from '../components/ContactActions.astro';
+import ContentSection from '../components/ContentSection.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Base from '../layouts/Base.astro';
+import { contactPageSchema } from '../lib/schema';
+import { CONTACT, PROFILES } from '../lib/site';
+
+const site = Astro.site ?? new URL(Astro.url.origin);
+const schema = contactPageSchema(site, new URL(Astro.url.pathname, site));
+---
+
+<Base
+  title="Contact"
+  footerCta={false}
+  description="Book a 30-minute call or email Mamuka Anjaparidze about your React Native, payments or crypto app."
+>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
+    <PageIntro
+      label="Contact"
+      title="How can you reach me?"
+      lead="Book a 30-minute call, or email me a few lines about your project. Both reach me directly. I work in GMT+4; Calendly shows the times in yours."
+    />
+    <div class="pb-12 lg:pb-16">
+      <ContactActions />
+    </div>
+
+    <ContentSection id="send" title="What should you include?">
+      <p>A few lines are enough to start:</p>
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        <li>What the app does, and who uses it</li>
+        <li>iOS, Android, or both</li>
+        <li>Whether there's existing code, or you're starting from zero</li>
+        <li>When you need it</li>
+      </ul>
+    </ContentSection>
+
+    <ContentSection id="direct" title="Where else can you find me?">
+      <ul class="flex flex-col gap-1">
+        <li>
+          Email: <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+        </li>
+        {
+          PROFILES.map(({ label, href }) => (
+            <li>
+              {label}: <a href={href} rel="me">{href.replace(/^https:\/\/(www\.)?/, '')}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </ContentSection>
+  </div>
+</Base>

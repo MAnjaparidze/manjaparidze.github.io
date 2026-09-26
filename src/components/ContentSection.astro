@@ -1,0 +1,17 @@
+---
+/** An answer-first section: the heading is the question, the slot opens with the answer. */
+interface Props {
+  /** Heading id; also the section's accessible name. */
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<section aria-labelledby={id} class="flex flex-col gap-5 border-t border-rule py-10 lg:py-14">
+  <h2 {id} class="font-serif text-[1.75rem] leading-tight font-medium lg:text-[2.25rem]">{title}</h2>
+  <div class="flex max-w-prose-col flex-col gap-4 text-[1.0625rem] leading-relaxed">
+    <slot />
+  </div>
+</section>

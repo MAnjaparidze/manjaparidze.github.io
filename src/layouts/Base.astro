@@ -10,9 +10,11 @@ interface Props {
   /** Page title without the site name; omit on the homepage. */
   title?: string;
   description?: string;
+  /** Footer "Have an app to ship?" CTA; off on pages that already lead with it. */
+  footerCta?: boolean;
 }
 
-const { title, description = SITE.description } = Astro.props;
+const { title, description = SITE.description, footerCta = true } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.jobTitle}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -64,6 +66,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
       <slot />
     </main>
-    <SiteFooter />
+    <SiteFooter cta={footerCta} />
   </body>
 </html>

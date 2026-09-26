@@ -14,6 +14,8 @@ export const SITE = {
   currently: 'Coinmania',
   /** Person schema knowsAbout. */
   knowsAbout: ['React Native', 'Expo', 'Node.js', 'MongoDB', 'TypeScript', 'Cybersecurity'],
+  /** Completed degree only; the NKU MSc is coursework and never claimed (PLAN.md → Resume facts). */
+  alumniOf: 'San Diego State University',
 } as const;
 
 /** Primary contact actions: hero and footer CTA. */
@@ -22,9 +24,9 @@ export const CONTACT = {
   email: 'anjaparidzemamuka@gmail.com',
 } as const;
 
-/** Main navigation. /projects/, /about/ and /contact/ are built in Phase 2. */
+/** Main navigation. Work points at the homepage section until /projects/ exists (Phase 2). */
 export const NAV: readonly Link[] = [
-  { label: 'Work', href: '/projects/' },
+  { label: 'Work', href: '/#work' },
   { label: 'About', href: '/about/' },
   { label: 'Contact', href: '/contact/' },
 ];

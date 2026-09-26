@@ -1,0 +1,25 @@
+---
+import PageIntro from '../components/PageIntro.astro';
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found" description="This page doesn't exist.">
+  <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
+    <PageIntro
+      label="404"
+      title="This page doesn't exist."
+      lead="The link may be old, or the address mistyped. Everything on this site is one step from the homepage."
+    />
+    <ul class="flex flex-wrap items-center gap-x-7 gap-y-3">
+      <li>
+        <a
+          href="/"
+          class="inline-flex min-h-12 items-center rounded-md bg-accent px-6 font-semibold text-on-accent no-underline hover:bg-ink hover:text-ground"
+        >
+          Go to the homepage
+        </a>
+      </li>
+      <li><a href="/#work" class="inline-flex min-h-12 items-center font-medium underline">See selected work</a></li>
+    </ul>
+  </div>
+</Base>
