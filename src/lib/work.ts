@@ -47,7 +47,7 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     title: 'BonoApp',
     context: '2G Dev',
     description:
-      'Scan the QR code on a receipt, earn loyalty points. Most of the data came from one API call; batching it cut first load from 10–15 seconds to 3. I also moved legacy class components to function components during the Redux 5 upgrade, untangling the store and its listeners.',
+      'Scan the QR code on a receipt, earn loyalty points. I inherited a legacy codebase and refactored it, moving class components to functions during the Redux 5 upgrade. When the designs and business logic changed too far, I rebuilt the app from scratch. Batching one oversized API call cut first load from 10–15 seconds to 3.',
     stack: ['React Native 0.73', 'Expo', 'Redux 5', 'EAS Build'],
     screens: ['receipt scan', 'points', 'rewards'],
   },
@@ -63,7 +63,7 @@ export interface EarlierWorkGroup {
 export const EARLIER_WORK: readonly EarlierWorkGroup[] = [
   {
     domain: 'Enterprise plugins',
-    items: ['Solutions2Share Teams plugins, used by 1000+ companies including Volkswagen, Airbus and Yamaha', '365Apps'],
+    items: ['Solutions2Share Teams plugins, used by companies with 1,000+ employees, including Volkswagen, Airbus and Yamaha', '365Apps'],
   },
   { domain: 'Fintech', items: ['Kernel Invoicing'] },
   { domain: 'E-commerce', items: ['eNvite', 'NFT checkout', 'Webshop (Next.js)'] },
