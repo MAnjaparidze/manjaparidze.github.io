@@ -1,10 +1,11 @@
 ---
 /** One "Websites and web apps" entry: title | description, stack and a link to the public evidence. */
+import ScreenGallery from './ScreenGallery.astro';
 import type { WebWork } from '../lib/work';
 
 type Props = WebWork;
 
-const { slug, title, context, description, stack, link } = Astro.props;
+const { slug, title, context, description, stack, link, gallery } = Astro.props;
 const headingId = `web-${slug}`;
 const external = link.href.startsWith('http');
 ---
@@ -28,4 +29,11 @@ const external = link.href.startsWith('http');
       {external && <span class="sr-only"> (external site)</span>}
     </a>
   </div>
+  {
+    gallery && (
+      <div class="min-w-0 md:col-span-2 [&_figcaption]:mt-3 [&_figcaption]:font-mono [&_figcaption]:text-[0.8125rem] [&_figcaption]:text-muted">
+        <ScreenGallery label={`${title} screenshots`} screens={gallery.screens} caption={gallery.caption} variant="desktop" />
+      </div>
+    )
+  }
 </article>

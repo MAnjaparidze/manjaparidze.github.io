@@ -3,6 +3,9 @@ import type { ImageMetadata } from 'astro';
 import bonoCollect from '../assets/bonoapp/store-collect.png';
 import bonoCombine from '../assets/bonoapp/store-combine.png';
 import bonoSpend from '../assets/bonoapp/store-spend.png';
+import web08Currency from '../assets/08ge/currency.png';
+import web08Home from '../assets/08ge/home.png';
+import web08Organizations from '../assets/08ge/organizations.png';
 import storeBuySell from '../assets/coinmania/store-buy-sell.png';
 import storePrices from '../assets/coinmania/store-prices.png';
 import storeSecurity from '../assets/coinmania/store-security.png';
@@ -113,5 +116,24 @@ export const BONOAPP_STORE: readonly ScreenImage[] = [
     image: bonoSpend,
     alt: 'BonoApp App Store screenshot, in Georgian: "Spend", a checkout paying for products with points.',
     bare: true,
+  },
+];
+
+/** 08.ge desktop screenshots of the live site (UI in Georgian), cropped to the page only. Visuals and markup are Mamuka's. */
+export const WEB_08GE: readonly ScreenImage[] = [
+  {
+    label: 'Homepage',
+    image: web08Home,
+    alt: '08.ge homepage, in Georgian: a photo of an old Georgian town behind the headline "Accurate and constantly updated information!", a search bar for companies and activities, and shortcuts to food, medicine, education, shopping and sport.',
+  },
+  {
+    label: 'Currency converter',
+    image: web08Currency,
+    alt: '08.ge currency converter, in Georgian: 1 US dollar converted to 2.608 lari.',
+  },
+  {
+    label: 'Business directory',
+    image: web08Organizations,
+    alt: '08.ge business directory, in Georgian: search filters beside a grid of company cards with logos, ratings, addresses and opening hours.',
   },
 ];

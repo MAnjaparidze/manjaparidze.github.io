@@ -1,5 +1,5 @@
 ---
-/** A row of phone screens that scrolls sideways; each screen keeps a readable size instead of shrinking. */
+/** A row of screens that scrolls sideways; each keeps a readable size instead of shrinking. `desktop` for website screenshots. */
 import { Picture } from 'astro:assets';
 import type { ScreenImage } from '../lib/screens';
 
@@ -8,24 +8,26 @@ interface Props {
   label: string;
   screens: readonly ScreenImage[];
   caption: string;
+  variant?: 'phone' | 'desktop';
 }
 
-const { label, screens, caption } = Astro.props;
+const { label, screens, caption, variant = 'phone' } = Astro.props;
+const desktop = variant === 'desktop';
 ---
 
 <figure>
-  <div class="-mx-5 overflow-x-auto px-5 pb-3 sm:mx-0 sm:px-0" tabindex="0" aria-label={`${label}, scrollable`}>
+  <div class="-mx-5 overflow-x-auto px-5 pb-3 [scrollbar-color:var(--color-rule)_transparent] [scrollbar-width:thin] sm:mx-0 sm:px-0" tabindex="0" aria-label={`${label}, scrollable`}>
     <ul class="flex snap-x snap-mandatory gap-4">
       {
         screens.map(({ label: screenLabel, image, alt }) => (
-          <li class="flex w-44 shrink-0 snap-start flex-col gap-2 sm:w-48">
+          <li class:list={['flex shrink-0 snap-start flex-col gap-2', desktop ? 'w-80 sm:w-[30rem]' : 'w-44 sm:w-48']}>
             <Picture
               src={image}
               {alt}
               formats={['avif', 'webp']}
-              widths={[180, 360, 540]}
-              sizes="(min-width: 640px) 192px, 176px"
-              class="h-auto w-full rounded-[1.25rem] border border-rule"
+              widths={desktop ? [320, 480, 640, 960] : [180, 360, 540]}
+              sizes={desktop ? '(min-width: 640px) 480px, 320px' : '(min-width: 640px) 192px, 176px'}
+              class:list={['h-auto w-full border border-rule', desktop ? 'rounded-lg' : 'rounded-[1.25rem]']}
             />
             <span class="font-mono text-[0.8125rem] text-muted">{screenLabel}</span>
           </li>

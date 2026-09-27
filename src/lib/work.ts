@@ -1,5 +1,5 @@
 /** Homepage "Selected work", in display order (Coinmania first: Mamuka, 2026-09-27). Facts come from PLAN.md → Case Studies; nothing here is invented. */
-import { BONOAPP_STORE, COINMANIA_STORE, ELECTRAPAY_STORE, UKAR_WIZARD, type ScreenImage } from './screens';
+import { BONOAPP_STORE, COINMANIA_STORE, ELECTRAPAY_STORE, UKAR_WIZARD, WEB_08GE, type ScreenImage } from './screens';
 
 export interface WorkFeature {
   /** Stable id: heading anchor now, case study slug later. */
@@ -69,6 +69,8 @@ export interface WebWork {
   stack: readonly string[];
   /** Case study on this site, or the public page that proves it exists. */
   link: { label: string; href: string };
+  /** Desktop screenshots, with the gallery caption. */
+  gallery?: { screens: readonly ScreenImage[]; caption: string };
 }
 
 /**
@@ -93,6 +95,10 @@ export const WEB_WORK: readonly WebWork[] = [
       'An information portal for Georgia: events, live currency rates, transport, cinemas and a business directory on a map. I built the front end of its React version, with Google Maps and live currency conversion, then designed the visuals and wrote the full markup of the redesign that’s live today.',
     stack: ['React', 'Google Maps API', 'HTML', 'CSS'],
     link: { label: 'Visit 08.ge', href: 'https://www.08.ge/' },
+    gallery: {
+      screens: WEB_08GE,
+      caption: 'The live site: homepage, currency converter and business directory. Visuals and markup by me.',
+    },
   },
   {
     slug: 'coachnow',
