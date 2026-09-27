@@ -40,8 +40,13 @@ export const CONTACT = {
   email: 'anjaparidzemamuka@gmail.com',
 } as const;
 
+/** The Toptal profile, also linked from About's background section. */
+export const TOPTAL_URL = 'https://www.toptal.com/developers/resume/mamuka-anjaparidze';
+
 /** Public profiles; also the Person schema's sameAs. */
 export const PROFILES: readonly Link[] = [
   { label: 'GitHub', href: 'https://github.com/MAnjaparidze' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/manjaparidze' },
+  // Added 2026-09-28, once the profile stopped claiming a Master's degree (PLAN.md → Toptal).
+  { label: 'Toptal', href: TOPTAL_URL },
 ];

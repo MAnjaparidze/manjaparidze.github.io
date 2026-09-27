@@ -7,6 +7,7 @@ import { toLang, translatedPath, type Lang } from '../i18n';
 import { ui } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
 import { profilePageSchema } from '../lib/schema';
+import { TOPTAL_URL } from '../lib/site';
 
 // Facts come from the resume and PLAN.md → Resume facts: no dates, the MSc is coursework, no phone number.
 const lang = toLang(Astro.currentLocale);
@@ -20,7 +21,7 @@ interface Copy {
   offer: { title: string; intro: string; items: readonly { strong: string; rest: string }[]; demo: readonly [string, string, string] };
   built: { title: string; paragraphs: readonly string[] };
   security: { title: string; paragraphs: readonly string[] };
-  background: { title: string; items: readonly string[] };
+  background: { title: string; items: readonly string[]; toptal: readonly [string, string, string] };
   skills: { title: string; items: readonly RuleListItem[] };
   recognition: { title: string; items: readonly string[] };
 }
@@ -69,6 +70,7 @@ const COPY: Record<Lang, Copy> = {
         'Taught web development at IT Academy Step to classes of 10–15 students',
         'Freelanced through Toptal; mentored junior developers at Solutions2Share, 2G Dev and Coinmania',
       ],
+      toptal: ['', 'Vetted by Toptal', ' as a Verified Expert in Engineering.'],
     },
     skills: {
       title: 'What do I work with?',
@@ -141,6 +143,7 @@ const COPY: Record<Lang, Copy> = {
         'ვასწავლიდი ვებ დეველოპმენტს IT Academy Step-ში, 10–15 სტუდენტიან ჯგუფებს',
         'ვმუშაობდი ფრილანსერად Toptal-ის მეშვეობით; ვმენტორობდი ახალბედა დეველოპერებს Solutions2Share-ში, 2G Dev-სა და Coinmania-ში',
       ],
+      toptal: ['', 'Toptal-ის მიერ შემოწმებული', ' დეველოპერი, სტატუსით „Verified Expert in Engineering“.'],
     },
     skills: {
       title: 'რით ვმუშაობ?',
@@ -213,6 +216,9 @@ const schema = profilePageSchema(site, new URL(Astro.url.pathname, site), lang);
       <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
         {c.background.items.map((item) => <li>{item}</li>)}
       </ul>
+      <p>
+        {c.background.toptal[0]}<a href={TOPTAL_URL} rel="me">{c.background.toptal[1]}</a>{c.background.toptal[2]}
+      </p>
     </ContentSection>
 
     <section aria-labelledby="skills" class="flex flex-col gap-6 border-t border-rule py-10 lg:py-14">
