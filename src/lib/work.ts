@@ -34,8 +34,8 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     title: 'ElectraPay + EPay Business',
     context: 'Coinmania',
     description:
-      'A two-sided crypto payment system, built by a team I lead. The merchant terminal shows a QR code, the customer app scans it and pays in any supported coin, and the terminal polls for confirmation. Reports export to PDF and Excel. 15–20 partner merchants, including Dressup.',
-    stack: ['React Native', 'Expo modules', 'Zustand', 'React Query', 'expo-barcode-scanner'],
+      'A two-sided crypto payment system, built by a team I lead. The merchant terminal shows a QR code; the customer scans it and pays from their balance in the crypto asset they choose, confirmed with an SMS code. The terminal polls for the result, can refund all or part of a payment, and exports reports to PDF and Excel. 15–20 partner merchants, including Dressup.',
+    stack: ['React Native', 'TypeScript', 'React Query', 'react-native-vision-camera', 'react-native-keychain'],
     screens: [{ label: 'terminal QR' }, { label: 'customer scan' }, { label: 'terminal report' }],
   },
   {
