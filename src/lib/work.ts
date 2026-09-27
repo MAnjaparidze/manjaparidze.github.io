@@ -43,7 +43,7 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     title: 'Coinmania',
     context: 'Coinmania · founding engineer',
     description:
-      'A crypto wallet and payments app for Georgia. I’ve been its founding engineer since the first week, its top contributor and its release owner. Live prices stream over a hand-written SignalR client on the native WebSocket, and sessions are bound to the device and signed with biometrics or a PIN. The platform has 150–200k active users across web and mobile.',
+      'A crypto wallet and payments app for Georgia. I initiated its architecture and have been its founding engineer since the first week: top contributor and release owner. Live prices stream over a hand-written SignalR client on the native WebSocket, and sessions are bound to the device and signed with biometrics or a PIN. The platform has 150–200k active users across web and mobile.',
     stack: ['React Native', 'TypeScript', 'React Query', 'Zustand', 'SignalR'],
     screens: [{ label: 'portfolio' }, { label: 'live prices' }, { label: 'asset detail' }],
     href: '/projects/coinmania/',

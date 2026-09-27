@@ -1,6 +1,6 @@
 ---
 title: 'Coinmania: a crypto wallet and payments app for Georgia'
-summary: "Coinmania's app lets people in Georgia hold, trade, send and spend crypto, and pay utility bills with it. I've been its founding engineer since the first week: top contributor, release owner, and lead on the API layer, navigation and native code."
+summary: "Coinmania's app lets people in Georgia hold, trade, send and spend crypto, and pay utility bills with it. I initiated its architecture, advised on its boilerplate, and have been its founding engineer since the first week: top contributor, release owner, and lead on the API layer, navigation and native code."
 role: 'Founding engineer, top contributor and release owner, in a team of three'
 stack: ['React Native 0.79', 'React 19', 'TypeScript', 'React Query', 'Zustand', 'SignalR over WebSocket', 'Reanimated', 'Hermes']
 status: 'Live on the App Store and Google Play'
@@ -100,7 +100,8 @@ shared between saved templates and payments.
 
 ## How do I work in a team of three?
 
-Coinmania's app has three engineers. I was there from the first week, and today:
+Coinmania's app has three engineers. I initiated the app's architecture and advised on the boilerplate the
+team started from, and I've been writing code since the first week. Today:
 
 - I've written **57% of the commits** and **46% of the current code**.
 - I own **releases**: every 1.x release so far, with fastlane lanes for iOS and Android.
