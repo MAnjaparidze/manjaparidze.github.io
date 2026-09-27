@@ -2,9 +2,9 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-/** One MDX file per case study in src/content/case-studies/; the file name is the URL slug. */
+/** One file per case study in src/content/case-studies/: .md, or .mdx when it embeds components. The file name is the URL slug. */
 const caseStudies = defineCollection({
-  loader: glob({ pattern: '*.mdx', base: './src/content/case-studies' }),
+  loader: glob({ pattern: '*.{md,mdx}', base: './src/content/case-studies' }),
   schema: z.object({
     /** Page h1 and TechArticle headline. */
     title: z.string(),

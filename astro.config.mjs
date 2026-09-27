@@ -20,6 +20,16 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      rolldownOptions: {
+        // Astro marks MDX content modules with "use astro:head-inject"; Rolldown warns it may drop the directive.
+        // Harmless here (no MDX component has scoped styles), so only this exact warning is silenced.
+        onwarn(warning, defaultHandler) {
+          if (warning.code === 'MODULE_LEVEL_DIRECTIVE' && warning.message.includes('astro:head-inject')) return;
+          defaultHandler(warning);
+        },
+      },
+    },
   },
   // Self-hosted at build time from Fontsource; Astro also generates metric-matched fallbacks.
   fonts: [

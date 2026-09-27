@@ -1,0 +1,120 @@
+---
+title: 'Coinmania: a crypto wallet and payments app for Georgia'
+summary: "Coinmania's app lets people in Georgia hold, trade, send and spend crypto, and pay utility bills with it. I've been its founding engineer since the first week: top contributor, release owner, and lead on the API layer, navigation and native code."
+role: 'Founding engineer, top contributor and release owner, in a team of three'
+stack: ['React Native 0.79', 'React 19', 'TypeScript', 'React Query', 'Zustand', 'SignalR over WebSocket', 'Reanimated', 'Hermes']
+status: 'Live on the App Store and Google Play'
+topics: ['React Native', 'Crypto wallet', 'SignalR', 'WebSockets', 'React Query', 'Device-bound authentication']
+datePublished: 2026-09-27
+---
+
+## What is Coinmania?
+
+Coinmania is a crypto wallet and payments app for Georgia. The platform serves 150–200k active users across
+web and mobile, with multi-million monthly volume. In the app, people can:
+
+- see their assets and live prices, and buy, sell or convert crypto;
+- deposit and withdraw crypto on the blockchain, with saved addresses and a network choice per asset;
+- move money to and from their bank, with saved accounts;
+- pay utility bills with crypto, through a step-by-step wizard with saved templates;
+- pay at partner stores by QR code or link (in progress);
+- verify their identity in the app, and manage security, two-factor authentication and notifications.
+
+The app speaks Georgian and English.
+
+## How is the app built?
+
+It's bare React Native 0.79 with React 19 and TypeScript, with the New Architecture and Hermes enabled.
+Navigation is React Navigation 7 native-stack, with every route name and parameter typed. State lives in
+three places, each chosen for what it holds:
+
+| Layer | Holds | Why |
+| --- | --- | --- |
+| React Query | All server data, with a stale time per data type: hours for the asset catalogue, zero for live payment data | Caching, retries and invalidation for free |
+| Zustand (7 stores) | Client and flow state: the asset catalogue by ID, KYC status, OTP flags, session lock, the bill-payment wizard | State that isn't server data |
+| Context | The theme and the WebSocket connection state | Values the whole app reads |
+
+The API layer is small and strict. When several requests find an expired token at once, they share a single
+refresh and queue behind it. The app calibrates its clock from the server's `Date` header, so countdowns
+don't depend on the phone's time. Utility-bill and QR-payment responses go through typed parsers before the
+UI sees them.
+
+## How do live prices reach the screen without re-rendering everything?
+
+The backend speaks classic ASP.NET SignalR, so I wrote the protocol by hand on the native WebSocket, with no
+SignalR client library. The client negotiates a connection token, opens the price hub, and gives up after a
+30-second connect timeout. It disconnects when the app goes to the background, reconnects when it returns, and
+retries with exponential backoff.
+
+Each pushed batch is merged straight into the React Query cache, keyed by asset, so a partial update never
+drops an asset and no screen has to refetch:
+
+```ts
+// Simplified from usePriceUpdates
+queryClient.setQueryData<PriceMap>(['assets-prices'], (prices = {}) => {
+  const next = { ...prices };
+  for (const update of batch) next[update.assetId] = update;
+  return next;
+});
+```
+
+On the list, each price row uses a custom memo comparison, so a tick re-renders only the rows whose price
+changed. Balances come from REST, and slower data is polled: trading pairs every 10 seconds, paused in the
+background.
+
+## How is a session tied to one device?
+
+Refresh tokens are bound to a key that never leaves the phone. Each device enrols its own key, held in
+secure hardware and unlocked with biometrics, or protected by the user's PIN. Enrolment needs a one-time code,
+and only the public key goes to the server.
+
+When the server wants proof, it sends a challenge. The app locks, and the user signs the challenge with
+biometrics or their PIN. All requests waiting on that challenge share one promise with a 60-second timeout.
+That fixed a real bug: without it, the lock screen could get stuck and never dismiss.
+
+Moving money asks for more. Withdrawals and bill payments go through a step-up confirmation that walks the user
+through whatever factors the server requires, including SMS or WhatsApp codes and Google Authenticator.
+Identity checks run in the app through the Identomat SDK.
+
+## What broke, and how was it fixed?
+
+Most of the hard problems lived below JavaScript. Five native and library fixes are carried as patches:
+
+- **Reanimated in release builds.** Release builds skipped the guard around worklet calls, so any worklet
+  exception killed the app. The patch makes release builds catch and report it, as dev builds do.
+- **An iOS error in `@gorhom/bottom-sheet`.** A worklet destructured `{ window }`, shadowing the global and
+  throwing "Property 'window' doesn't exist". The fix renamed it and removed leaked `Dimensions` listeners.
+- **Biometrics on iOS.** Promises resolved on a background queue now resolve on the main thread, like the
+  library's other methods.
+- **Two React Native codegen fixes:** a nil-safe component map and a corrected array type resolution.
+
+Two more fixes mattered as much as any patch:
+
+- **TypeScript had silently stopped checking.** A deprecation flag had disabled type checking. Turning it back
+  on meant explicit paths, TypeScript 5.9, and fixing every error it had been hiding.
+- **Switching language showed stale text.** Query keys didn't include the language, so the cache is now
+  cleared when the language changes.
+
+The utility-bill wizard is one screen driven by a store, not a dozen stack routes, and four of its steps are
+shared between saved templates and payments.
+
+## How do I work in a team of three?
+
+Coinmania's app has three engineers. I was there from the first week, and today:
+
+- I've written **57% of the commits** and **46% of the current code**.
+- I own **releases**: every 1.x release so far, with fastlane lanes for iOS and Android.
+- I lead the **API layer, navigation and native iOS and Android work**.
+- Work goes through **pull requests** (281 so far) on Jira-keyed branches.
+- I added a **pre-push gate** that blocks a push if type checking or unit tests fail, and I wrote the app's
+  **97 tests**, covering the bill-payment logic, API contracts, parsers, error mapping and QR payments.
+
+## What would I do differently?
+
+- **Test and add CI from day one.** The first real tests arrived about 18 months in, and local hooks are still
+  the only gate.
+- **Commit native patches with the code that needs them.** One fix sat uncommitted, and the error came back on
+  every clean checkout until it was committed.
+- **Tag releases.** Versions currently have to be reconstructed from build files.
+- **Keep lockfiles stable.** Dependency churn made up the largest commits in the history.
+- **Settle product decisions before building.** Hard KYC was switched on and off four times.

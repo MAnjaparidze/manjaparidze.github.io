@@ -127,6 +127,20 @@
     & pre {
       @apply overflow-x-auto rounded-lg border border-rule bg-surface p-5 font-mono text-sm leading-relaxed;
     }
+    /* Tables wrap rather than scroll: Markdown can't make a scroll region keyboard-focusable. */
+    & table {
+      @apply w-full text-[0.9375rem] leading-normal;
+    }
+    & th,
+    & td {
+      @apply border-b border-rule py-3 pr-5 text-left align-top;
+    }
+    & th {
+      @apply font-mono text-[0.8125rem] font-normal tracking-[0.02em] text-muted;
+    }
+    & td:first-child {
+      @apply font-medium;
+    }
     & figure {
       @apply mt-8;
     }

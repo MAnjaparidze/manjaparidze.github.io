@@ -11,7 +11,7 @@ const skills: readonly RuleListItem[] = [
   { term: 'State and data', detail: 'Zustand · TanStack Query · Redux · Redux Saga · WebSockets · SignalR' },
   { term: 'Web', detail: 'React · Next.js · TypeScript · Tailwind CSS · Three.js' },
   { term: 'Backend', detail: 'Node.js · Express · MongoDB · Firebase · Socket.io · REST' },
-  { term: 'Security', detail: 'Biometric login · OTP · secure storage · JWT · OAuth' },
+  { term: 'Security', detail: 'Device-bound sessions · biometrics · step-up MFA · JWT · OAuth' },
   { term: 'Cloud and tools', detail: 'AWS · DigitalOcean · Azure · Docker · Git · Figma' },
 ];
 
@@ -41,9 +41,10 @@ const schema = profilePageSchema(site, new URL(Astro.url.pathname, site));
 
     <ContentSection id="what" title="What do I build?">
       <p>
-        Mobile apps where a bug costs someone money. At Coinmania I built the company's crypto app from zero: the
-        technical flow, the MVP plan, the boilerplate and the key features. I also lead the team behind ElectraPay and
-        EPay Business, a two-sided crypto payment system used by 15–20 partner merchants.
+        Mobile apps where a bug costs someone money. At Coinmania I've been the founding engineer of the crypto app
+        since its first week: its top contributor, its release owner, and the lead on its API layer, navigation and
+        native code. I also lead the team behind ElectraPay and EPay Business, a two-sided crypto payment system used
+        by 15–20 partner merchants.
       </p>
       <p>
         Before that I led development of BonoApp at 2G Dev, a loyalty app where shoppers scan the QR code on a receipt
@@ -59,7 +60,8 @@ const schema = profilePageSchema(site, new URL(Astro.url.pathname, site));
     <ContentSection id="security" title="Where does the security background come from?">
       <p>
         From graduate coursework in Cybersecurity at Northern Kentucky University, and from practice. In apps, that
-        means biometric login, OTP, saved device sessions and keys kept in secure storage, as in Coinmania.
+        means sessions bound to one device and signed with biometrics or a PIN, and extra checks before money moves,
+        as in Coinmania.
       </p>
       <p>
         At home, it means a self-hosted lab on Manjaro Linux: Docker, Nextcloud, WireGuard and local AI models on
