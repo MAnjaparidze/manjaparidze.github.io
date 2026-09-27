@@ -1,20 +1,36 @@
 ---
-import { NAV, SITE } from '../lib/site';
+import { alternates, basePath, localePath, toLang } from '../i18n';
+import { ui } from '../i18n/ui';
 import ThemeToggle from './ThemeToggle.astro';
 
+const lang = toLang(Astro.currentLocale);
+const t = ui(lang);
 const path = Astro.url.pathname;
-const isCurrent = (href: string): boolean => path === href || path.startsWith(href);
+const home = localePath(lang, '/');
+const nav = [
+  { label: t.nav.work, href: localePath(lang, '/#work') },
+  { label: t.nav.about, href: localePath(lang, '/about/') },
+  { label: t.nav.contact, href: localePath(lang, '/contact/') },
+];
+const isCurrent = (href: string): boolean => !href.includes('#') && path.startsWith(href);
+// The other language's version of this page; English-only pages switch to the Georgian homepage.
+const other = t.switchLanguage.lang;
+const switchHref = alternates(path)?.[other] ?? localePath(other, other === 'en' ? basePath(path) : '/');
 ---
 
 <header class="mx-auto flex w-full max-w-page flex-wrap items-center justify-between gap-x-8 gap-y-2 px-5 py-4 sm:px-8 sm:py-7">
-  <a href="/" class="font-serif text-xl font-medium text-ink no-underline sm:text-[1.375rem]" aria-current={path === '/' ? 'page' : undefined}>
-    {SITE.name}
+  <a
+    href={home}
+    class="font-serif text-xl font-medium text-ink no-underline sm:text-[1.375rem]"
+    aria-current={path === home ? 'page' : undefined}
+  >
+    {t.name}
   </a>
   <div class="-mr-3 flex items-center gap-x-2">
-    <nav aria-label="Main">
+    <nav aria-label={t.navLabel}>
       <ul class="-ml-3 flex flex-wrap">
         {
-          NAV.map(({ label, href }) => (
+          nav.map(({ label, href }) => (
             <li>
               <a
                 href={href}
@@ -26,6 +42,16 @@ const isCurrent = (href: string): boolean => path === href || path.startsWith(hr
             </li>
           ))
         }
+        <li>
+          <a
+            href={switchHref}
+            hreflang={other}
+            lang={other}
+            class="inline-flex min-h-11 items-center px-3 font-mono text-[0.8125rem] text-muted no-underline hover:text-ink hover:underline"
+          >
+            {t.switchLanguage.label}
+          </a>
+        </li>
       </ul>
     </nav>
     <ThemeToggle />

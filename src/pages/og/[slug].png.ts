@@ -9,7 +9,7 @@ export const getStaticPaths = (async () => {
     ...Object.entries(PAGE_CARDS).map(([slug, card]) => ({ params: { slug }, props: { card } })),
     ...studies.map((study) => ({
       params: { slug: `projects-${study.id}` },
-      props: { card: { label: 'Case study', title: study.data.title } },
+      props: { card: { label: 'Case study', title: study.data.title, lang: 'en' as const } },
     })),
   ];
 }) satisfies GetStaticPaths;

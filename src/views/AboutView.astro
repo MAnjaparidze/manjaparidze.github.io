@@ -1,0 +1,230 @@
+---
+/** About, in either language: rendered by src/pages/about.astro and src/pages/ka/about.astro. */
+import ContentSection from '../components/ContentSection.astro';
+import PageIntro from '../components/PageIntro.astro';
+import RuleList, { type RuleListItem } from '../components/RuleList.astro';
+import { toLang, type Lang } from '../i18n';
+import { ui } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { profilePageSchema } from '../lib/schema';
+
+// Facts come from the resume and PLAN.md → Resume facts: no dates, the MSc is coursework, no phone number.
+const lang = toLang(Astro.currentLocale);
+const t = ui(lang);
+
+interface Copy {
+  title: string;
+  description: string;
+  heading: string;
+  lead: string;
+  offer: { title: string; intro: string; items: readonly { strong: string; rest: string }[]; demo: readonly [string, string, string] };
+  built: { title: string; paragraphs: readonly string[] };
+  security: { title: string; paragraphs: readonly string[] };
+  background: { title: string; items: readonly string[] };
+  skills: { title: string; items: readonly RuleListItem[] };
+  recognition: { title: string; items: readonly string[] };
+}
+
+const COPY: Record<Lang, Copy> = {
+  en: {
+    title: 'About',
+    description:
+      'Mamuka Anjaparidze is a senior web and mobile developer with a cybersecurity background. He builds websites, SEO and AEO, and apps for e-commerce and growing companies.',
+    heading: 'About Mamuka Anjaparidze',
+    lead: "I'm a senior web and mobile developer. I build websites and apps for e-commerce and growing companies, and make sure search engines and AI assistants can read, trust and recommend them.",
+    offer: {
+      title: 'What do I offer?',
+      intro: 'Three things, on their own or together:',
+      items: [
+        { strong: 'Websites', rest: ' that load fast and turn visitors into customers: company sites, e-commerce and web apps.' },
+        {
+          strong: 'SEO and AEO:',
+          rest: ' structured data, answer-first content, technical SEO and open doors for AI crawlers, so Google ranks you and ChatGPT, Perplexity and Claude cite you.',
+        },
+        { strong: 'Mobile apps', rest: " for iOS and Android, when a website isn't enough." },
+      ],
+      demo: ['This site is the demo: ', "here's how it's built to rank and be cited", ', with every claim checkable by you.'],
+    },
+    built: {
+      title: 'What have I built?',
+      paragraphs: [
+        "Apps where a bug costs someone money. At Coinmania I initiated the crypto app's architecture, advised on its boilerplate, and have been its founding engineer since the first week: its top contributor, its release owner, and the lead on its API layer, navigation and native code. I also lead the team behind ElectraPay and EPay Business, a two-sided crypto payment system used by 15–20 partner merchants.",
+        'Before that I led development of BonoApp at 2G Dev, a loyalty app where shoppers scan the QR code on a receipt for points. I refactored the legacy codebase, then rebuilt the app from scratch when its designs and business logic changed. Batching one oversized API call cut its first load from 10–15 seconds to 3.',
+        "On the web I designed and built the front end of 08.ge, an information portal for Georgia, and worked on CoachNow's migration from Angular to React. I co-built eNvite, a social shopping chat for online stores that was Product Hunt's #7 product of the day, and Microsoft Teams plugins used by companies with 1,000+ employees.",
+      ],
+    },
+    security: {
+      title: 'Where does the security background come from?',
+      paragraphs: [
+        'From graduate coursework in Cybersecurity at Northern Kentucky University, and from practice. In apps, that means sessions bound to one device and signed with biometrics or a PIN, and extra checks before money moves, as in Coinmania.',
+        'At home, it means a self-hosted lab on Manjaro Linux: Docker, Nextcloud, WireGuard and local AI models on Ollama.',
+      ],
+    },
+    background: {
+      title: "What's my background?",
+      items: [
+        "BSc in Computer Science, San Diego State University, on the Dean's List",
+        'Graduate coursework in Cybersecurity, Northern Kentucky University',
+        'Web development, Israeli Tech Hub & Business and Technology University, honorary graduate',
+        'Taught web development at IT Academy Step to classes of 10–15 students',
+        'Freelanced through Toptal; mentored junior developers at Solutions2Share, 2G Dev and Coinmania',
+      ],
+    },
+    skills: {
+      title: 'What do I work with?',
+      items: [
+        {
+          term: 'Search and AI visibility',
+          detail: 'Technical SEO · schema.org JSON-LD · Core Web Vitals · answer-first content · robots and sitemaps',
+        },
+        { term: 'Web', detail: 'React · Next.js · Astro · TypeScript · Tailwind CSS · HTML and CSS · Three.js' },
+        { term: 'Mobile', detail: 'React Native · Expo · EAS Build · Reanimated · React Navigation · in-app purchases' },
+        { term: 'State and data', detail: 'Zustand · TanStack Query · Redux · Redux Saga · WebSockets · SignalR' },
+        { term: 'Backend', detail: 'Node.js · Express · MongoDB · Firebase · Socket.io · REST' },
+        { term: 'Security', detail: 'Device-bound sessions · biometrics · step-up MFA · JWT · OAuth' },
+        { term: 'Cloud and tools', detail: 'AWS · DigitalOcean · Azure · Docker · Git · Figma' },
+      ],
+    },
+    recognition: {
+      title: 'Hackathons and certificates',
+      items: [
+        'Second place, Bank of Georgia hackathon',
+        'Second place, #irespectIPrights hackathon',
+        'Global Startup Labs program, MIT',
+        'Certified teacher in Lego Robotics and Arduino programming (MIT training)',
+      ],
+    },
+  },
+  ka: {
+    title: 'ჩემ შესახებ',
+    description:
+      'მამუკა ანჯაფარიძე Senior ვებ და მობილური დეველოპერია კიბერუსაფრთხოების გამოცდილებით. ქმნის ვებსაიტებს, SEO-სა და AEO-ს და აპლიკაციებს ელ-კომერციისა და მზარდი კომპანიებისთვის.',
+    heading: 'მამუკა ანჯაფარიძის შესახებ',
+    lead: 'ვარ Senior ვებ და მობილური დეველოპერი. ვქმნი ვებსაიტებსა და აპლიკაციებს ელ-კომერციისა და მზარდი კომპანიებისთვის და ვზრუნავ, რომ საძიებო სისტემებმა და AI ასისტენტებმა შეძლონ მათი წაკითხვა, ენდონ და მომხმარებლებს ურჩიონ.',
+    offer: {
+      title: 'რას გთავაზობთ?',
+      intro: 'სამ რამეს, ცალ-ცალკე ან ერთად:',
+      items: [
+        {
+          strong: 'ვებსაიტები,',
+          rest: ' რომლებიც სწრაფად იტვირთება და ვიზიტორებს მომხმარებლებად აქცევს: კომპანიების საიტები, ელ-კომერცია და ვებ აპლიკაციები.',
+        },
+        {
+          strong: 'SEO და AEO:',
+          rest: ' სტრუქტურირებული მონაცემები, პასუხზე ორიენტირებული ტექსტი, ტექნიკური SEO და ღია კარი AI კრაულერებისთვის, რომ Google-მა მაღლა დაგაყენოთ, ChatGPT-მ, Perplexity-მ და Claude-მა კი წყაროდ მოგიყვანონ.',
+        },
+        { strong: 'მობილური აპლიკაციები', rest: ' iOS-სა და Android-ზე, როცა ვებსაიტი საკმარისი არ არის.' },
+      ],
+      demo: ['ეს საიტი თავად არის დემო: ', 'აქ წაიკითხავთ, როგორ არის აწყობილი (ინგლისურად)', ', და ყველა მტკიცებას თავად შეამოწმებთ.'],
+    },
+    built: {
+      title: 'რა შევქმენი?',
+      paragraphs: [
+        'აპლიკაციები, სადაც შეცდომა ვიღაცას ფული უჯდება. Coinmania-ში კრიპტო აპლიკაციის არქიტექტურის ინიციატორი ვიყავი, მის საწყის სტრუქტურაზე რჩევებს ვაძლევდი და პირველივე კვირიდან მისი დამფუძნებელი ინჟინერი ვარ: ყველაზე აქტიური კონტრიბუტორი, რელიზებზე პასუხისმგებელი და API ფენის, ნავიგაციისა და ნატიური კოდის ლიდერი. ასევე ვხელმძღვანელობ გუნდს, რომელიც ქმნის ElectraPay-სა და EPay Business-ს, ორმხრივ კრიპტო გადახდების სისტემას, რომელსაც 15–20 პარტნიორი ობიექტი იყენებს.',
+        'მანამდე 2G Dev-ში ვხელმძღვანელობდი BonoApp-ის შექმნას, ლოიალობის აპლიკაციისა, სადაც მყიდველები ჩეკზე QR კოდს ასკანერებენ და ქულებს იღებენ. ძველი კოდბაზა გადავაკეთე, შემდეგ კი, როცა დიზაინი და ბიზნეს ლოგიკა შეიცვალა, აპლიკაცია თავიდან ავაწყე. ერთი უზარმაზარი API მოთხოვნის ნაწილებად დაყოფამ პირველი ჩატვირთვა 10–15 წამიდან 3 წამამდე შეამცირა.',
+        'ვებში შევქმენი 08.ge-ის, საქართველოს საინფორმაციო პორტალის, დიზაინი და ფრონტენდი და ვმუშაობდი CoachNow-ის Angular-იდან React-ზე გადასვლაზე. თანაავტორობით შევქმენი eNvite, სოციალური შოპინგ ჩატი ონლაინ მაღაზიებისთვის, რომელიც Product Hunt-ზე დღის #7 პროდუქტი გახდა, და Microsoft Teams-ის პლაგინები, რომლებსაც 1000-ზე მეტი თანამშრომლის მქონე კომპანიები იყენებენ.',
+      ],
+    },
+    security: {
+      title: 'საიდან მოდის უსაფრთხოების გამოცდილება?',
+      paragraphs: [
+        'ჩრდილოეთ კენტუკის უნივერსიტეტში კიბერუსაფრთხოების სამაგისტრო კურსებიდან და პრაქტიკიდან. აპლიკაციებში ეს ნიშნავს ერთ მოწყობილობაზე მიბმულ სესიებს, რომლებიც ბიომეტრიით ან PIN-ით დასტურდება, და დამატებით შემოწმებებს თანხის გადარიცხვამდე, როგორც Coinmania-ში.',
+        'სახლში კი ეს არის საკუთარი ლაბორატორია Manjaro Linux-ზე: Docker, Nextcloud, WireGuard და ლოკალური AI მოდელები Ollama-ზე.',
+      ],
+    },
+    background: {
+      title: 'რა განათლება და გამოცდილება მაქვს?',
+      items: [
+        'კომპიუტერული მეცნიერების ბაკალავრი, სან დიეგოს სახელმწიფო უნივერსიტეტი, დეკანის სიაში',
+        'კიბერუსაფრთხოების სამაგისტრო კურსები, ჩრდილოეთ კენტუკის უნივერსიტეტი',
+        'ვებ დეველოპმენტი, Israeli Tech Hub და ბიზნესისა და ტექნოლოგიების უნივერსიტეტი, საპატიო კურსდამთავრებული',
+        'ვასწავლიდი ვებ დეველოპმენტს IT Academy Step-ში, 10–15 სტუდენტიან ჯგუფებს',
+        'ვმუშაობდი ფრილანსერად Toptal-ის მეშვეობით; ვმენტორობდი ახალბედა დეველოპერებს Solutions2Share-ში, 2G Dev-სა და Coinmania-ში',
+      ],
+    },
+    skills: {
+      title: 'რით ვმუშაობ?',
+      items: [
+        {
+          term: 'ძიება და AI ხილვადობა',
+          detail: 'ტექნიკური SEO · schema.org JSON-LD · Core Web Vitals · პასუხზე ორიენტირებული ტექსტი · robots და sitemap',
+        },
+        { term: 'ვები', detail: 'React · Next.js · Astro · TypeScript · Tailwind CSS · HTML და CSS · Three.js' },
+        { term: 'მობილური', detail: 'React Native · Expo · EAS Build · Reanimated · React Navigation · აპში შესყიდვები' },
+        { term: 'სტეიტი და მონაცემები', detail: 'Zustand · TanStack Query · Redux · Redux Saga · WebSockets · SignalR' },
+        { term: 'ბექენდი', detail: 'Node.js · Express · MongoDB · Firebase · Socket.io · REST' },
+        {
+          term: 'უსაფრთხოება',
+          detail: 'მოწყობილობაზე მიბმული სესიები · ბიომეტრია · მრავალფაქტორიანი დადასტურება · JWT · OAuth',
+        },
+        { term: 'ღრუბელი და ხელსაწყოები', detail: 'AWS · DigitalOcean · Azure · Docker · Git · Figma' },
+      ],
+    },
+    recognition: {
+      title: 'ჰაკათონები და სერტიფიკატები',
+      items: [
+        'მეორე ადგილი, საქართველოს ბანკის ჰაკათონი',
+        'მეორე ადგილი, #irespectIPrights ჰაკათონი',
+        'Global Startup Labs პროგრამა, MIT',
+        'ლეგო რობოტიკისა და Arduino პროგრამირების სერტიფიცირებული მასწავლებელი (MIT-ის ტრენინგი)',
+      ],
+    },
+  },
+};
+
+const c = COPY[lang];
+const site = Astro.site ?? new URL(Astro.url.origin);
+const schema = profilePageSchema(site, new URL(Astro.url.pathname, site), lang);
+---
+
+<Base title={c.title} description={c.description}>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
+    <PageIntro label={t.nav.about} title={c.heading} lead={c.lead} />
+
+    <ContentSection id="offer" title={c.offer.title}>
+      <p>{c.offer.intro}</p>
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        {
+          c.offer.items.map(({ strong, rest }) => (
+            <li>
+              <strong class="font-semibold">{strong}</strong>
+              {rest}
+            </li>
+          ))
+        }
+      </ul>
+      <p>
+        {c.offer.demo[0]}<a href="/projects/this-site/">{c.offer.demo[1]}</a>{c.offer.demo[2]}
+      </p>
+    </ContentSection>
+
+    <ContentSection id="what" title={c.built.title}>
+      {c.built.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </ContentSection>
+
+    <ContentSection id="security" title={c.security.title}>
+      {c.security.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </ContentSection>
+
+    <ContentSection id="background" title={c.background.title}>
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        {c.background.items.map((item) => <li>{item}</li>)}
+      </ul>
+    </ContentSection>
+
+    <section aria-labelledby="skills" class="flex flex-col gap-6 border-t border-rule py-10 lg:py-14">
+      <h2 id="skills" class="font-serif text-[1.75rem] leading-tight font-medium lg:text-[2.25rem]">
+        {c.skills.title}
+      </h2>
+      <RuleList items={c.skills.items} />
+    </section>
+
+    <ContentSection id="recognition" title={c.recognition.title}>
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        {c.recognition.items.map((item) => <li>{item}</li>)}
+      </ul>
+    </ContentSection>
+  </div>
+</Base>

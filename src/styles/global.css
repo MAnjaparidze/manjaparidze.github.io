@@ -52,6 +52,16 @@
     color-scheme: dark;
   }
 
+  /*
+   * Georgian pages: the Noto Georgian faces carry only Georgian letters (a unicode-range subset),
+   * so Latin words keep Newsreader and Plex. Mono labels in Georgian use the sans face.
+   */
+  :root:lang(ka) {
+    --font-serif: var(--font-noto-serif-georgian), var(--font-newsreader);
+    --font-sans: var(--font-noto-sans-georgian), var(--font-plex-sans);
+    --font-mono: var(--font-noto-sans-georgian), var(--font-plex-mono);
+  }
+
   body {
     @apply bg-ground font-sans text-ink antialiased;
   }

@@ -1,4 +1,5 @@
 /** schema.org JSON-LD builders (aeo-accessibility skill → Schema.org). */
+import type { Lang } from '../i18n';
 import { PROFILES, SITE } from './site';
 
 type Context = { '@context': 'https://schema.org' };
@@ -7,6 +8,7 @@ export interface PersonSchema {
   '@type': 'Person';
   '@id': string;
   name: string;
+  alternateName: string;
   jobTitle: string;
   url: string;
   sameAs: string[];
@@ -17,12 +19,14 @@ export interface PersonSchema {
 export interface ProfilePageSchema extends Context {
   '@type': 'ProfilePage';
   url: string;
+  inLanguage: Lang;
   mainEntity: PersonSchema;
 }
 
 export interface ContactPageSchema extends Context {
   '@type': 'ContactPage';
   url: string;
+  inLanguage: Lang;
   about: { '@id': string };
 }
 
@@ -34,6 +38,7 @@ function person(site: URL): PersonSchema {
     '@type': 'Person',
     '@id': personId(site),
     name: SITE.name,
+    alternateName: SITE.nameKa,
     jobTitle: SITE.jobTitle,
     url: site.href,
     sameAs: PROFILES.map(({ href }) => href),
@@ -45,20 +50,22 @@ export function personSchema(site: URL): Context & PersonSchema {
   return { '@context': 'https://schema.org', ...person(site) };
 }
 
-export function profilePageSchema(site: URL, page: URL): ProfilePageSchema {
+export function profilePageSchema(site: URL, page: URL, lang: Lang): ProfilePageSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',
     url: page.href,
+    inLanguage: lang,
     mainEntity: { ...person(site), alumniOf: { '@type': 'CollegeOrUniversity', name: SITE.alumniOf } },
   };
 }
 
-export function contactPageSchema(site: URL, page: URL): ContactPageSchema {
+export function contactPageSchema(site: URL, page: URL, lang: Lang): ContactPageSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
     url: page.href,
+    inLanguage: lang,
     about: { '@id': personId(site) },
   };
 }

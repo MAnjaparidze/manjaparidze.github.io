@@ -1,0 +1,97 @@
+---
+/** Contact, in either language: rendered by src/pages/contact.astro and src/pages/ka/contact.astro. */
+import ContactActions from '../components/ContactActions.astro';
+import ContentSection from '../components/ContentSection.astro';
+import PageIntro from '../components/PageIntro.astro';
+import { toLang, type Lang } from '../i18n';
+import { ui } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+import { contactPageSchema } from '../lib/schema';
+import { CONTACT, PROFILES } from '../lib/site';
+
+const lang = toLang(Astro.currentLocale);
+const t = ui(lang);
+
+const COPY: Record<
+  Lang,
+  {
+    description: string;
+    heading: string;
+    lead: string;
+    include: { title: string; intro: string; items: readonly string[] };
+    elsewhere: { title: string; email: string };
+  }
+> = {
+  en: {
+    description:
+      'Book a 30-minute call or email Mamuka Anjaparidze about your website, search and AI visibility, or app.',
+    heading: 'How can you reach me?',
+    lead: "Book a 30-minute call, or email me a few lines about your project. Both reach me directly. I'm in Tbilisi, Georgia (GMT+4); Calendly shows the times in yours.",
+    include: {
+      title: 'What should you include?',
+      intro: 'A few lines are enough to start:',
+      items: [
+        'What your business does, and who your customers are',
+        'What you need: a website, search and AI visibility, an app, or a mix',
+        'Your current site or app, if you have one',
+        'When you need it',
+      ],
+    },
+    elsewhere: { title: 'Where else can you find me?', email: 'Email' },
+  },
+  ka: {
+    description:
+      'დაჯავშნეთ 30-წუთიანი ზარი ან მიწერეთ მამუკა ანჯაფარიძეს თქვენი ვებსაიტის, ძიებასა და AI-ში ხილვადობის ან აპლიკაციის შესახებ.',
+    heading: 'როგორ დამიკავშირდეთ?',
+    lead: 'დაჯავშნეთ 30-წუთიანი ზარი ან მომწერეთ რამდენიმე სიტყვა თქვენი პროექტის შესახებ. ორივე პირდაპირ მე მომდის. ვარ თბილისში (GMT+4); Calendly დროს თქვენი სასაათო სარტყლით გაჩვენებთ.',
+    include: {
+      title: 'რა უნდა მომწეროთ?',
+      intro: 'დასაწყებად რამდენიმე სიტყვაც საკმარისია:',
+      items: [
+        'რას აკეთებს თქვენი ბიზნესი და ვინ არიან თქვენი მომხმარებლები',
+        'რა გჭირდებათ: ვებსაიტი, ძიებასა და AI-ში ხილვადობა, აპლიკაცია თუ ყველაფერი ერთად',
+        'თქვენი არსებული საიტი ან აპლიკაცია, თუ გაქვთ',
+        'როდის გჭირდებათ',
+      ],
+    },
+    elsewhere: { title: 'სად შეიძლება მიპოვოთ?', email: 'ელფოსტა' },
+  },
+};
+
+const c = COPY[lang];
+const site = Astro.site ?? new URL(Astro.url.origin);
+const schema = contactPageSchema(site, new URL(Astro.url.pathname, site), lang);
+---
+
+<Base title={t.nav.contact} footerCta={false} description={c.description}>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
+    <PageIntro label={t.nav.contact} title={c.heading} lead={c.lead} />
+    <div class="pb-12 lg:pb-16">
+      <ContactActions />
+    </div>
+
+    <ContentSection id="send" title={c.include.title}>
+      <p>{c.include.intro}</p>
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        {c.include.items.map((item) => <li>{item}</li>)}
+      </ul>
+    </ContentSection>
+
+    <ContentSection id="direct" title={c.elsewhere.title}>
+      <ul class="flex flex-col gap-1">
+        <li>
+          {c.elsewhere.email}: <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+        </li>
+        {
+          PROFILES.map(({ label, href }) => (
+            <li>
+              {label}: <a href={href} rel="me">{href.replace(/^https:\/\/(www\.)?/, '')}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </ContentSection>
+  </div>
+</Base>

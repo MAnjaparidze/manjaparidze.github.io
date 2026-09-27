@@ -4,12 +4,16 @@
  * One frame shows below md, all of them from md up.
  */
 import { Picture } from 'astro:assets';
+import { toLang } from '../i18n';
+import { ui } from '../i18n/ui';
 import type { WorkFeature } from '../lib/work';
 
 type Props = WorkFeature;
 
 const { slug, title, context, description, stack, screens, rating, href } = Astro.props;
 const headingId = `work-${slug}`;
+const lang = toLang(Astro.currentLocale);
+const t = ui(lang);
 ---
 
 <article aria-labelledby={headingId} class="flex flex-col gap-6 lg:gap-9">
@@ -28,7 +32,7 @@ const headingId = `work-${slug}`;
         >
           <Picture
             src={screen.image}
-            alt={screen.alt}
+            alt={screen.alt[lang]}
             formats={['avif', 'webp']}
             widths={[180, 240, 360, 480, 720]}
             sizes="(min-width: 1024px) 234px, 174px"
@@ -42,25 +46,32 @@ const headingId = `work-${slug}`;
 
   <div class="grid gap-3 md:grid-cols-2 md:gap-12">
     <div class="flex flex-col gap-3">
-      <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">{context}</p>
+      <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">{context[lang]}</p>
       <h3 id={headingId} class="font-serif text-3xl leading-tight font-medium lg:text-[2.75rem] lg:tracking-[-0.01em]">
         {title}
       </h3>
     </div>
     <div class="flex flex-col gap-4 md:pt-7">
-      <p class="max-w-prose-col text-[1.0625rem] leading-relaxed lg:text-lg">{description}</p>
+      <p class="max-w-prose-col text-[1.0625rem] leading-relaxed lg:text-lg">{description[lang]}</p>
       {
         rating && (
           <p class="flex items-center gap-2 font-medium">
             <span aria-hidden="true" class="text-accent">★</span>
-            {rating}
+            {rating[lang]}
           </p>
         )
       }
       <ul class="flex flex-wrap gap-x-2 font-mono text-[0.8125rem] leading-relaxed tracking-[0.02em] text-muted">
         {stack.map((item, i) => <li>{i > 0 && <span aria-hidden="true">· </span>}{item}</li>)}
       </ul>
-      {href && <a href={href} class="inline-flex min-h-11 items-center self-start font-medium underline">Read the {title} case study</a>}
+      {
+        href && (
+          <a href={href} class="inline-flex min-h-11 items-center self-start font-medium underline">
+            {t.readCaseStudy(title)}
+            {t.englishOnly}
+          </a>
+        )
+      }
     </div>
   </div>
 </article>

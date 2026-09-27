@@ -3,6 +3,10 @@
  * Light/dark switch. Hidden until its script runs, since it does nothing without JS.
  * The OS setting decides by default; a click that lands back on the OS theme clears the override.
  */
+import { toLang } from '../i18n';
+import { ui } from '../i18n/ui';
+
+const t = ui(toLang(Astro.currentLocale));
 ---
 
 <button
@@ -12,7 +16,7 @@
   hidden
   class="inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center text-ink hover:text-accent"
 >
-  <span class="sr-only">Dark theme</span>
+  <span class="sr-only">{t.darkTheme}</span>
   <!-- Sun in light mode, moon in dark mode: switched by CSS so there is no flash on load. -->
   <svg
     aria-hidden="true"

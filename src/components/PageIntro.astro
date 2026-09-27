@@ -11,7 +11,9 @@ const { label, title, lead } = Astro.props;
 
 <header class="flex flex-col gap-5 pt-14 pb-12 lg:gap-7 lg:pt-24 lg:pb-16">
   <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">{label}</p>
-  <h1 class="max-w-[50rem] font-serif text-[2.5rem] leading-[1.05] font-medium tracking-[-0.02em] sm:text-6xl">
+  <h1
+    class="max-w-[50rem] font-serif text-[2.5rem] leading-[1.05] font-medium tracking-[-0.02em] [overflow-wrap:break-word] max-sm:[&:lang(ka)]:text-[2rem] sm:text-6xl"
+  >
     {title}
   </h1>
   <p class="max-w-prose-col text-lg leading-relaxed text-muted lg:text-xl">{lead}</p>

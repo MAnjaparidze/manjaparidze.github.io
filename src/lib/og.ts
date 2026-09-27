@@ -7,7 +7,8 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 import satori from 'satori';
-import { SITE } from './site';
+import type { Lang } from '../i18n';
+import { ui } from '../i18n/ui';
 
 const INK = { ground: '#f6f7f8', surface: '#ffffff', ink: '#111418', muted: '#555d6b', rule: '#d9dde3', accent: '#1f4fd1' };
 
@@ -18,6 +19,9 @@ const FONTS = [
   { name: 'IBM Plex Sans', data: font('ibm-plex-sans-latin-400-normal.ttf'), weight: 400 as const, style: 'normal' as const },
   { name: 'IBM Plex Sans', data: font('ibm-plex-sans-latin-600-normal.ttf'), weight: 600 as const, style: 'normal' as const },
   { name: 'IBM Plex Mono', data: font('ibm-plex-mono-latin-400-normal.ttf'), weight: 400 as const, style: 'normal' as const },
+  // Georgian-only subsets: satori falls back to them for Georgian letters, as the site does with unicode-range.
+  { name: 'Noto Serif Georgian', data: font('noto-serif-georgian-georgian-500-normal.ttf'), weight: 500 as const, style: 'normal' as const },
+  { name: 'Noto Sans Georgian', data: font('noto-sans-georgian-georgian-400-normal.ttf'), weight: 400 as const, style: 'normal' as const },
 ];
 
 type Style = Record<string, string | number>;
@@ -38,10 +42,12 @@ export interface OgCard {
   label: string;
   /** The page's main line; also the image's alt text. */
   title: string;
+  lang: Lang;
 }
 
 /** A 1200×630 PNG preview card: label, title, then name, role and domain. */
-export async function renderOgCard({ label, title }: OgCard, site: URL): Promise<Buffer> {
+export async function renderOgCard({ label, title, lang }: OgCard, site: URL): Promise<Buffer> {
+  const t = ui(lang);
   const titleSize = title.length > 70 ? 60 : 72;
   const tree = h(
     'div',
@@ -75,8 +81,8 @@ export async function renderOgCard({ label, title }: OgCard, site: URL): Promise
         },
         [
           h('div', { display: 'flex', flexDirection: 'column', gap: 4 }, [
-            h('div', { fontFamily: 'Newsreader', fontSize: 36 }, SITE.name),
-            h('div', { fontSize: 24, color: INK.muted }, SITE.jobTitle),
+            h('div', { fontFamily: 'Newsreader', fontSize: 36 }, t.name),
+            h('div', { fontSize: 24, color: INK.muted }, t.jobTitle),
           ]),
           h('div', { fontFamily: 'IBM Plex Mono', fontSize: 24, color: INK.accent }, site.host),
         ],
@@ -134,9 +140,28 @@ export function pngToIco(png: Buffer, size: number): Buffer {
 
 /** Preview cards for pages that aren't case studies, keyed by the slug Base.astro derives from the path. */
 export const PAGE_CARDS: Record<string, OgCard> = {
-  home: { label: 'Websites · SEO & AEO · Apps', title: 'When customers ask Google or ChatGPT, your business should be the answer.' },
-  about: { label: 'About', title: 'Web and mobile developer with a cybersecurity background, focused on search and AI visibility.' },
-  contact: { label: 'Contact', title: 'Have an app to ship? Book a call.' },
+  home: {
+    lang: 'en',
+    label: 'Websites · SEO & AEO · Apps',
+    title: 'When customers ask Google or ChatGPT, your business should be the answer.',
+  },
+  about: {
+    lang: 'en',
+    label: 'About',
+    title: 'Web and mobile developer with a cybersecurity background, focused on search and AI visibility.',
+  },
+  contact: { lang: 'en', label: 'Contact', title: 'Have an app to ship? Book a call.' },
+  ka: {
+    lang: 'ka',
+    label: 'ვებსაიტები · SEO და AEO · აპლიკაციები',
+    title: 'როცა მომხმარებელი Google-ს ან ChatGPT-ს ეკითხება, პასუხი თქვენი ბიზნესი უნდა იყოს.',
+  },
+  'ka-about': {
+    lang: 'ka',
+    label: 'ჩემ შესახებ',
+    title: 'ვებ და მობილური დეველოპერი კიბერუსაფრთხოების გამოცდილებით, ძიებასა და AI ხილვადობაზე ფოკუსით.',
+  },
+  'ka-contact': { lang: 'ka', label: 'კონტაქტი', title: 'გაქვთ ვებსაიტის ან აპლიკაციის იდეა? დაჯავშნეთ ზარი.' },
 };
 
 /** "/" → "home", "/projects/ukarapp/" → "projects-ukarapp". */

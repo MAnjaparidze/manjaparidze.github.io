@@ -1,4 +1,5 @@
-/** Site-wide identity and navigation. Templates read from here instead of hard-coding copy. */
+/** Site-wide identity. Templates read from here instead of hard-coding copy; interface text is in src/i18n/ui.ts. */
+import type { Localized } from '../i18n';
 
 export interface Link {
   label: string;
@@ -7,9 +8,13 @@ export interface Link {
 
 export const SITE = {
   name: 'Mamuka Anjaparidze',
+  /** The name in Georgian script; Person schema alternateName, so searches in either script match. */
+  nameKa: 'მამუკა ანჯაფარიძე',
   jobTitle: 'Senior web & mobile developer, SEO and AEO',
-  description:
-    'Websites, SEO and AEO, and mobile apps for e-commerce and growing companies, so that when customers ask Google or ChatGPT, your business is the answer.',
+  description: {
+    en: 'Websites, SEO and AEO, and mobile apps for e-commerce and growing companies, so that when customers ask Google or ChatGPT, your business is the answer.',
+    ka: 'ვებსაიტები, SEO და AEO და მობილური აპლიკაციები ელ-კომერციისა და მზარდი კომპანიებისთვის, რომ როცა მომხმარებელი Google-ს ან ChatGPT-ს ეკითხება, პასუხი თქვენი ბიზნესი იყოს.',
+  } satisfies Localized,
   /** The only time-bound fact on the site (PLAN.md → Resume facts: no dates). */
   currently: 'Coinmania',
   /** Person schema knowsAbout. */
@@ -34,13 +39,6 @@ export const CONTACT = {
   bookingUrl: 'https://calendly.com/m-anjaparidze/30min',
   email: 'anjaparidzemamuka@gmail.com',
 } as const;
-
-/** Main navigation. Work points at the homepage section until /projects/ exists (Phase 2). */
-export const NAV: readonly Link[] = [
-  { label: 'Work', href: '/#work' },
-  { label: 'About', href: '/about/' },
-  { label: 'Contact', href: '/contact/' },
-];
 
 /** Public profiles; also the Person schema's sameAs. */
 export const PROFILES: readonly Link[] = [

@@ -2,6 +2,8 @@
 import { Font } from 'astro:assets';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { alternates, toLang } from '../i18n';
+import { ui } from '../i18n/ui';
 import { ogSlug } from '../lib/og';
 import { SITE } from '../lib/site';
 import { THEME_STORAGE_KEY } from '../lib/theme';
@@ -19,14 +21,19 @@ interface Props {
   ogCard?: string;
 }
 
-const { title, description = SITE.description, footerCta = true, ogType = 'website', ogCard } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.jobTitle}`;
+const lang = toLang(Astro.currentLocale);
+const t = ui(lang);
+const { title, description = SITE.description[lang], footerCta = true, ogType = 'website', ogCard } = Astro.props;
+const fullTitle = title ? `${title} · ${t.name}` : `${t.name} · ${t.jobTitle}`;
+// Both language versions when the page has them: hreflang for search engines, x-default for everyone else.
+const versions = alternates(Astro.url.pathname);
+const OG_LOCALE = { en: 'en_US', ka: 'ka_GE' } as const;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(`/og/${ogCard ?? ogSlug(Astro.url.pathname)}.png`, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -43,13 +50,24 @@ const ogImage = new URL(`/og/${ogCard ?? ogSlug(Astro.url.pathname)}.png`, Astro
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {
+      versions && (
+        <>
+          <link rel="alternate" hreflang="en" href={new URL(versions.en, Astro.site)} />
+          <link rel="alternate" hreflang="ka" href={new URL(versions.ka, Astro.site)} />
+          <link rel="alternate" hreflang="x-default" href={new URL(versions.en, Astro.site)} />
+        </>
+      )
+    }
 
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:site_name" content={t.name} />
+    <meta property="og:locale" content={OG_LOCALE[lang]} />
+    {versions && <meta property="og:locale:alternate" content={OG_LOCALE[lang === 'en' ? 'ka' : 'en']} />}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -66,6 +84,14 @@ const ogImage = new URL(`/og/${ogCard ?? ogSlug(Astro.url.pathname)}.png`, Astro
     <Font cssVariable="--font-newsreader" preload />
     <Font cssVariable="--font-plex-sans" preload={[{ weight: 400, style: 'normal' }]} />
     <Font cssVariable="--font-plex-mono" />
+    {
+      lang === 'ka' && (
+        <>
+          <Font cssVariable="--font-noto-serif-georgian" preload />
+          <Font cssVariable="--font-noto-sans-georgian" preload={[{ weight: 400, style: 'normal' }]} />
+        </>
+      )
+    }
 
     <slot name="head" />
   </head>
@@ -74,7 +100,7 @@ const ogImage = new URL(`/og/${ogCard ?? ogSlug(Astro.url.pathname)}.png`, Astro
       href="#main"
       class="sr-only z-50 bg-surface px-4 py-3 font-medium text-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
     >
-      Skip to content
+      {t.skipLink}
     </a>
     <SiteHeader />
     <main id="main" tabindex="-1" class="flex-1 focus:outline-none">

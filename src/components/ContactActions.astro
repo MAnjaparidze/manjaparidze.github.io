@@ -1,6 +1,10 @@
 ---
 /** "Book a call" (primary) and "Email me". Shared by the hero and the footer CTA. */
 import { CONTACT } from '../lib/site';
+import { toLang } from '../i18n';
+import { ui } from '../i18n/ui';
+
+const t = ui(toLang(Astro.currentLocale));
 ---
 
 <div class="flex flex-wrap items-center gap-x-7 gap-y-3">
@@ -8,7 +12,7 @@ import { CONTACT } from '../lib/site';
     href={CONTACT.bookingUrl}
     class="inline-flex min-h-12 items-center rounded-md bg-accent px-6 font-semibold text-on-accent no-underline hover:bg-ink hover:text-ground"
   >
-    Book a call
+    {t.bookCall}
   </a>
-  <a href={`mailto:${CONTACT.email}`} class="inline-flex min-h-12 items-center font-medium underline">Email me</a>
+  <a href={`mailto:${CONTACT.email}`} class="inline-flex min-h-12 items-center font-medium underline">{t.emailMe}</a>
 </div>
