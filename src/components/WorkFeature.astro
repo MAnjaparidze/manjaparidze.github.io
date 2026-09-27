@@ -8,7 +8,7 @@ import type { WorkFeature } from '../lib/work';
 
 type Props = WorkFeature;
 
-const { slug, title, context, description, stack, screens, href } = Astro.props;
+const { slug, title, context, description, stack, screens, rating, href } = Astro.props;
 const headingId = `work-${slug}`;
 ---
 
@@ -49,6 +49,14 @@ const headingId = `work-${slug}`;
     </div>
     <div class="flex flex-col gap-4 md:pt-7">
       <p class="max-w-prose-col text-[1.0625rem] leading-relaxed lg:text-lg">{description}</p>
+      {
+        rating && (
+          <p class="flex items-center gap-2 font-medium">
+            <span aria-hidden="true" class="text-accent">★</span>
+            {rating}
+          </p>
+        )
+      }
       <ul class="flex flex-wrap gap-x-2 font-mono text-[0.8125rem] leading-relaxed tracking-[0.02em] text-muted">
         {stack.map((item, i) => <li>{i > 0 && <span aria-hidden="true">· </span>}{item}</li>)}
       </ul>

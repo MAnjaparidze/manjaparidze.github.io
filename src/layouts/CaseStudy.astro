@@ -36,8 +36,10 @@ const meta = [
 ];
 ---
 
-<Base title={title} description={summary}>
+<Base title={title} description={summary} ogType="article">
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+  <meta slot="head" property="article:published_time" content={datePublished.toISOString()} />
+  <meta slot="head" property="article:modified_time" content={dateModified.toISOString()} />
 
   <article class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
     <header class="flex flex-col gap-5 pt-14 pb-10 lg:gap-7 lg:pt-24 lg:pb-14">

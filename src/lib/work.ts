@@ -11,6 +11,8 @@ export interface WorkFeature {
   stack: readonly string[];
   /** Phone screens for the media panel, one frame each; the first one shows on small screens. */
   screens: readonly ScreenImage[];
+  /** Public store ratings, shown under the description. Checked by hand; review when refreshing content. */
+  rating?: string;
   /** Case study URL. Omitted until the page exists, so the homepage never links to a 404. */
   href?: string;
 }
@@ -42,6 +44,8 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     description:
       'A crypto wallet and payments app for Georgia. I initiated its architecture and have been its founding engineer since the first week: top contributor and release owner. Live prices stream over a hand-written SignalR client on the native WebSocket, and sessions are bound to the device and signed with biometrics or a PIN. The platform has 150–200k active users across web and mobile.',
     stack: ['React Native', 'TypeScript', 'React Query', 'Zustand', 'SignalR'],
+    // App Store (Georgia) 5.0 from 30 ratings; Google Play 4.8. Checked 2026-09-27.
+    rating: 'Rated 5.0 on the App Store and 4.8 on Google Play',
     screens: [COINMANIA_STORE[0], COINMANIA_STORE[1], COINMANIA_STORE[3]],
     href: '/projects/coinmania/',
   },

@@ -2,6 +2,7 @@
 import { Font } from 'astro:assets';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { ogSlug } from '../lib/og';
 import { SITE } from '../lib/site';
 import { THEME_STORAGE_KEY } from '../lib/theme';
 import '../styles/global.css';
@@ -12,11 +13,16 @@ interface Props {
   description?: string;
   /** Footer "Have an app to ship?" CTA; off on pages that already lead with it. */
   footerCta?: boolean;
+  /** Open Graph type: "article" for case studies. */
+  ogType?: 'website' | 'article';
+  /** Preview card slug (src/pages/og/[slug].png.ts); derived from the path unless the page has no card of its own. */
+  ogCard?: string;
 }
 
-const { title, description = SITE.description, footerCta = true } = Astro.props;
+const { title, description = SITE.description, footerCta = true, ogType = 'website', ogCard } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} · ${SITE.jobTitle}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(`/og/${ogCard ?? ogSlug(Astro.url.pathname)}.png`, Astro.site);
 ---
 
 <!doctype html>
@@ -38,12 +44,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={fullTitle} />
+    <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Browser UI color; mirrors --color-ground in global.css. -->
     <meta name="theme-color" content="#f6f7f8" media="(prefers-color-scheme: light)" />
