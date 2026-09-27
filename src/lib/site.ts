@@ -7,13 +7,24 @@ export interface Link {
 
 export const SITE = {
   name: 'Mamuka Anjaparidze',
-  jobTitle: 'Senior React Native & full-stack developer',
+  jobTitle: 'Senior web & mobile developer, SEO and AEO',
   description:
-    'Senior React Native and full-stack developer. Payment terminals, crypto apps and booking platforms for iOS and Android.',
+    'Websites, SEO and AEO, and mobile apps for e-commerce and growing companies, so that when customers ask Google or ChatGPT, your business is the answer.',
   /** The only time-bound fact on the site (PLAN.md → Resume facts: no dates). */
   currently: 'Coinmania',
   /** Person schema knowsAbout. */
-  knowsAbout: ['React Native', 'Expo', 'Node.js', 'MongoDB', 'TypeScript', 'Cybersecurity'],
+  knowsAbout: [
+    'Search engine optimization',
+    'Answer engine optimization',
+    'Web development',
+    'React',
+    'Next.js',
+    'Astro',
+    'React Native',
+    'Node.js',
+    'TypeScript',
+    'Cybersecurity',
+  ],
   /** Completed degree only; the NKU MSc is coursework and never claimed (PLAN.md → Resume facts). */
   alumniOf: 'San Diego State University',
 } as const;

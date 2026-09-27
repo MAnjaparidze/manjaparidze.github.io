@@ -134,8 +134,8 @@ export function pngToIco(png: Buffer, size: number): Buffer {
 
 /** Preview cards for pages that aren't case studies, keyed by the slug Base.astro derives from the path. */
 export const PAGE_CARDS: Record<string, OgCard> = {
-  home: { label: 'Portfolio', title: 'Mobile apps that move money, built by someone trained to break them.' },
-  about: { label: 'About', title: 'Senior React Native and full-stack developer with a cybersecurity background.' },
+  home: { label: 'Websites · SEO & AEO · Apps', title: 'When customers ask Google or ChatGPT, your business should be the answer.' },
+  about: { label: 'About', title: 'Web and mobile developer with a cybersecurity background, focused on search and AI visibility.' },
   contact: { label: 'Contact', title: 'Have an app to ship? Book a call.' },
 };
 

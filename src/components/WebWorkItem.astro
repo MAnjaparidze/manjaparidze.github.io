@@ -1,0 +1,31 @@
+---
+/** One "Websites and web apps" entry: title | description, stack and a link to the public evidence. */
+import type { WebWork } from '../lib/work';
+
+type Props = WebWork;
+
+const { slug, title, context, description, stack, link } = Astro.props;
+const headingId = `web-${slug}`;
+const external = link.href.startsWith('http');
+---
+
+<article aria-labelledby={headingId} class="grid gap-3 border-t border-rule py-8 md:grid-cols-2 md:gap-12 lg:py-10">
+  <div class="flex flex-col gap-2">
+    <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">{context}</p>
+    <h3 id={headingId} class="font-serif text-[1.75rem] leading-tight font-medium lg:text-[2.25rem]">{title}</h3>
+  </div>
+  <div class="flex flex-col gap-4 md:pt-6">
+    <p class="max-w-prose-col text-[1.0625rem] leading-relaxed">{description}</p>
+    <ul class="flex flex-wrap gap-x-2 font-mono text-[0.8125rem] leading-relaxed tracking-[0.02em] text-muted">
+      {stack.map((item, i) => <li>{i > 0 && <span aria-hidden="true">· </span>}{item}</li>)}
+    </ul>
+    <a
+      href={link.href}
+      rel={external ? 'noopener' : undefined}
+      class="inline-flex min-h-11 items-center self-start font-medium underline"
+    >
+      {link.label}
+      {external && <span class="sr-only"> (external site)</span>}
+    </a>
+  </div>
+</article>

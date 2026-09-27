@@ -7,9 +7,13 @@ import { profilePageSchema } from '../lib/schema';
 
 // Facts come from the resume and PLAN.md → Resume facts: no dates, the MSc is coursework, no phone number.
 const skills: readonly RuleListItem[] = [
+  {
+    term: 'Search and AI visibility',
+    detail: 'Technical SEO · schema.org JSON-LD · Core Web Vitals · answer-first content · robots and sitemaps',
+  },
+  { term: 'Web', detail: 'React · Next.js · Astro · TypeScript · Tailwind CSS · HTML and CSS · Three.js' },
   { term: 'Mobile', detail: 'React Native · Expo · EAS Build · Reanimated · React Navigation · in-app purchases' },
   { term: 'State and data', detail: 'Zustand · TanStack Query · Redux · Redux Saga · WebSockets · SignalR' },
-  { term: 'Web', detail: 'React · Next.js · TypeScript · Tailwind CSS · Three.js' },
   { term: 'Backend', detail: 'Node.js · Express · MongoDB · Firebase · Socket.io · REST' },
   { term: 'Security', detail: 'Device-bound sessions · biometrics · step-up MFA · JWT · OAuth' },
   { term: 'Cloud and tools', detail: 'AWS · DigitalOcean · Azure · Docker · Git · Figma' },
@@ -28,7 +32,7 @@ const schema = profilePageSchema(site, new URL(Astro.url.pathname, site));
 
 <Base
   title="About"
-  description="Mamuka Anjaparidze is a senior React Native and full-stack developer with a cybersecurity background, building crypto payment and fintech apps."
+  description="Mamuka Anjaparidze is a senior web and mobile developer with a cybersecurity background. He builds websites, SEO and AEO, and apps for e-commerce and growing companies."
 >
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 
@@ -36,12 +40,31 @@ const schema = profilePageSchema(site, new URL(Astro.url.pathname, site));
     <PageIntro
       label="About"
       title="About Mamuka Anjaparidze"
-      lead="I'm a senior React Native and full-stack developer. I build mobile apps that handle money: crypto payments, a crypto platform with 150–200k active users, receipt-based loyalty points. When a project needs it, I build the Node.js backend behind the app too."
+      lead="I'm a senior web and mobile developer. I build websites and apps for e-commerce and growing companies, and make sure search engines and AI assistants can read, trust and recommend them."
     />
 
-    <ContentSection id="what" title="What do I build?">
+    <ContentSection id="offer" title="What do I offer?">
+      <p>Three things, on their own or together:</p>
+      <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
+        <li>
+          <strong class="font-semibold">Websites</strong> that load fast and turn visitors into customers: company sites,
+          e-commerce and web apps.
+        </li>
+        <li>
+          <strong class="font-semibold">SEO and AEO:</strong> structured data, answer-first content, technical SEO and
+          open doors for AI crawlers, so Google ranks you and ChatGPT, Perplexity and Claude cite you.
+        </li>
+        <li><strong class="font-semibold">Mobile apps</strong> for iOS and Android, when a website isn't enough.</li>
+      </ul>
       <p>
-        Mobile apps where a bug costs someone money. At Coinmania I initiated the crypto app's architecture, advised
+        This site is the demo: <a href="/projects/this-site/">here's how it's built to rank and be cited</a>, with every
+        claim checkable by you.
+      </p>
+    </ContentSection>
+
+    <ContentSection id="what" title="What have I built?">
+      <p>
+        Apps where a bug costs someone money. At Coinmania I initiated the crypto app's architecture, advised
         on its boilerplate, and have been its founding engineer since the first week: its top contributor, its
         release owner, and the lead on its API layer, navigation and native code. I also lead the team behind ElectraPay and EPay Business, a two-sided crypto payment system used
         by 15–20 partner merchants.
@@ -52,8 +75,9 @@ const schema = profilePageSchema(site, new URL(Astro.url.pathname, site));
         logic changed. Batching one oversized API call cut its first load from 10–15 seconds to 3.
       </p>
       <p>
-        On the web I've built Microsoft Teams plugins used by companies with 1,000+ employees, a debate matchmaking platform over
-        Socket.io, and CoachNow's migration from Angular to React.
+        On the web I designed and built the front end of 08.ge, an information portal for Georgia, and worked on
+        CoachNow's migration from Angular to React. I co-built eNvite, a social shopping chat for online stores that was
+        Product Hunt's #7 product of the day, and Microsoft Teams plugins used by companies with 1,000+ employees.
       </p>
     </ContentSection>
 

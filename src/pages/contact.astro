@@ -13,7 +13,7 @@ const schema = contactPageSchema(site, new URL(Astro.url.pathname, site));
 <Base
   title="Contact"
   footerCta={false}
-  description="Book a 30-minute call or email Mamuka Anjaparidze about your React Native, payments or crypto app."
+  description="Book a 30-minute call or email Mamuka Anjaparidze about your website, search and AI visibility, or app."
 >
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 
@@ -30,9 +30,9 @@ const schema = contactPageSchema(site, new URL(Astro.url.pathname, site));
     <ContentSection id="send" title="What should you include?">
       <p>A few lines are enough to start:</p>
       <ul class="flex list-disc flex-col gap-2 pl-5 marker:text-muted">
-        <li>What the app does, and who uses it</li>
-        <li>iOS, Android, or both</li>
-        <li>Whether there's existing code, or you're starting from zero</li>
+        <li>What your business does, and who your customers are</li>
+        <li>What you need: a website, search and AI visibility, an app, or a mix</li>
+        <li>Your current site or app, if you have one</li>
         <li>When you need it</li>
       </ul>
     </ContentSection>

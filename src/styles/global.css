@@ -121,6 +121,10 @@
     & strong {
       @apply font-semibold;
     }
+    /* Links in running text need more than color to stand out (WCAG 1.4.1). */
+    & a {
+      @apply underline;
+    }
     & :not(pre) > code {
       @apply rounded-xs bg-panel px-1.5 py-0.5 font-mono text-[0.875em];
     }

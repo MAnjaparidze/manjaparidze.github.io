@@ -1,11 +1,12 @@
 ---
 import ContactActions from '../components/ContactActions.astro';
 import RuleList from '../components/RuleList.astro';
+import WebWorkItem from '../components/WebWorkItem.astro';
 import WorkFeature from '../components/WorkFeature.astro';
 import Base from '../layouts/Base.astro';
 import { personSchema } from '../lib/schema';
 import { SITE } from '../lib/site';
-import { EARLIER_WORK, FEATURED_WORK } from '../lib/work';
+import { EARLIER_WORK, FEATURED_WORK, WEB_WORK } from '../lib/work';
 
 // `site` is always set in astro.config.mjs; the fallback only satisfies the type.
 const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
@@ -23,12 +24,12 @@ const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
         id="hero-title"
         class="max-w-[65rem] font-serif text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] sm:text-7xl lg:text-[5rem]"
       >
-        Mobile apps that move money, built by someone trained to break them.
+        When customers ask Google or ChatGPT, your business should be the answer.
       </h1>
       <p class="max-w-[40rem] text-lg leading-relaxed text-muted lg:text-xl">
-        Payment terminals, crypto apps and booking platforms for iOS and Android. At Coinmania I've been the mobile
-        app's founding engineer since its first week; the platform serves 150–200k active users and multi-million
-        monthly volume.
+        I build websites and apps that search engines and AI assistants can read, trust and recommend, for
+        e-commerce and growing companies. At Coinmania I've been the founding engineer of a crypto app whose platform
+        serves 150–200k active users.
       </p>
       <ContactActions />
     </section>
@@ -38,6 +39,13 @@ const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
         Selected work
       </h2>
       {FEATURED_WORK.map((work) => <WorkFeature {...work} />)}
+    </section>
+
+    <section id="web" aria-labelledby="web-title" class="flex flex-col pt-18 lg:pt-34">
+      <h2 id="web-title" class="pb-6 font-serif text-3xl font-medium lg:text-[2.5rem]">Websites and web apps</h2>
+      <div class="border-b border-rule">
+        {WEB_WORK.map((work) => <WebWorkItem {...work} />)}
+      </div>
     </section>
 
     <section aria-labelledby="earlier-title" class="flex flex-col gap-6 pt-18 lg:pt-34">
