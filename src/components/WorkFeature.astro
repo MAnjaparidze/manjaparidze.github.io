@@ -20,26 +20,21 @@ const headingId = `work-${slug}`;
           class:list={[
             'w-[11.875rem] shrink-0 items-center justify-center overflow-hidden lg:w-[15.625rem]',
             i === 0 ? 'flex' : 'hidden md:flex',
-            // Store artwork keeps its own proportions; bare screens get the phone bezel.
-            'bare' in screen && screen.bare
-              ? 'aspect-[786/1701] rounded-2xl border border-rule'
+            // Store artwork keeps its own proportions; bare app screens get the phone bezel.
+            screen.bare
+              ? 'rounded-2xl border border-rule'
               : 'aspect-[250/512] rounded-[1.75rem] border-8 border-frame bg-surface lg:rounded-[2.3rem]',
-            !('image' in screen) && 'p-4',
           ]}
         >
-          {'image' in screen ? (
-            <Picture
-              src={screen.image}
-              alt={screen.alt}
-              formats={['avif', 'webp']}
-              widths={[180, 240, 360, 480, 720]}
-              sizes="(min-width: 1024px) 234px, 174px"
-              class="size-full object-cover"
-              pictureAttributes={{ class: 'size-full' }}
-            />
-          ) : (
-            <span class="text-center font-mono text-xs text-muted">[Recording: {screen.label}]</span>
-          )}
+          <Picture
+            src={screen.image}
+            alt={screen.alt}
+            formats={['avif', 'webp']}
+            widths={[180, 240, 360, 480, 720]}
+            sizes="(min-width: 1024px) 234px, 174px"
+            class={screen.bare ? 'h-auto w-full' : 'size-full object-cover'}
+            pictureAttributes={{ class: screen.bare ? 'w-full' : 'size-full' }}
+          />
         </div>
       ))
     }

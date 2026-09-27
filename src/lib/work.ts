@@ -1,8 +1,5 @@
 /** Homepage "Selected work". Facts come from PLAN.md → Case Studies; nothing here is invented. */
-import { COINMANIA_STORE, UKAR_WIZARD, type ScreenImage } from './screens';
-
-/** A phone frame: a real screen image, or a label until the recording or screenshot arrives. */
-export type WorkScreen = ScreenImage | { label: string };
+import { BONOAPP_STORE, COINMANIA_STORE, ELECTRAPAY_STORE, UKAR_WIZARD, type ScreenImage } from './screens';
 
 export interface WorkFeature {
   /** Stable id: heading anchor now, case study slug later. */
@@ -13,7 +10,7 @@ export interface WorkFeature {
   description: string;
   stack: readonly string[];
   /** Phone screens for the media panel, one frame each; the first one shows on small screens. */
-  screens: readonly WorkScreen[];
+  screens: readonly ScreenImage[];
   /** Case study URL. Omitted until the page exists, so the homepage never links to a 404. */
   href?: string;
 }
@@ -36,7 +33,7 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     description:
       'A two-sided crypto payment system, built by a team I lead. The merchant terminal shows a QR code; the customer scans it and pays from their balance in the crypto asset they choose, confirmed with an SMS code. The terminal polls for the result, can refund all or part of a payment, and exports reports to PDF and Excel. 15–20 partner merchants, including Dressup.',
     stack: ['React Native', 'TypeScript', 'React Query', 'react-native-vision-camera', 'react-native-keychain'],
-    screens: [{ label: 'terminal QR' }, { label: 'customer scan' }, { label: 'terminal report' }],
+    screens: ELECTRAPAY_STORE,
   },
   {
     slug: 'coinmania',
@@ -55,7 +52,7 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     description:
       'Scan the QR code on a receipt, earn loyalty points. I inherited a legacy codebase and refactored it, moving class components to functions during the Redux 5 upgrade. When the designs and business logic changed too far, I rebuilt the app from scratch. Batching one oversized API call cut first load from 10–15 seconds to 3.',
     stack: ['React Native 0.73', 'Expo', 'Redux 5', 'EAS Build'],
-    screens: [{ label: 'receipt scan' }, { label: 'points' }, { label: 'rewards' }],
+    screens: BONOAPP_STORE,
   },
 ];
 
