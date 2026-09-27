@@ -1,12 +1,11 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import CaseStudy from '../../layouts/CaseStudy.astro';
-import { lastModified } from '../../lib/git';
+import CaseStudy from '../../../layouts/CaseStudy.astro';
+import { lastModified } from '../../../lib/git';
 
 export async function getStaticPaths() {
-  // English case studies only: Georgian ones (id 'ka/<slug>') are routed by src/pages/ka/projects/[slug].astro.
-  const studies = await getCollection('caseStudies', ({ id }) => !id.includes('/'));
-  return studies.map((study) => ({ params: { slug: study.id }, props: { study } }));
+  const studies = await getCollection('caseStudies', ({ id }) => id.startsWith('ka/'));
+  return studies.map((study) => ({ params: { slug: study.id.slice('ka/'.length) }, props: { study } }));
 }
 
 interface Props {

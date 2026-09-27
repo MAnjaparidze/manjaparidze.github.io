@@ -142,12 +142,17 @@
       @apply overflow-x-auto rounded-lg border border-rule bg-surface p-5 font-mono text-sm leading-relaxed;
     }
     /* Tables wrap rather than scroll: Markdown can't make a scroll region keyboard-focusable. */
+    /* Phones: fixed columns (a narrow first one) so the table can't grow wider than the screen. */
     & table {
-      @apply w-full text-[0.9375rem] leading-normal;
+      @apply w-full text-[0.8125rem] leading-normal max-sm:table-fixed sm:text-[0.9375rem];
+    }
+    & th:first-child {
+      @apply max-sm:w-[27%];
     }
     & th,
     & td {
-      @apply border-b border-rule py-3 pr-5 text-left align-top;
+      /* Smaller type on phones lets long (Georgian) words fit; break-word is only the last resort. */
+      @apply border-b border-rule py-3 pr-3 text-left align-top [overflow-wrap:break-word] sm:pr-5;
     }
     & th {
       @apply font-mono text-[0.8125rem] font-normal tracking-[0.02em] text-muted;

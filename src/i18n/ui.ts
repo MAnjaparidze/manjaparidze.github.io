@@ -25,6 +25,8 @@ export const UI = {
     englishOnly: '',
     screenshots: (title: string) => `${title} screenshots`,
     scrollable: 'scrollable',
+    caseStudy: { label: 'Case study', role: 'Role', stack: 'Stack', status: 'Status', links: 'Links', updated: 'Last updated' },
+    dateLocale: 'en-GB',
   },
   ka: {
     name: 'მამუკა ანჯაფარიძე',
@@ -46,6 +48,8 @@ export const UI = {
     englishOnly: ' (ინგლისურად)',
     screenshots: (title: string) => `${title}: სკრინშოტები`,
     scrollable: 'გადაადგილებადი',
+    caseStudy: { label: 'ქეისი', role: 'როლი', stack: 'სტეკი', status: 'სტატუსი', links: 'ბმულები', updated: 'ბოლო განახლება' },
+    dateLocale: 'ka-GE',
   },
 } as const satisfies Record<Lang, unknown>;
 

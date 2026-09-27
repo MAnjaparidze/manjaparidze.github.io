@@ -4,6 +4,8 @@
  * "Last updated" comes from git (lib/git.ts), never from frontmatter.
  */
 import Base from './Base.astro';
+import { localePath, toLang } from '../i18n';
+import { ui } from '../i18n/ui';
 import { techArticleSchema } from '../lib/schema';
 
 interface Props {
@@ -19,6 +21,8 @@ interface Props {
 }
 
 const { title, summary, role, stack, status, topics, datePublished, dateModified, links = [] } = Astro.props;
+const lang = toLang(Astro.currentLocale);
+const t = ui(lang);
 const site = Astro.site ?? new URL(Astro.url.origin);
 const schema = techArticleSchema(site, new URL(Astro.url.pathname, site), {
   headline: title,
@@ -26,13 +30,14 @@ const schema = techArticleSchema(site, new URL(Astro.url.pathname, site), {
   datePublished,
   dateModified,
   about: topics,
+  inLanguage: lang,
 });
 const formatDate = (date: Date): string =>
-  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+  date.toLocaleDateString(t.dateLocale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 const meta = [
-  { term: 'Role', detail: role },
-  { term: 'Stack', detail: stack.join(' · ') },
-  { term: 'Status', detail: status },
+  { term: t.caseStudy.role, detail: role },
+  { term: t.caseStudy.stack, detail: stack.join(' · ') },
+  { term: t.caseStudy.status, detail: status },
 ];
 ---
 
@@ -44,10 +49,12 @@ const meta = [
   <article class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
     <header class="flex flex-col gap-5 pt-14 pb-10 lg:gap-7 lg:pt-24 lg:pb-14">
       <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
-        <a href="/#work" class="text-muted hover:text-ink">Selected work</a>
-        <span aria-hidden="true"> / </span>Case study
+        <a href={localePath(lang, '/#work')} class="text-muted hover:text-ink">{t.selectedWork}</a>
+        <span aria-hidden="true"> / </span>{t.caseStudy.label}
       </p>
-      <h1 class="max-w-[50rem] font-serif text-[2.5rem] leading-[1.05] font-medium tracking-[-0.02em] sm:text-6xl">
+      <h1
+        class="max-w-[50rem] font-serif text-[2.5rem] leading-[1.05] font-medium tracking-[-0.02em] [overflow-wrap:break-word] max-sm:[&:lang(ka)]:text-[2rem] sm:text-6xl sm:[&:lang(ka)]:text-5xl"
+      >
         {title}
       </h1>
       <p class="max-w-prose-col text-lg leading-relaxed text-muted lg:text-xl">{summary}</p>
@@ -63,7 +70,7 @@ const meta = [
         {
           links.length > 0 && (
             <>
-              <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">Links</dt>
+              <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">{t.caseStudy.links}</dt>
               <dd class="-mt-2 sm:mt-0">
                 <ul class="flex flex-wrap gap-x-4 gap-y-1">
                   {links.map(({ label, href }) => (
@@ -76,7 +83,7 @@ const meta = [
             </>
           )
         }
-        <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">Last updated</dt>
+        <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">{t.caseStudy.updated}</dt>
         <dd class="-mt-2 sm:mt-0"><time datetime={dateModified.toISOString()}>{formatDate(dateModified)}</time></dd>
       </dl>
     </header>

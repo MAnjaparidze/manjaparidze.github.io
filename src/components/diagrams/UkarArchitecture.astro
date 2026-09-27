@@ -3,32 +3,40 @@
  * UKar system architecture. Colors are theme tokens, so it follows light/dark with the page.
  * Below ~36rem the figure scrolls sideways instead of shrinking the labels past legibility.
  */
+import { toLang } from '../../i18n';
+
+const lang = toLang(Astro.currentLocale);
+/** English or Georgian; tech names (Node.js, MongoDB, Socket.IO) stay as they are in both. */
+const L = (en: string, ka: string): string => (lang === 'ka' ? ka : en);
 const clients = [
-  { x: 0, title: 'Customer app', lines: ['React Native · Expo', 'iOS · Android · Yandex Maps'] },
-  { x: 256, title: 'Partner app', lines: ['React Native · Expo', 'Owners · admins · washers'] },
-  { x: 512, title: 'Admin dashboard', lines: ['React · TypeScript', 'Partner approval · reviews'] },
+  { x: 0, title: L('Customer app', 'მომხმარებლის აპი'), lines: ['React Native · Expo', 'iOS · Android · Yandex Maps'] },
+  { x: 256, title: L('Partner app', 'პარტნიორის აპი'), lines: ['React Native · Expo', L('Owners · admins · washers', 'მფლობელი · ადმინი · მრეცხავი')] },
+  { x: 512, title: L('Admin dashboard', 'ადმინ პანელი'), lines: ['React · TypeScript', L('Partner approval · reviews', 'პარტნიორები · შეფასებები')] },
 ];
 const services = [
-  { x: 0, y: 293, title: 'SMS one-time codes' },
+  { x: 0, y: 293, title: L('SMS one-time codes', 'SMS ერთჯერადი კოდები') },
   { x: 0, y: 369, title: 'Yandex MapKit · Geocoder' },
   { x: 512, y: 293, title: 'Expo push' },
-  { x: 512, y: 369, title: 'DigitalOcean Spaces (images)' },
+  { x: 512, y: 369, title: L('DigitalOcean Spaces (images)', 'DigitalOcean Spaces (სურათები)') },
 ];
 ---
 
 <figure>
-  <div class="overflow-x-auto rounded-lg border border-rule bg-surface p-5" tabindex="0" aria-label="UKar architecture diagram, scrollable">
+  <div class="overflow-x-auto rounded-lg border border-rule bg-surface p-5" tabindex="0" aria-label={L('UKar architecture diagram, scrollable', 'UKar-ის არქიტექტურის დიაგრამა, გადაადგილებადი')}>
     <svg
       viewBox="0 0 720 436"
       class="w-full min-w-[34rem] text-ink"
       role="img"
       aria-labelledby="ukar-arch-title ukar-arch-desc"
     >
-      <title id="ukar-arch-title">UKar architecture</title>
+      <title id="ukar-arch-title">{L('UKar architecture', 'UKar-ის არქიტექტურა')}</title>
       <desc id="ukar-arch-desc">
-        Three clients, the customer app, the partner app and the admin dashboard, talk to one Node.js and Express API
-        over REST and Socket.IO. The API stores data in MongoDB and uses external services: SMS one-time codes,
-        Yandex MapKit and Geocoder, Expo push notifications, and DigitalOcean Spaces for images.
+        {
+          L(
+            'Three clients, the customer app, the partner app and the admin dashboard, talk to one Node.js and Express API over REST and Socket.IO. The API stores data in MongoDB and uses external services: SMS one-time codes, Yandex MapKit and Geocoder, Expo push notifications, and DigitalOcean Spaces for images.',
+            'სამი კლიენტი, მომხმარებლის აპლიკაცია, პარტნიორის აპლიკაცია და ადმინ პანელი, ერთ Node.js და Express API-ს უკავშირდება REST-ითა და Socket.IO-ით. API მონაცემებს MongoDB-ში ინახავს და იყენებს გარე სერვისებს: SMS ერთჯერად კოდებს, Yandex MapKit-სა და Geocoder-ს, Expo push შეტყობინებებს და DigitalOcean Spaces-ს სურათებისთვის.',
+          )
+        }
       </desc>
 
       <g class="font-sans" font-size="13">
@@ -50,7 +58,7 @@ const services = [
         <rect x="1" y="153" width="718" height="76" rx="8" class="fill-surface stroke-ink" stroke-width="1.5" />
         <text x="360" y="186" text-anchor="middle" class="fill-ink font-serif" font-size="18">Node.js · Express API</text>
         <text x="360" y="210" text-anchor="middle" class="fill-muted font-mono" font-size="11.5">
-          Real-time dispatch over Socket.IO · closest-first job offers · live ETA
+          {L('Real-time dispatch over Socket.IO · closest-first job offers · live ETA', 'დისპეჩერიზაცია Socket.IO-ით · შეთავაზება უახლოესს · ETA რეალურ დროში')}
         </text>
 
         <line x1="360" y1="230" x2="360" y2="292" class="stroke-muted" stroke-dasharray="4 4" />
@@ -59,7 +67,7 @@ const services = [
 
         <rect x="257" y="293" width="206" height="64" rx="8" class="fill-panel stroke-rule" />
         <text x="360" y="321" text-anchor="middle" class="fill-ink font-serif" font-size="17">MongoDB</text>
-        <text x="360" y="342" text-anchor="middle" class="fill-muted font-mono" font-size="11.5">Washes · partners · reviews</text>
+        <text x="360" y="342" text-anchor="middle" class="fill-muted font-mono" font-size="11.5">{L('Washes · partners · reviews', 'რეცხვები · შეფასებები')}</text>
 
         {
           services.map(({ x, y, title }) => (
@@ -73,6 +81,6 @@ const services = [
     </svg>
   </div>
   <figcaption>
-    One backend, three clients. Dashed boxes are external services.
+    {L('One backend, three clients. Dashed boxes are external services.', 'ერთი ბექენდი, სამი კლიენტი. წყვეტილი ჩარჩოები გარე სერვისებია.')}
   </figcaption>
 </figure>

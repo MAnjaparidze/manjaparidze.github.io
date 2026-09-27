@@ -1,7 +1,7 @@
 ---
 /** One "Websites and web apps" entry: title | description, stack and a link to the public evidence. */
 import ScreenGallery from './ScreenGallery.astro';
-import { toLang } from '../i18n';
+import { toLang, translatedPath } from '../i18n';
 import { ui } from '../i18n/ui';
 import type { WebWork } from '../lib/work';
 
@@ -11,9 +11,10 @@ const { slug, title, context, description, stack, link, gallery } = Astro.props;
 const headingId = `web-${slug}`;
 const lang = toLang(Astro.currentLocale);
 const t = ui(lang);
-// Case studies are English only for now: say so on Georgian pages.
-const englishOnly = !link.href.startsWith('http') && lang !== 'en';
 const external = link.href.startsWith('http');
+// Internal links go to this page's language when that version exists; otherwise say it's in English.
+const href = external ? link.href : (translatedPath(lang, link.href) ?? link.href);
+const englishOnly = !external && lang !== 'en' && translatedPath(lang, link.href) === undefined;
 ---
 
 <article aria-labelledby={headingId} class="grid gap-3 border-t border-rule py-8 md:grid-cols-2 md:gap-12 lg:py-10">
@@ -27,7 +28,7 @@ const external = link.href.startsWith('http');
       {stack.map((item, i) => <li>{i > 0 && <span aria-hidden="true">· </span>}{item}</li>)}
     </ul>
     <a
-      href={link.href}
+      href={href}
       rel={external ? 'noopener' : undefined}
       class="inline-flex min-h-11 items-center self-start font-medium underline"
     >

@@ -3,7 +3,7 @@
 import ContentSection from '../components/ContentSection.astro';
 import PageIntro from '../components/PageIntro.astro';
 import RuleList, { type RuleListItem } from '../components/RuleList.astro';
-import { toLang, type Lang } from '../i18n';
+import { toLang, translatedPath, type Lang } from '../i18n';
 import { ui } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
 import { profilePageSchema } from '../lib/schema';
@@ -115,7 +115,7 @@ const COPY: Record<Lang, Copy> = {
         },
         { strong: 'მობილური აპლიკაციები', rest: ' iOS-სა და Android-ზე, როცა ვებსაიტი საკმარისი არ არის.' },
       ],
-      demo: ['ეს საიტი თავად არის დემო: ', 'აქ წაიკითხავთ, როგორ არის აწყობილი (ინგლისურად)', ', და ყველა მტკიცებას თავად შეამოწმებთ.'],
+      demo: ['ეს საიტი თავად არის დემო: ', 'აქ წაიკითხავთ, როგორ არის აწყობილი', ', და ყველა მტკიცებას თავად შეამოწმებთ.'],
     },
     built: {
       title: 'რა შევქმენი?',
@@ -173,6 +173,7 @@ const COPY: Record<Lang, Copy> = {
 };
 
 const c = COPY[lang];
+const thisSiteHref = translatedPath(lang, '/projects/this-site/') ?? '/projects/this-site/';
 const site = Astro.site ?? new URL(Astro.url.origin);
 const schema = profilePageSchema(site, new URL(Astro.url.pathname, site), lang);
 ---
@@ -196,7 +197,7 @@ const schema = profilePageSchema(site, new URL(Astro.url.pathname, site), lang);
         }
       </ul>
       <p>
-        {c.offer.demo[0]}<a href="/projects/this-site/">{c.offer.demo[1]}</a>{c.offer.demo[2]}
+        {c.offer.demo[0]}<a href={thisSiteHref}>{c.offer.demo[1]}</a>{c.offer.demo[2]}
       </p>
     </ContentSection>
 

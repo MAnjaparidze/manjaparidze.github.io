@@ -4,7 +4,7 @@
  * One frame shows below md, all of them from md up.
  */
 import { Picture } from 'astro:assets';
-import { toLang } from '../i18n';
+import { toLang, translatedPath } from '../i18n';
 import { ui } from '../i18n/ui';
 import type { WorkFeature } from '../lib/work';
 
@@ -14,6 +14,8 @@ const { slug, title, context, description, stack, screens, rating, href } = Astr
 const headingId = `work-${slug}`;
 const lang = toLang(Astro.currentLocale);
 const t = ui(lang);
+const caseStudyHref = href && (translatedPath(lang, href) ?? href);
+const caseStudyInEnglish = href !== undefined && lang !== 'en' && translatedPath(lang, href) === undefined;
 ---
 
 <article aria-labelledby={headingId} class="flex flex-col gap-6 lg:gap-9">
@@ -65,10 +67,10 @@ const t = ui(lang);
         {stack.map((item, i) => <li>{i > 0 && <span aria-hidden="true">· </span>}{item}</li>)}
       </ul>
       {
-        href && (
-          <a href={href} class="inline-flex min-h-11 items-center self-start font-medium underline">
+        caseStudyHref && (
+          <a href={caseStudyHref} class="inline-flex min-h-11 items-center self-start font-medium underline">
             {t.readCaseStudy(title)}
-            {t.englishOnly}
+            {caseStudyInEnglish && t.englishOnly}
           </a>
         )
       }

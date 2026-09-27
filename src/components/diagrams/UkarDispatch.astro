@@ -3,34 +3,41 @@
  * UKar dispatch as a sequence diagram: closest-first offers, the atomic accept, then live tracking.
  * Theme tokens only, so it follows light/dark; scrolls sideways below ~36rem.
  */
+import { toLang } from '../../i18n';
+
+const lang = toLang(Astro.currentLocale);
+/** English or Georgian; tech names (Node.js, MongoDB, Socket.IO) stay as they are in both. */
+const L = (en: string, ka: string): string => (lang === 'ka' ? ka : en);
 const lanes = [
-  { x: 90, title: 'Customer app' },
+  { x: 90, title: L('Customer app', 'მომხმარებელი') },
   { x: 290, title: 'API' },
-  { x: 490, title: 'Car wash A' },
-  { x: 650, title: 'Car wash B' },
+  { x: 490, title: L('Car wash A', 'სამრეცხაო A') },
+  { x: 650, title: L('Car wash B', 'სამრეცხაო B') },
 ];
 
 /** from/to are lane x positions; dashed = reply or no-op. */
 const steps = [
-  { y: 96, from: 90, to: 290, label: 'Request a wash' },
-  { y: 144, from: 290, to: 490, label: 'Offer (closest first, 30 s)' },
-  { y: 192, from: 490, to: 490, label: 'No answer: offer expires', note: true },
-  { y: 240, from: 290, to: 650, label: 'Offer to next closest (30 s)' },
-  { y: 288, from: 650, to: 290, label: 'Accept' },
-  { y: 336, from: 290, to: 650, label: '200 won · a second tap gets 409', dashed: true },
-  { y: 384, from: 290, to: 90, label: 'Accepted · live location and ETA', dashed: true },
+  { y: 96, from: 90, to: 290, label: L('Request a wash', 'რეცხვის მოთხოვნა') },
+  { y: 144, from: 290, to: 490, label: L('Offer (closest first, 30 s)', 'შეთავაზება (უახლოესს, 30 წმ)') },
+  { y: 192, from: 490, to: 490, label: L('No answer: offer expires', 'უპასუხოდ: ვადა გავიდა'), note: true },
+  { y: 240, from: 290, to: 650, label: L('Offer to next closest (30 s)', 'შემდეგ უახლოესს (30 წმ)') },
+  { y: 288, from: 650, to: 290, label: L('Accept', 'მიღება') },
+  { y: 336, from: 290, to: 650, label: L('200 won · a second tap gets 409', '200 მიიღო · მეორე დაჭერა: 409'), dashed: true },
+  { y: 384, from: 290, to: 90, label: L('Accepted · live location and ETA', 'მიღებულია · ლოკაცია და ETA'), dashed: true },
 ];
 ---
 
 <figure>
-  <div class="overflow-x-auto rounded-lg border border-rule bg-surface p-5" tabindex="0" aria-label="UKar dispatch sequence diagram, scrollable">
+  <div class="overflow-x-auto rounded-lg border border-rule bg-surface p-5" tabindex="0" aria-label={L('UKar dispatch sequence diagram, scrollable', 'UKar-ის დისპეჩერიზაციის დიაგრამა, გადაადგილებადი')}>
     <svg viewBox="0 0 740 440" class="w-full min-w-[34rem] text-ink" role="img" aria-labelledby="ukar-dispatch-title ukar-dispatch-desc">
-      <title id="ukar-dispatch-title">How a UKar request is dispatched</title>
+      <title id="ukar-dispatch-title">{L('How a UKar request is dispatched', 'როგორ ნაწილდება UKar-ის მოთხოვნა')}</title>
       <desc id="ukar-dispatch-desc">
-        The customer app requests a wash. The API offers it to the closest available car wash for 30 seconds. If that
-        wash doesn't answer, the offer goes to the next closest, for up to 10 minutes in total. The wash that accepts
-        wins through an atomic database update; a second, simultaneous accept gets a 409 conflict. The API then tells
-        the customer app the wash was accepted and streams live location and ETA.
+        {
+          L(
+            'The customer app requests a wash. The API offers it to the closest available car wash for 30 seconds. If that wash doesn\'t answer, the offer goes to the next closest, for up to 10 minutes in total. The wash that accepts wins through an atomic database update; a second, simultaneous accept gets a 409 conflict. The API then tells the customer app the wash was accepted and streams live location and ETA.',
+            'მომხმარებლის აპლიკაცია რეცხვას ითხოვს. API მოთხოვნას 30 წამით უახლოეს თავისუფალ სამრეცხაოს სთავაზობს. თუ ის არ პასუხობს, შეთავაზება შემდეგ უახლოესზე გადადის, ჯამში 10 წუთამდე. იგებს ის სამრეცხაო, რომელიც პირველი მიიღებს: ეს ერთი ატომური ჩანაწერია ბაზაში, მეორე ერთდროული მიღება კი 409 შეცდომას იღებს. შემდეგ API მომხმარებლის აპლიკაციას ატყობინებს, რომ მოთხოვნა მიღებულია, და ლოკაციასა და ETA-ს რეალურ დროში გადასცემს.',
+          )
+        }
       </desc>
 
       <defs>
@@ -75,10 +82,17 @@ const steps = [
         }
 
         <text x="290" y="436" text-anchor="middle" class="fill-muted font-mono" font-size="11">
-          Offers stop after 10 minutes in total
+          {L('Offers stop after 10 minutes in total', 'შეთავაზებები ჯამში 10 წუთის შემდეგ წყდება')}
         </text>
       </g>
     </svg>
   </div>
-  <figcaption>Closest-first offers, then an atomic accept: two partners can't both win the same wash.</figcaption>
+  <figcaption>
+    {
+      L(
+        "Closest-first offers, then an atomic accept: two partners can't both win the same wash.",
+        'შეთავაზება ჯერ უახლოესს, შემდეგ ატომური მიღება: ორი პარტნიორი ერთსა და იმავე რეცხვას ვერ მიიღებს.',
+      )
+    }
+  </figcaption>
 </figure>

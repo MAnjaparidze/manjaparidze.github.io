@@ -2,9 +2,12 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-/** One file per case study in src/content/case-studies/: .md, or .mdx when it embeds components. The file name is the URL slug. */
+/**
+ * One file per case study in src/content/case-studies/: .md, or .mdx when it embeds components. The file name is the
+ * URL slug. Georgian versions live in the ka/ subfolder under the same name (id 'ka/<slug>').
+ */
 const caseStudies = defineCollection({
-  loader: glob({ pattern: '*.{md,mdx}', base: './src/content/case-studies' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/case-studies' }),
   schema: z.object({
     /** Page h1 and TechArticle headline. */
     title: z.string(),

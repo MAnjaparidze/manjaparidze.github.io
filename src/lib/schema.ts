@@ -79,6 +79,7 @@ export interface TechArticleSchema extends Context {
   dateModified: string;
   author: { '@id': string; '@type': 'Person'; name: string };
   about: string[];
+  inLanguage: Lang;
 }
 
 export interface TechArticleInput {
@@ -87,6 +88,7 @@ export interface TechArticleInput {
   datePublished: Date;
   dateModified: Date;
   about: readonly string[];
+  inLanguage: Lang;
 }
 
 export function techArticleSchema(site: URL, page: URL, article: TechArticleInput): TechArticleSchema {
@@ -100,5 +102,6 @@ export function techArticleSchema(site: URL, page: URL, article: TechArticleInpu
     dateModified: article.dateModified.toISOString(),
     author: { '@id': personId(site), '@type': 'Person', name: SITE.name },
     about: [...article.about],
+    inLanguage: article.inLanguage,
   };
 }

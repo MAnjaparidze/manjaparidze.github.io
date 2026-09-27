@@ -25,8 +25,8 @@ Practices and SEO. The whole homepage is small:
 
 | What | Size |
 | --- | --- |
-| HTML | 9.5 KB compressed |
-| CSS | 5.0 KB compressed |
+| HTML | 12 KB compressed |
+| CSS | 5.2 KB compressed |
 | JavaScript | About 1 KB, inline, only for the light/dark switch |
 
 Every page is plain HTML generated ahead of time, so there's nothing to wait for. Fonts are self-hosted, with
@@ -66,6 +66,13 @@ Every page carries structured data in schema.org JSON-LD, the format Google and 
 They all point to one Person by the same ID, so machines see one author across the site, not five strangers. Each
 case study's "Last updated" date is read from the project's history at build time, never typed by hand, so it's
 always true. Every page passes validator.schema.org with no errors or warnings.
+
+## How does it serve two languages?
+
+Every main page and case study exists in English and in Georgian, and each version tells search engines about
+the other with `hreflang` links, so Google shows people the one in their language. Each language has its own
+address (Georgian under `/ka/`), its own `lang` attribute, preview card and sitemap entry, and the structured
+data says which language a page is in. Georgian text uses fonts made for Georgian, loaded only on Georgian pages.
 
 ## How is the writing structured?
 
