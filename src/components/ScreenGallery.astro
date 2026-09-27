@@ -1,0 +1,37 @@
+---
+/** A row of phone screens that scrolls sideways; each screen keeps a readable size instead of shrinking. */
+import { Picture } from 'astro:assets';
+import type { ScreenImage } from '../lib/ukar-screens';
+
+interface Props {
+  /** Accessible name for the scroll region. */
+  label: string;
+  screens: readonly ScreenImage[];
+  caption: string;
+}
+
+const { label, screens, caption } = Astro.props;
+---
+
+<figure>
+  <div class="-mx-5 overflow-x-auto px-5 pb-3 sm:mx-0 sm:px-0" tabindex="0" aria-label={`${label}, scrollable`}>
+    <ul class="flex snap-x snap-mandatory gap-4">
+      {
+        screens.map(({ label: screenLabel, image, alt }) => (
+          <li class="flex w-44 shrink-0 snap-start flex-col gap-2 sm:w-48">
+            <Picture
+              src={image}
+              {alt}
+              formats={['avif', 'webp']}
+              widths={[180, 360, 540]}
+              sizes="(min-width: 640px) 192px, 176px"
+              class="h-auto w-full rounded-[1.25rem] border border-rule"
+            />
+            <span class="font-mono text-[0.8125rem] text-muted">{screenLabel}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>

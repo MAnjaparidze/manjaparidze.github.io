@@ -107,14 +107,15 @@
     & h3 + * {
       @apply mt-4;
     }
-    & ul,
-    & ol {
+    /* Direct children only: lists inside components (e.g. ScreenGallery) keep their own layout. */
+    & > ul,
+    & > ol {
       @apply flex flex-col gap-2 pl-5 marker:text-muted;
     }
-    & ul {
+    & > ul {
       @apply list-disc;
     }
-    & ol {
+    & > ol {
       @apply list-decimal;
     }
     & strong {

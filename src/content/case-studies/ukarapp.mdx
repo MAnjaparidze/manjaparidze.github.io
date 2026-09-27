@@ -10,6 +10,8 @@ datePublished: 2026-09-27
 
 import UkarArchitecture from '../../components/diagrams/UkarArchitecture.astro';
 import UkarDispatch from '../../components/diagrams/UkarDispatch.astro';
+import ScreenGallery from '../../components/ScreenGallery.astro';
+import { UKAR_SCREENS } from '../../lib/ukar-screens';
 
 ## What is UKar?
 
@@ -21,6 +23,12 @@ Car wash businesses run everything from a second app, UKar Partner. Owners manag
 prices and staff; administrators and washers go available, accept requests and move each wash through its
 stages. A web admin panel lets the UKar team approve new partners, review changes to listings and monitor
 every wash and review. The apps speak English, Russian, Azerbaijani and Georgian.
+
+<ScreenGallery
+  label="UKar customer app screens"
+  screens={[UKAR_SCREENS.request, UKAR_SCREENS.searching, UKAR_SCREENS.accepted, UKAR_SCREENS.inProgress, UKAR_SCREENS.menu]}
+  caption="One wash in the customer app, from request to washing. Screens from the app designs, before launch."
+/>
 
 ## What does one developer need to build a two-sided marketplace?
 
