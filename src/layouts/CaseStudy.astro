@@ -15,9 +15,10 @@ interface Props {
   topics: readonly string[];
   datePublished: Date;
   dateModified: Date;
+  links?: readonly { label: string; href: string }[];
 }
 
-const { title, summary, role, stack, status, topics, datePublished, dateModified } = Astro.props;
+const { title, summary, role, stack, status, topics, datePublished, dateModified, links = [] } = Astro.props;
 const site = Astro.site ?? new URL(Astro.url.origin);
 const schema = techArticleSchema(site, new URL(Astro.url.pathname, site), {
   headline: title,
@@ -56,6 +57,22 @@ const meta = [
               <dd class="-mt-2 sm:mt-0">{detail}</dd>
             </>
           ))
+        }
+        {
+          links.length > 0 && (
+            <>
+              <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">Links</dt>
+              <dd class="-mt-2 sm:mt-0">
+                <ul class="flex flex-wrap gap-x-4 gap-y-1">
+                  {links.map(({ label, href }) => (
+                    <li>
+                      <a {href}>{label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </>
+          )
         }
         <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">Last updated</dt>
         <dd class="-mt-2 sm:mt-0"><time datetime={dateModified.toISOString()}>{formatDate(dateModified)}</time></dd>

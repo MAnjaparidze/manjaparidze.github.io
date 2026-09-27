@@ -16,6 +16,8 @@ const caseStudies = defineCollection({
     /** TechArticle `about`. */
     topics: z.array(z.string()).min(1),
     datePublished: z.coerce.date(),
+    /** Public links: store listings, the product site. */
+    links: z.array(z.object({ label: z.string(), href: z.url() })).default([]),
   }),
 });
 

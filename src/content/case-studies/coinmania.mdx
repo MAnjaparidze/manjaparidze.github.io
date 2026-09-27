@@ -6,7 +6,14 @@ stack: ['React Native 0.79', 'React 19', 'TypeScript', 'React Query', 'Zustand',
 status: 'Live on the App Store and Google Play'
 topics: ['React Native', 'Crypto wallet', 'SignalR', 'WebSockets', 'React Query', 'Device-bound authentication']
 datePublished: 2026-09-27
+links:
+  - { label: 'App Store', href: 'https://apps.apple.com/ge/app/coinmania-app/id6740985837' }
+  - { label: 'Google Play', href: 'https://play.google.com/store/apps/details?id=com.coinmania.app' }
+  - { label: 'coinmania.exchange', href: 'https://coinmania.exchange/' }
 ---
+
+import ScreenGallery from '../../components/ScreenGallery.astro';
+import { COINMANIA_STORE } from '../../lib/screens';
 
 ## What is Coinmania?
 
@@ -21,6 +28,12 @@ web and mobile, with multi-million monthly volume. In the app, people can:
 - verify their identity in the app, and manage security, two-factor authentication and notifications.
 
 The app speaks Georgian and English.
+
+<ScreenGallery
+  label="Coinmania App Store screenshots"
+  screens={COINMANIA_STORE}
+  caption="From the App Store listing (© Coinmania): live prices, buying and selling, blockchain withdrawals, and the extra security checks."
+/>
 
 ## How is the app built?
 

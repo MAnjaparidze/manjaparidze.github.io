@@ -18,8 +18,12 @@ const headingId = `work-${slug}`;
       screens.map((screen, i) => (
         <div
           class:list={[
-            'aspect-[250/512] w-[11.875rem] shrink-0 items-center justify-center overflow-hidden rounded-[1.75rem] border-8 border-frame bg-surface lg:w-[15.625rem] lg:rounded-[2.3rem]',
+            'w-[11.875rem] shrink-0 items-center justify-center overflow-hidden lg:w-[15.625rem]',
             i === 0 ? 'flex' : 'hidden md:flex',
+            // Store artwork keeps its own proportions; bare screens get the phone bezel.
+            'bare' in screen && screen.bare
+              ? 'aspect-[786/1701] rounded-2xl border border-rule'
+              : 'aspect-[250/512] rounded-[1.75rem] border-8 border-frame bg-surface lg:rounded-[2.3rem]',
             !('image' in screen) && 'p-4',
           ]}
         >

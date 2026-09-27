@@ -1,5 +1,5 @@
 /** Homepage "Selected work". Facts come from PLAN.md → Case Studies; nothing here is invented. */
-import { UKAR_WIZARD, type ScreenImage } from './ukar-screens';
+import { COINMANIA_STORE, UKAR_WIZARD, type ScreenImage } from './screens';
 
 /** A phone frame: a real screen image, or a label until the recording or screenshot arrives. */
 export type WorkScreen = ScreenImage | { label: string };
@@ -45,7 +45,7 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     description:
       'A crypto wallet and payments app for Georgia. I initiated its architecture and have been its founding engineer since the first week: top contributor and release owner. Live prices stream over a hand-written SignalR client on the native WebSocket, and sessions are bound to the device and signed with biometrics or a PIN. The platform has 150–200k active users across web and mobile.',
     stack: ['React Native', 'TypeScript', 'React Query', 'Zustand', 'SignalR'],
-    screens: [{ label: 'portfolio' }, { label: 'live prices' }, { label: 'asset detail' }],
+    screens: [COINMANIA_STORE[0], COINMANIA_STORE[1], COINMANIA_STORE[3]],
     href: '/projects/coinmania/',
   },
   {
