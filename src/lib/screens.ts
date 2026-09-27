@@ -3,6 +3,12 @@ import type { ImageMetadata } from 'astro';
 import bonoCollect from '../assets/bonoapp/store-collect.png';
 import bonoCombine from '../assets/bonoapp/store-combine.png';
 import bonoSpend from '../assets/bonoapp/store-spend.png';
+import enviteEvents from '../assets/envite/events-and-recommendations.png';
+import enviteFollowers from '../assets/envite/followers-and-chats.png';
+import enviteGroups from '../assets/envite/groups-and-polls.png';
+import enviteLogin from '../assets/envite/login-and-invites.png';
+import teamsDashboard from '../assets/teams-manager/dashboard.png';
+import teamsRequest from '../assets/teams-manager/new-request.png';
 import web08Currency from '../assets/08ge/currency.png';
 import web08Home from '../assets/08ge/home.png';
 import web08Organizations from '../assets/08ge/organizations.png';
@@ -135,5 +141,43 @@ export const WEB_08GE: readonly ScreenImage[] = [
     label: 'Business directory',
     image: web08Organizations,
     alt: '08.ge business directory, in Georgian: search filters beside a grid of company cards with logos, ratings, addresses and opening hours.',
+  },
+];
+
+/** eNvite launch images from its Product Hunt page (© Webiz): phone mockups of the in-store chat. */
+export const WEB_ENVITE: readonly ScreenImage[] = [
+  {
+    label: 'Groups and polls',
+    image: enviteGroups,
+    alt: 'eNvite launch image: three phones showing an online store with a chat panel, labelled group creation, store items in chat, and polls on store items.',
+  },
+  {
+    label: 'Events and recommendations',
+    image: enviteEvents,
+    alt: 'eNvite launch image: three phones labelled participate in events, get recommendations, and store announcements.',
+  },
+  {
+    label: 'Followers and chats',
+    image: enviteFollowers,
+    alt: 'eNvite launch image: three phones labelled invite followers, recommended store items, and manage multiple chats.',
+  },
+  {
+    label: 'Log-in and invites',
+    image: enviteLogin,
+    alt: 'eNvite launch image: three phones labelled simple log-in, invite friends, and chat and video.',
+  },
+];
+
+/** Teams Manager screenshots from solutions2share.com (© Solutions2Share), showing today's product. */
+export const WEB_TEAMS_MANAGER: readonly ScreenImage[] = [
+  {
+    label: 'Governance dashboard',
+    image: teamsDashboard,
+    alt: 'Teams Manager inside Microsoft Teams: a governance dashboard with active spaces over time and a list of teams with their lifecycle status.',
+  },
+  {
+    label: 'New request',
+    image: teamsRequest,
+    alt: 'Teams Manager inside Microsoft Teams: the New Request panel, offering a team, Viva Engage community, SharePoint site, communication site, planner or channel.',
   },
 ];

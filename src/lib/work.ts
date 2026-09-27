@@ -1,5 +1,14 @@
 /** Homepage "Selected work", in display order (Coinmania first: Mamuka, 2026-09-27). Facts come from PLAN.md → Case Studies; nothing here is invented. */
-import { BONOAPP_STORE, COINMANIA_STORE, ELECTRAPAY_STORE, UKAR_WIZARD, WEB_08GE, type ScreenImage } from './screens';
+import {
+  BONOAPP_STORE,
+  COINMANIA_STORE,
+  ELECTRAPAY_STORE,
+  UKAR_WIZARD,
+  WEB_08GE,
+  WEB_ENVITE,
+  WEB_TEAMS_MANAGER,
+  type ScreenImage,
+} from './screens';
 
 export interface WorkFeature {
   /** Stable id: heading anchor now, case study slug later. */
@@ -117,6 +126,10 @@ export const WEB_WORK: readonly WebWork[] = [
       'A social chat plugin for online stores: shoppers invite friends into groups and shop together inside the store. I built the client side and added sharing products into a group. It was Product Hunt’s #7 product of the day.',
     stack: ['React', 'Redux', 'Firebase', 'Material UI'],
     link: { label: 'See it on Product Hunt', href: 'https://www.producthunt.com/products/envite' },
+    gallery: {
+      screens: WEB_ENVITE,
+      caption: 'Launch images from Product Hunt: the chat inside a store, with groups, polls, recommendations and invites.',
+    },
   },
   {
     slug: 'teams-manager',
@@ -126,6 +139,10 @@ export const WEB_WORK: readonly WebWork[] = [
       'Microsoft Teams governance apps used by companies with 1,000+ employees, such as Volkswagen, Airbus and Yamaha. I co-developed App Manager, Project Manager and External User Manager, and onboarded junior developers.',
     stack: ['React', 'Microsoft Graph API', 'Azure'],
     link: { label: 'Visit Teams Manager', href: 'https://www.solutions2share.com/teams-manager' },
+    gallery: {
+      screens: WEB_TEAMS_MANAGER,
+      caption: 'Teams Manager as it looks today, from solutions2share.com. I worked on earlier versions of its apps.',
+    },
   },
 ];
 
