@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Full history: case studies read their "Last updated" date from git.
+          fetch-depth: 0
       # Runs `npm run build`, which type-checks (astro check) before building.
       - uses: withastro/action@v6
         env:

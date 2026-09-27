@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
+import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
@@ -9,7 +10,14 @@ const site = process.env.SITE_URL || 'https://manjaparidze.github.io';
 // https://astro.build/config
 export default defineConfig({
   site,
-  integrations: [sitemap()],
+  integrations: [mdx(), sitemap()],
+  markdown: {
+    // Both themes are emitted as CSS variables; global.css picks one with the same rule as the color tokens.
+    shikiConfig: {
+      themes: { light: 'github-light-default', dark: 'github-dark-default' },
+      defaultColor: false,
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

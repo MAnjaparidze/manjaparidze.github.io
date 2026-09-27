@@ -62,3 +62,36 @@ export function contactPageSchema(site: URL, page: URL): ContactPageSchema {
     about: { '@id': personId(site) },
   };
 }
+
+export interface TechArticleSchema extends Context {
+  '@type': 'TechArticle';
+  headline: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  dateModified: string;
+  author: { '@id': string; '@type': 'Person'; name: string };
+  about: string[];
+}
+
+export interface TechArticleInput {
+  headline: string;
+  description: string;
+  datePublished: Date;
+  dateModified: Date;
+  about: readonly string[];
+}
+
+export function techArticleSchema(site: URL, page: URL, article: TechArticleInput): TechArticleSchema {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: article.headline,
+    description: article.description,
+    url: page.href,
+    datePublished: article.datePublished.toISOString(),
+    dateModified: article.dateModified.toISOString(),
+    author: { '@id': personId(site), '@type': 'Person', name: SITE.name },
+    about: [...article.about],
+  };
+}

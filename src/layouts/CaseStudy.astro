@@ -1,0 +1,69 @@
+---
+/**
+ * Case study page: intro + meta, then the MDX body as an <article>.
+ * "Last updated" comes from git (lib/git.ts), never from frontmatter.
+ */
+import Base from './Base.astro';
+import { techArticleSchema } from '../lib/schema';
+
+interface Props {
+  title: string;
+  summary: string;
+  role: string;
+  stack: readonly string[];
+  status: string;
+  topics: readonly string[];
+  datePublished: Date;
+  dateModified: Date;
+}
+
+const { title, summary, role, stack, status, topics, datePublished, dateModified } = Astro.props;
+const site = Astro.site ?? new URL(Astro.url.origin);
+const schema = techArticleSchema(site, new URL(Astro.url.pathname, site), {
+  headline: title,
+  description: summary,
+  datePublished,
+  dateModified,
+  about: topics,
+});
+const formatDate = (date: Date): string =>
+  date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const meta = [
+  { term: 'Role', detail: role },
+  { term: 'Stack', detail: stack.join(' · ') },
+  { term: 'Status', detail: status },
+];
+---
+
+<Base title={title} description={summary}>
+  <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+
+  <article class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
+    <header class="flex flex-col gap-5 pt-14 pb-10 lg:gap-7 lg:pt-24 lg:pb-14">
+      <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
+        <a href="/#work" class="text-muted hover:text-ink">Selected work</a>
+        <span aria-hidden="true"> / </span>Case study
+      </p>
+      <h1 class="max-w-[50rem] font-serif text-[2.5rem] leading-[1.05] font-medium tracking-[-0.02em] sm:text-6xl">
+        {title}
+      </h1>
+      <p class="max-w-prose-col text-lg leading-relaxed text-muted lg:text-xl">{summary}</p>
+      <dl class="grid max-w-prose-col gap-x-8 gap-y-3 border-t border-rule pt-6 sm:grid-cols-[8rem_minmax(0,1fr)]">
+        {
+          meta.map(({ term, detail }) => (
+            <>
+              <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">{term}</dt>
+              <dd class="-mt-2 sm:mt-0">{detail}</dd>
+            </>
+          ))
+        }
+        <dt class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted sm:pt-0.5">Last updated</dt>
+        <dd class="-mt-2 sm:mt-0"><time datetime={dateModified.toISOString()}>{formatDate(dateModified)}</time></dd>
+      </dl>
+    </header>
+
+    <div class="case-body">
+      <slot />
+    </div>
+  </article>
+</Base>

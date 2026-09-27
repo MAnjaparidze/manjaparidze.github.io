@@ -17,12 +17,13 @@ export interface WorkFeature {
 export const FEATURED_WORK: readonly WorkFeature[] = [
   {
     slug: 'ukarapp',
-    title: 'UKarApp',
-    context: 'Launching soon',
+    title: 'UKar',
+    context: 'Co-founder · launching soon',
     description:
-      'Car wash booking in Baku. The map SDK needed native work on both platforms: Swift AppDelegate injection on iOS, Kotlin 2.1 type-compatibility patching on Android.',
-    stack: ['React Native', 'Expo SDK 55', 'Yandex Maps', 'Node.js', 'MongoDB', 'EAS Build'],
-    screens: ['map', 'booking', 'confirmation'],
+      'On-demand car wash booking for Azerbaijan, then Georgia. I built all four codebases alone: a Node.js backend that dispatches each request to the closest car wash over Socket.IO, customer and partner apps in React Native, and an admin dashboard.',
+    stack: ['React Native', 'Expo', 'Node.js', 'Socket.IO', 'MongoDB', 'Yandex Maps'],
+    screens: ['request', 'live map', 'rating'],
+    href: '/projects/ukarapp/',
   },
   {
     slug: 'electrapay',

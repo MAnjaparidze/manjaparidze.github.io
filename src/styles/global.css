@@ -85,3 +85,61 @@
   background-image: radial-gradient(var(--color-dot) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+/*
+ * Case study body: rendered MDX, so element selectors instead of utilities.
+ * Scoped to .case-body; reading width is max-w-prose-col.
+ */
+@layer components {
+  .case-body {
+    @apply flex max-w-prose-col flex-col text-[1.0625rem] leading-relaxed;
+
+    & > * + * {
+      @apply mt-5;
+    }
+    & h2 {
+      @apply mt-14 border-t border-rule pt-10 font-serif text-[1.75rem] leading-tight font-medium lg:text-[2.25rem];
+    }
+    & h3 {
+      @apply mt-9 font-serif text-2xl leading-snug font-medium;
+    }
+    & h2 + *,
+    & h3 + * {
+      @apply mt-4;
+    }
+    & ul,
+    & ol {
+      @apply flex flex-col gap-2 pl-5 marker:text-muted;
+    }
+    & ul {
+      @apply list-disc;
+    }
+    & ol {
+      @apply list-decimal;
+    }
+    & strong {
+      @apply font-semibold;
+    }
+    & :not(pre) > code {
+      @apply rounded-xs bg-panel px-1.5 py-0.5 font-mono text-[0.875em];
+    }
+    & pre {
+      @apply overflow-x-auto rounded-lg border border-rule bg-surface p-5 font-mono text-sm leading-relaxed;
+    }
+    & figure {
+      @apply mt-8;
+    }
+    & figcaption {
+      @apply mt-3 font-mono text-[0.8125rem] text-muted;
+    }
+  }
+
+  /* Shiki emits both themes as variables (astro.config.mjs); pick one with the dark: rule. */
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-light);
+    @variant dark {
+      color: var(--shiki-dark);
+    }
+  }
+}

@@ -1,0 +1,159 @@
+---
+title: 'UKar: on-demand car wash booking for Azerbaijan and Georgia'
+summary: 'UKar connects drivers to the closest available car wash in real time. I co-founded it and built the whole platform alone: a Node.js backend, two React Native apps and an admin dashboard.'
+role: 'Co-founder and sole developer'
+stack: ['React Native', 'Expo', 'Node.js', 'Express', 'MongoDB', 'Socket.IO', 'React', 'TypeScript', 'Yandex Maps']
+status: 'Launching soon in Azerbaijan, then Georgia'
+topics: ['React Native', 'Real-time dispatch', 'Socket.IO', 'Yandex Maps', 'Expo config plugins', 'Two-sided marketplace']
+datePublished: 2026-09-27
+---
+
+import UkarArchitecture from '../../components/diagrams/UkarArchitecture.astro';
+import UkarDispatch from '../../components/diagrams/UkarDispatch.astro';
+
+## What is UKar?
+
+UKar is an on-demand car wash platform for drivers in Azerbaijan, with Georgia next. A driver requests a wash
+in the UKar app, and the platform offers the job to the closest available car wash. The driver follows the
+accepted wash live on a map, from arrival to completion, and rates it afterwards with stars, tags and a comment.
+
+Car wash businesses run everything from a second app, UKar Partner. Owners manage their locations, services,
+prices and staff; administrators and washers go available, accept requests and move each wash through its
+stages. A web admin panel lets the UKar team approve new partners, review changes to listings and monitor
+every wash and review. The apps speak English, Russian, Azerbaijani and Georgian.
+
+## What does one developer need to build a two-sided marketplace?
+
+One backend and three clients. A single Node.js, Express and MongoDB backend pushes real-time updates over
+Socket.IO to a customer app and a partner app, both React Native with Expo for iOS and Android, and to a React
+and TypeScript admin dashboard. Around that core sit Yandex MapKit and Geocoder, Expo push notifications, SMS
+one-time-code login and DigitalOcean Spaces for images.
+
+<UkarArchitecture />
+
+I own all of it: the product decisions, the code in all four codebases, testing on real devices, and releases
+to the App Store and Google Play.
+
+## How does a request reach the closest car wash without double bookings?
+
+Each request is offered to one car wash at a time, closest first, for 30 seconds each and up to 10 minutes in
+total. Accepting is a single atomic database update that succeeds only while the wash is still pending and
+still offered to that car wash. If two partners tap Accept at the same moment, one update wins and the other
+gets a `409 Conflict`.
+
+<UkarDispatch />
+
+There are no time slots to collide, because UKar is on-demand: every wash is "now". That keeps the conflict
+down to one question, who accepted first, and the database answers it.
+
+## How do you keep live state reliable on mobile?
+
+Make the server the single source of truth, and give each app one recovery routine. Socket.IO rooms, one per
+user and one per car wash, carry live updates such as the customer's location on the way to the partner. But
+socket events alone aren't reliable on phones: apps get killed, sent to the background or lose the network,
+and a missed event meant a lost wash or an offer stuck on screen.
+
+So each app now runs the same recovery routine on cold start, on a push notification tap, on returning to the
+foreground and on socket reconnect: it asks the server what's actually happening and rebuilds the screen from
+that. Expo push notifications cover offers, status changes and review decisions while an app is in the
+background.
+
+Sessions follow the same idea. Login is limited to one device without spending a new SMS code on every
+switch, and refresh-token rotation tolerates an app killed halfway through a refresh.
+
+## How do you integrate Yandex Maps in React Native 0.83 with Expo SDK 55?
+
+With an Expo config plugin for iOS and a patched maintained fork for Android. Both mobile apps use native
+MapKit; the admin panel uses `@pbe/react-yandex-maps` to pin car wash locations.
+
+Yandex was the partners' requirement, and for good reason: its local map detail for Baku and Tbilisi is
+clearer and more up to date than the alternatives.
+
+### iOS: initialise MapKit before React Native starts
+
+The MapKit SDK has to be initialised in the Swift AppDelegate before the React Native bridge starts, or the
+first map view mounts against an uninitialised SDK. Instead of hand-editing native files, a config plugin
+(`withYandexMaps`, using Expo's `withAppDelegate`) rewrites the AppDelegate at prebuild. It adds the import
+and injects two calls right after the React Native factory is created:
+
+```swift
+import YandexMapsMobile
+
+// Injected by withYandexMaps after the React Native factory is created.
+// The key comes from extra.mapKitApiKey, never hard-coded.
+YMKMapKit.setApiKey(mapKitApiKey)
+YMKMapKit.sharedInstance()
+```
+
+One trap: the key is baked in at prebuild. Rotating it doesn't reach iOS until the next prebuild, while
+Android reads it from JavaScript at runtime. A working iOS map proves nothing about whether a new key reached
+the build.
+
+### Android: Kotlin 2.1 nullability
+
+React Native 0.83 requires Kotlin 2.1, and `react-native-yamap@4.8.3` no longer compiled under it. Kotlin
+2.1's stricter checks rejected calls on possibly-null values. The first fix was a `patch-package` patch: safe
+calls (`?.`), `?: continue` and `?: return` guards, and `Arguments.fromList(value ?: emptyList())` for
+nullable transport lists.
+
+The customer app then moved to the maintained fork `react-native-yamap-plus`, which supports the new
+toolchain. It still carries a patch for two upstream bugs:
+
+- Route results exposed only a localized duration string such as "12 мин". The patch adds the raw duration
+  in seconds, which the ETA maths needs.
+- An iOS handler emitted a key and value swapped.
+
+### What went wrong first
+
+- **Gradle's incremental builds hid Kotlin errors** in files it had already compiled, so fixes looked done
+  until a full clean build broke.
+- **Regenerating the patch** while the library's Android `build/` folder existed swept build output into it:
+  one run turned a 2-file patch into 373 file diffs.
+
+The migration and native rebuild took about a week of calendar time, going by the commit dates.
+
+### What I decided against
+
+- **Maintaining my own fork of the map library.** The patches live in `patch-package` instead. The cost is a
+  documented trap: patch files match an exact version, so a version bump silently skips the patch and breaks
+  the ETA without an error.
+- **Upgrading the Partner app in the same step.** It stays on Expo SDK 52 and Kotlin 1.9 with the original
+  library and its own patch, deliberately, so one migration doesn't block the other. The cost: a map fix in
+  one app doesn't carry over to the other.
+
+## How do I build four codebases alone?
+
+I work with Claude Code, Anthropic's AI coding assistant, as an engineering partner. I set the direction,
+decide how the product behaves, and review and test every change. Claude helps me research best practices,
+plan changes that span several apps, write and review code, and run automated tests before anything reaches
+a device.
+
+Every change follows the same loop:
+
+1. A written plan.
+2. Tests that fail before the fix and pass after it.
+3. My own checks on real devices.
+
+That loop is what made features like single-device sessions, recovery of a wash after the app is killed,
+closest-first dispatch with live ETA, and review and history screens across all three apps possible for one
+person.
+
+## What has it produced so far?
+
+UKar hasn't launched yet, so the numbers are about the engineering, measured from the four repositories:
+
+- **About 1,040 commits:** backend 427, Partner app 288, admin panel 174, customer app 149.
+- **About 1,650 automated tests:** backend 975, Partner app 541, customer app 94, admin panel 42.
+- **44 planned and tracked delivery phases.**
+
+Card payments through Epoint, an Azerbaijani payment gateway, come next.
+
+## What would I do differently?
+
+- **Add a crash reporter on day one.** Sentry or Crashlytics. A Partner app crash on open on Android still
+  hasn't been reproduced, because there was no telemetry to show where it happens.
+- **Make the server the source of truth from the start.** Socket-only live state caused the lost-wash and
+  stuck-offer bugs that the recovery routine later fixed.
+- **Pick one map library for both apps up front,** instead of two libraries with two sets of patches.
+- **Rate-limit per user, not per IP, before launch.** Per-IP limiting once locked out a whole office that
+  shared one address.
