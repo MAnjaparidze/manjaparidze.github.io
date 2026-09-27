@@ -1,5 +1,5 @@
 /** Homepage "Selected work". Facts come from PLAN.md → Case Studies; nothing here is invented. */
-import { UKAR_SCREENS, type ScreenImage } from './ukar-screens';
+import { UKAR_WIZARD, type ScreenImage } from './ukar-screens';
 
 /** A phone frame: a real screen image, or a label until the recording or screenshot arrives. */
 export type WorkScreen = ScreenImage | { label: string };
@@ -26,7 +26,7 @@ export const FEATURED_WORK: readonly WorkFeature[] = [
     description:
       'On-demand car wash booking for Azerbaijan, then Georgia. I built all four codebases alone: a Node.js backend that dispatches each request to the closest car wash over Socket.IO, customer and partner apps in React Native, and an admin dashboard.',
     stack: ['React Native', 'Expo', 'Node.js', 'Socket.IO', 'MongoDB', 'Yandex Maps'],
-    screens: [UKAR_SCREENS.request, UKAR_SCREENS.accepted, UKAR_SCREENS.inProgress],
+    screens: UKAR_WIZARD,
     href: '/projects/ukarapp/',
   },
   {

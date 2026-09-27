@@ -1,13 +1,11 @@
 /**
- * UKar customer app screens, exported from the Figma designs (pre-launch).
- * The Rate screen is left out on purpose: its feedback chips still contain placeholder text.
+ * UKar customer app onboarding wizard, exported from the Figma designs (pre-launch).
+ * Only the wizard is shown: the other screens need its context to make sense (Mamuka, 2026-09-27).
  */
 import type { ImageMetadata } from 'astro';
-import accepted from '../assets/ukar/accepted.png';
-import inProgress from '../assets/ukar/in-progress.png';
-import menu from '../assets/ukar/menu.png';
-import request from '../assets/ukar/request.png';
-import searching from '../assets/ukar/searching.png';
+import find from '../assets/ukar/onboarding-1-find.png';
+import preferences from '../assets/ukar/onboarding-2-preferences.png';
+import track from '../assets/ukar/onboarding-3-track.png';
 
 export interface ScreenImage {
   label: string;
@@ -15,30 +13,21 @@ export interface ScreenImage {
   alt: string;
 }
 
-export const UKAR_SCREENS = {
-  request: {
-    label: 'Request',
-    image: request,
-    alt: "UKar home screen: a map of central Baku, the pickup address, the driver's saved cars, and a choice of wash type and class.",
+/** In wizard order. */
+export const UKAR_WIZARD: readonly ScreenImage[] = [
+  {
+    label: '1 · Find',
+    image: find,
+    alt: 'UKar onboarding, step 1 of 3: "Find washing centers in minutes. Effortlessly locate nearby washing centers, saving you time and hassle."',
   },
-  searching: {
-    label: 'Searching',
-    image: searching,
-    alt: 'Searching screen: a radar pulse over the map while UKar finds a car wash, with a countdown and a cancel button.',
+  {
+    label: '2 · Preferences',
+    image: preferences,
+    alt: 'UKar onboarding, step 2 of 3: "Tailor the search to your preferences. Simply input your preferences and criteria to find the perfect washing center that fits your requirements."',
   },
-  accepted: {
-    label: 'Accepted',
-    image: accepted,
-    alt: 'Accepted wash: the route to the car wash, 1.5 km and 9 minutes away, with its rating, the price and a Show route button.',
+  {
+    label: '3 · Track',
+    image: track,
+    alt: 'UKar onboarding, step 3 of 3: "Track your washing in real-time. Stay updated with real-time tracking of your washing progress."',
   },
-  inProgress: {
-    label: 'In progress',
-    image: inProgress,
-    alt: 'Washing in progress: a full-screen timer while the car is being washed.',
-  },
-  menu: {
-    label: 'Menu',
-    image: menu,
-    alt: 'Side menu with account, my cars, washing history, subscription, settings and a Become a Partner button.',
-  },
-} as const satisfies Record<string, ScreenImage>;
+];
