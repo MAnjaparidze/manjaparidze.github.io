@@ -2,6 +2,7 @@
 /** The homepage, in either language: rendered by src/pages/index.astro and src/pages/ka/index.astro. */
 import ContactActions from '../components/ContactActions.astro';
 import RuleList from '../components/RuleList.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import ToptalBadge from '../components/ToptalBadge.astro';
 import WebWorkItem from '../components/WebWorkItem.astro';
 import WorkFeature from '../components/WorkFeature.astro';
@@ -39,7 +40,7 @@ const HERO: { headline: Localized; lead: Localized } = {
       class="grid items-center gap-x-12 gap-y-10 pt-14 pb-18 lg:grid-cols-[minmax(0,1fr)_auto] lg:pt-20 lg:pb-34"
     >
       <div class="flex flex-col gap-6 lg:gap-9">
-        <p class="font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
+        <p class="rise font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
           {t.jobTitle} · {t.currentlyAt(SITE.currently)}
         </p>
         <h1
@@ -48,29 +49,37 @@ const HERO: { headline: Localized; lead: Localized } = {
         >
           {HERO.headline[lang]}
         </h1>
-        <p class="max-w-[40rem] text-lg leading-relaxed text-muted lg:text-xl">{HERO.lead[lang]}</p>
-        <ContactActions />
+        <p class="rise max-w-[40rem] text-lg leading-relaxed text-muted [animation-delay:80ms] lg:text-xl">
+          {HERO.lead[lang]}
+        </p>
+        <div class="rise [animation-delay:160ms]">
+          <ContactActions />
+        </div>
       </div>
-      <ToptalBadge />
-    </section>
-
-    <section id="work" aria-labelledby="work-title" class="flex flex-col gap-14 lg:gap-24">
-      <h2 id="work-title" class="border-b border-rule pb-4 font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
-        {t.selectedWork}
-      </h2>
-      {FEATURED_WORK.map((work) => <WorkFeature {...work} />)}
-    </section>
-
-    <section id="web" aria-labelledby="web-title" class="flex flex-col pt-18 lg:pt-34">
-      <h2 id="web-title" class="pb-6 font-serif text-3xl font-medium lg:text-[2.5rem]">{t.webWork}</h2>
-      <div class="border-b border-rule">
-        {WEB_WORK.map((work) => <WebWorkItem {...work} />)}
+      <div class="rise [animation-delay:240ms]">
+        <ToptalBadge />
       </div>
     </section>
 
-    <section aria-labelledby="earlier-title" class="flex flex-col gap-6 pt-18 lg:pt-34">
-      <h2 id="earlier-title" class="font-serif text-3xl font-medium lg:text-[2.5rem]">{t.earlierWork}</h2>
-      <RuleList items={EARLIER_WORK.map(({ domain, items }) => ({ term: domain[lang], detail: items[lang].join(' · ') }))} />
+    <div id="work">
+      <section id="web" aria-labelledby="web-title" class="flex flex-col">
+        <SectionHeading id="web-title">{t.webWork}</SectionHeading>
+        <div class="border-b border-rule [&>article:first-child]:border-t-0">
+          {WEB_WORK.map((work) => <WebWorkItem {...work} />)}
+        </div>
+      </section>
+
+      <section aria-labelledby="apps-title" class="flex flex-col gap-14 pt-18 lg:gap-24 lg:pt-34">
+        <SectionHeading id="apps-title">{t.selectedWork}</SectionHeading>
+        {FEATURED_WORK.map((work) => <WorkFeature {...work} />)}
+      </section>
+    </div>
+
+    <section aria-labelledby="earlier-title" class="flex flex-col pt-18 lg:pt-34">
+      <SectionHeading id="earlier-title">{t.earlierWork}</SectionHeading>
+      <div class="[&_dl>div:first-child]:border-t-0">
+        <RuleList items={EARLIER_WORK.map(({ domain, items }) => ({ term: domain[lang], detail: items[lang].join(' · ') }))} />
+      </div>
     </section>
   </div>
 </Base>

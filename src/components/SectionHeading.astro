@@ -1,0 +1,8 @@
+---
+/** A homepage section label: quiet mono text over a rule, so the project titles beneath it carry the emphasis. */
+type Props = { id: string };
+
+const { id } = Astro.props;
+---
+
+<h2 {id} class="border-b border-rule pb-4 font-mono text-[0.8125rem] tracking-[0.02em] text-muted"><slot /></h2>
