@@ -25,8 +25,8 @@ Practices and SEO. The whole homepage is small:
 
 | What | Size |
 | --- | --- |
-| HTML | 12 KB compressed |
-| CSS | 5.2 KB compressed |
+| HTML | 14 KB compressed |
+| CSS | 5.8 KB compressed |
 | JavaScript | About 1 KB, inline, only for the light/dark switch |
 
 Every page is plain HTML generated ahead of time, so there's nothing to wait for. Fonts are self-hosted, with
@@ -95,10 +95,9 @@ setting, with a switch to override it.
 
 ## What's still on the list?
 
-Three things, in the open:
+Two things, in the open:
 
 - **A Content Security Policy**, as a meta tag, because GitHub Pages can't send security headers.
-- **An `llms.txt` file**, a short guide for AI tools. Its impact is small, but it's cheap.
 - **A custom domain.** Moving is a one-line change, because the site's address comes from one setting.
 
 ## How can you check all of this yourself?
@@ -107,7 +106,7 @@ With free tools, in about five minutes:
 
 1. **Speed:** paste the address into [PageSpeed Insights](https://pagespeed.web.dev/).
 2. **Structured data:** paste any page into the [Schema Markup Validator](https://validator.schema.org/).
-3. **AI access:** open [/robots.txt](/robots.txt) and see who's allowed.
+3. **AI access:** open [/robots.txt](/robots.txt) and see who's allowed, and [/llms.txt](/llms.txt) for the short guide to the site for AI tools.
 4. **Link previews:** paste a page into LinkedIn's [Post Inspector](https://www.linkedin.com/post-inspector/).
 5. **Accessibility:** run the free axe DevTools browser extension on any page.
 

@@ -21,5 +21,16 @@ import Base from '../layouts/Base.astro';
       </li>
       <li><a href="/#work" class="inline-flex min-h-12 items-center font-medium underline">See selected work</a></li>
     </ul>
+    {
+      /*
+       * GitHub Pages serves this one file for every missing URL, /ka/ ones included, so it points Georgian readers on.
+       * Georgian drafted by Claude for Mamuka's review (2026-10-02), like src/i18n/ui.ts. It uses the system's
+       * Georgian font: the Noto faces load only on /ka/ pages, which isn't worth a download for one line.
+       */
+    }
+    <p lang="ka" class="mt-8 flex flex-wrap items-center gap-x-3 text-muted">
+      ეს გვერდი არ არსებობს.
+      <a href="/ka/" class="inline-flex min-h-12 items-center font-medium underline">გადადით ქართულ მთავარ გვერდზე</a>
+    </p>
   </div>
 </Base>
