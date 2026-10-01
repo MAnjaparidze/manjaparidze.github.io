@@ -18,7 +18,7 @@ const caseStudyHref = href && (translatedPath(lang, href) ?? href);
 const caseStudyInEnglish = href !== undefined && lang !== 'en' && translatedPath(lang, href) === undefined;
 ---
 
-<article aria-labelledby={headingId} class="flex flex-col gap-6 lg:gap-9">
+<article aria-labelledby={headingId} class="reveal flex flex-col gap-6 lg:gap-9">
   <div class="dot-grid flex h-[28.75rem] items-center justify-center gap-8 rounded-xl bg-panel lg:h-[37.5rem] lg:gap-12">
     {
       screens.map((screen, i) => (

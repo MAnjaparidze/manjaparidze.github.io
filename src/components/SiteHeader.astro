@@ -26,8 +26,9 @@ const switchHref = alternates(path)?.[other] ?? localePath(other, other === 'en'
   >
     {t.name}
   </a>
-  <div class="-mr-3 flex items-center gap-x-2">
-    <nav aria-label={t.navLabel}>
+  <!-- Phones: the wrapper dissolves, so the name and toggle share one row and the nav drops to a row of its own. -->
+  <div class="-mr-3 flex items-center gap-x-2 max-sm:contents">
+    <nav aria-label={t.navLabel} class="max-sm:order-3 max-sm:basis-full">
       <ul class="-ml-3 flex flex-wrap">
         {
           nav.map(({ label, href }) => (
@@ -35,7 +36,7 @@ const switchHref = alternates(path)?.[other] ?? localePath(other, other === 'en'
               <a
                 href={href}
                 aria-current={isCurrent(href) ? 'page' : undefined}
-                class="inline-flex min-h-11 items-center px-3 text-[0.9375rem] text-ink no-underline hover:underline aria-[current=page]:underline"
+                class="inline-flex min-h-11 items-center px-3 text-[0.9375rem] text-ink underline decoration-transparent hover:decoration-current aria-[current=page]:decoration-current"
               >
                 {label}
               </a>
@@ -47,13 +48,15 @@ const switchHref = alternates(path)?.[other] ?? localePath(other, other === 'en'
             href={switchHref}
             hreflang={other}
             lang={other}
-            class="inline-flex min-h-11 items-center px-3 font-mono text-[0.8125rem] text-muted no-underline hover:text-ink hover:underline"
+            class="inline-flex min-h-11 items-center px-3 font-mono text-[0.8125rem] text-muted underline decoration-transparent hover:text-ink hover:decoration-current"
           >
             {t.switchLanguage.label}
           </a>
         </li>
       </ul>
     </nav>
-    <ThemeToggle />
+    <div class="max-sm:order-2 max-sm:-mr-3">
+      <ThemeToggle />
+    </div>
   </div>
 </header>

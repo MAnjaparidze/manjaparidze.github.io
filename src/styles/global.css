@@ -67,7 +67,7 @@
   }
 
   a {
-    @apply text-accent underline-offset-4 hover:text-ink;
+    @apply text-accent underline-offset-4 transition-colors duration-150 hover:text-ink;
   }
 
   :focus-visible {
@@ -94,6 +94,56 @@
 @utility dot-grid {
   background-image: radial-gradient(var(--color-dot) 1px, transparent 1px);
   background-size: 20px 20px;
+}
+
+/*
+ * Entrances play once and rest, and only move transform and opacity, so layout never shifts.
+ * The finished layout is the default; both utilities only add motion for people who haven't asked for less.
+ * The hero headline is left out on purpose: it is the LCP element.
+ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
+}
+
+/* Scroll-driven, so an element can rest mid-animation at the fold: it never fades, or its text would fail contrast. */
+@keyframes lift {
+  from {
+    translate: 0 0.75rem;
+  }
+}
+
+/* On load: a fade and 8px rise, done in under a second. Stagger with an animation-delay class. */
+@utility rise {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: rise 500ms ease-out both;
+  }
+}
+
+/* On scroll, as the element enters the viewport. Browsers without scroll timelines show it as normal. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* Longhands on purpose: the minifier folds a full set into a shorthand that browsers drop. */
+      animation-name: lift;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+/*
+ * Page-to-page crossfade (native cross-document view transitions, no JS). Browsers without support navigate as
+ * usual. The theme is set by the inline script in <head> before first paint, so the new page never flashes.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
 }
 
 /*

@@ -14,7 +14,7 @@ const t = ui(toLang(Astro.currentLocale));
   data-theme-toggle
   aria-pressed="false"
   hidden
-  class="inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center text-ink hover:text-accent"
+  class="inline-flex min-h-11 min-w-11 cursor-pointer items-center justify-center text-ink transition-colors duration-150 hover:text-accent"
 >
   <span class="sr-only">{t.darkTheme}</span>
   <!-- Sun in light mode, moon in dark mode: switched by CSS so there is no flash on load. -->
@@ -50,6 +50,7 @@ const t = ui(toLang(Astro.currentLocale));
 
   const root = document.documentElement;
   const osDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const themeColors = document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]');
   // Original per-scheme values from Base.astro, restored when the OS decides again.
   const defaultThemeColors = [...themeColors].map((meta) => meta.content);
@@ -73,7 +74,7 @@ const t = ui(toLang(Astro.currentLocale));
     });
   }
 
-  function setTheme(theme: Theme): void {
+  function applyTheme(theme: Theme): void {
     const followOs = theme === osTheme();
     if (followOs) delete root.dataset.theme;
     else root.dataset.theme = theme;
@@ -84,6 +85,12 @@ const t = ui(toLang(Astro.currentLocale));
       // Storage blocked (private mode, site data off): the choice lasts for this page only.
     }
     sync();
+  }
+
+  /** Crossfades the switch where the browser can; otherwise, or with reduced motion, it just changes. */
+  function setTheme(theme: Theme): void {
+    if (!document.startViewTransition || reducedMotion.matches) applyTheme(theme);
+    else document.startViewTransition(() => applyTheme(theme));
   }
 
   document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
