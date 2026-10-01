@@ -34,52 +34,54 @@ const HERO: { headline: Localized; lead: Localized } = {
 <Base>
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 
-  <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-34">
-    <section
-      aria-labelledby="hero-title"
-      class="grid items-center gap-x-12 gap-y-10 pt-14 pb-18 lg:grid-cols-[minmax(0,1fr)_auto] lg:pt-20 lg:pb-34"
-    >
-      <div class="flex flex-col gap-6 lg:gap-9">
-        <p class="rise font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
-          {t.jobTitle} · {t.currentlyAt(SITE.currently)}
-        </p>
-        <h1
-          id="hero-title"
-          class="max-w-[65rem] font-serif text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] [overflow-wrap:break-word] max-sm:[&:lang(ka)]:text-[2.125rem] sm:text-7xl sm:[&:lang(ka)]:text-[3.25rem] lg:text-[3.75rem] lg:[&:lang(ka)]:text-[3.25rem] xl:text-[4.5rem] xl:[&:lang(ka)]:text-[3.75rem]"
-        >
-          {HERO.headline[lang]}
-        </h1>
-        <p class="rise max-w-[40rem] text-lg leading-relaxed text-muted [animation-delay:80ms] lg:text-xl">
-          {HERO.lead[lang]}
-        </p>
-        <div class="rise [animation-delay:160ms]">
-          <ContactActions />
+  <div class="hero-wash">
+    <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-34">
+      <section
+        aria-labelledby="hero-title"
+        class="grid items-center gap-x-12 gap-y-10 pt-14 pb-18 lg:grid-cols-[minmax(0,1fr)_auto] lg:pt-20 lg:pb-34"
+      >
+        <div class="flex flex-col gap-6 lg:gap-9">
+          <p class="rise font-mono text-[0.8125rem] tracking-[0.02em] text-muted">
+            {t.jobTitle} · {t.currentlyAt(SITE.currently)}
+          </p>
+          <h1
+            id="hero-title"
+            class="max-w-[65rem] font-serif text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] [overflow-wrap:break-word] max-sm:[&:lang(ka)]:text-[2.125rem] sm:text-7xl sm:[&:lang(ka)]:text-[3.25rem] lg:text-[3.75rem] lg:[&:lang(ka)]:text-[3.25rem] xl:text-[4.5rem] xl:[&:lang(ka)]:text-[3.75rem]"
+          >
+            {HERO.headline[lang]}
+          </h1>
+          <p class="rise max-w-[40rem] text-lg leading-relaxed text-muted [animation-delay:80ms] lg:text-xl">
+            {HERO.lead[lang]}
+          </p>
+          <div class="rise [animation-delay:160ms]">
+            <ContactActions />
+          </div>
         </div>
-      </div>
-      <div class="rise [animation-delay:240ms]">
-        <ToptalBadge />
-      </div>
-    </section>
-
-    <div id="work">
-      <section id="web" aria-labelledby="web-title" class="flex flex-col">
-        <SectionHeading id="web-title">{t.webWork}</SectionHeading>
-        <div class="border-b border-rule [&>article:first-child]:border-t-0">
-          {WEB_WORK.map((work) => <WebWorkItem {...work} />)}
+        <div class="rise [animation-delay:240ms]">
+          <ToptalBadge />
         </div>
       </section>
 
-      <section aria-labelledby="apps-title" class="flex flex-col gap-14 pt-18 lg:gap-24 lg:pt-34">
-        <SectionHeading id="apps-title">{t.selectedWork}</SectionHeading>
-        {FEATURED_WORK.map((work) => <WorkFeature {...work} />)}
+      <div id="work">
+        <section aria-labelledby="apps-title" class="flex flex-col gap-14 lg:gap-24">
+          <SectionHeading id="apps-title">{t.selectedWork}</SectionHeading>
+          {FEATURED_WORK.map((work) => <WorkFeature {...work} />)}
+        </section>
+
+        <section id="web" aria-labelledby="web-title" class="flex flex-col pt-18 lg:pt-34">
+          <SectionHeading id="web-title">{t.webWork}</SectionHeading>
+          <div class="border-b border-rule [&>article:first-child]:border-t-0">
+            {WEB_WORK.map((work) => <WebWorkItem {...work} />)}
+          </div>
+        </section>
+      </div>
+
+      <section aria-labelledby="earlier-title" class="flex flex-col pt-18 lg:pt-34">
+        <SectionHeading id="earlier-title">{t.earlierWork}</SectionHeading>
+        <div class="[&_dl>div:first-child]:border-t-0">
+          <RuleList items={EARLIER_WORK.map(({ domain, items }) => ({ term: domain[lang], detail: items[lang].join(' · ') }))} />
+        </div>
       </section>
     </div>
-
-    <section aria-labelledby="earlier-title" class="flex flex-col pt-18 lg:pt-34">
-      <SectionHeading id="earlier-title">{t.earlierWork}</SectionHeading>
-      <div class="[&_dl>div:first-child]:border-t-0">
-        <RuleList items={EARLIER_WORK.map(({ domain, items }) => ({ term: domain[lang], detail: items[lang].join(' · ') }))} />
-      </div>
-    </section>
   </div>
 </Base>

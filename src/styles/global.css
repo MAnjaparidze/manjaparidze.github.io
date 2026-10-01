@@ -137,6 +137,137 @@
 }
 
 /*
+ * A still, soft wash of the accent colour behind the hero, full width. It fades to nothing before its own top
+ * edge (the header sits above it) and before the work section.
+ * At its strongest it keeps muted text above 4.5:1 (about 4.9:1 in light mode).
+ */
+@utility hero-wash {
+  background-image:
+    radial-gradient(70rem 26rem at 78% 22rem, color-mix(in oklab, var(--color-accent) 14%, transparent), transparent 70%),
+    radial-gradient(48rem 22rem at 0% 24rem, color-mix(in oklab, var(--color-accent) 7%, transparent), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/*
+ * The homepage background drifts toward the accent colour through the work sections and back, tied to scroll
+ * position (so it rests whenever you do). At its strongest, 8% in light mode, muted text keeps about 5.3:1.
+ * Homepage only: a tint that moves while you read a case study would be tiring. Browsers without scroll
+ * timelines or :has() keep the plain background.
+ */
+@keyframes ground-shift {
+  0% {
+    background-color: var(--color-ground);
+  }
+  35% {
+    background-color: color-mix(in oklab, var(--color-ground) 92%, var(--color-accent));
+  }
+  70% {
+    background-color: color-mix(in oklab, var(--color-ground) 95%, var(--color-accent));
+  }
+  100% {
+    background-color: var(--color-ground);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    body:has(.hero-wash) {
+      animation-name: ground-shift;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+
+/*
+ * A soft glow in each project's own colour behind its phone frames. It sits on the decorative panel, never behind
+ * body text, so contrast is unaffected. Colours are sampled from each app's screenshots (data-glow = work slug).
+ * It fades in once as the panel scrolls into view; without that support it is simply there.
+ */
+@keyframes glow-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@layer components {
+  .glow {
+    isolation: isolate;
+
+    &[data-glow='coinmania'] {
+      --glow: #00c078;
+    }
+    &[data-glow='ukarapp'] {
+      --glow: #6a6af0;
+    }
+    &[data-glow='electrapay'] {
+      --glow: #5a3df0;
+    }
+    &[data-glow='bonoapp'] {
+      --glow: #3b64e8;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(
+        95% 100% at 50% 50%,
+        color-mix(in oklab, var(--glow) 38%, transparent),
+        transparent 80%
+      );
+      @variant dark {
+        background: radial-gradient(
+          95% 100% at 50% 50%,
+          color-mix(in oklab, var(--glow) 58%, transparent),
+          transparent 80%
+        );
+      }
+    }
+  }
+
+  /*
+   * Cursor spotlight, for a real mouse only: the panel's dot grid lights up in the accent colour around the pointer.
+   * WorkFeature's script keeps --x and --y on the panel. Touch and reduced motion get the plain panel.
+   */
+  .glow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: radial-gradient(var(--color-accent) 1.5px, transparent 1.5px);
+    background-size: 20px 20px;
+    mask-image: radial-gradient(circle 11rem at var(--x, 50%) var(--y, 50%), #000, transparent);
+    opacity: 0;
+    transition: opacity 250ms;
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .glow:hover::after {
+      opacity: 0.6;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .glow::before {
+        animation-name: glow-in;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+      }
+    }
+  }
+}
+
+/*
  * Page-to-page crossfade (native cross-document view transitions, no JS). Browsers without support navigate as
  * usual. The theme is set by the inline script in <head> before first paint, so the new page never flashes.
  */
