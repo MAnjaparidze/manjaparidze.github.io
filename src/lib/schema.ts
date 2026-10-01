@@ -11,6 +11,7 @@ export interface PersonSchema {
   alternateName: string;
   jobTitle: string;
   url: string;
+  image?: string;
   sameAs: string[];
   knowsAbout: string[];
   alumniOf?: { '@type': 'CollegeOrUniversity'; name: string };
@@ -33,7 +34,7 @@ export interface ContactPageSchema extends Context {
 /** One stable id, so every page's schema points at the same Person. */
 const personId = (site: URL): string => new URL('#person', site).href;
 
-function person(site: URL): PersonSchema {
+function person(site: URL, image?: string): PersonSchema {
   return {
     '@type': 'Person',
     '@id': personId(site),
@@ -41,22 +42,23 @@ function person(site: URL): PersonSchema {
     alternateName: SITE.nameKa,
     jobTitle: SITE.jobTitle,
     url: site.href,
+    ...(image && { image }),
     sameAs: PROFILES.map(({ href }) => href),
     knowsAbout: [...SITE.knowsAbout],
   };
 }
 
-export function personSchema(site: URL): Context & PersonSchema {
-  return { '@context': 'https://schema.org', ...person(site) };
+export function personSchema(site: URL, image?: string): Context & PersonSchema {
+  return { '@context': 'https://schema.org', ...person(site, image) };
 }
 
-export function profilePageSchema(site: URL, page: URL, lang: Lang): ProfilePageSchema {
+export function profilePageSchema(site: URL, page: URL, lang: Lang, image?: string): ProfilePageSchema {
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfilePage',
     url: page.href,
     inLanguage: lang,
-    mainEntity: { ...person(site), alumniOf: { '@type': 'CollegeOrUniversity', name: SITE.alumniOf } },
+    mainEntity: { ...person(site, image), alumniOf: { '@type': 'CollegeOrUniversity', name: SITE.alumniOf } },
   };
 }
 

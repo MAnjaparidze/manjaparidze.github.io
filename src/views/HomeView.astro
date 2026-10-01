@@ -9,6 +9,7 @@ import WorkFeature from '../components/WorkFeature.astro';
 import { toLang, type Localized } from '../i18n';
 import { ui } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
+import { portraitUrl } from '../lib/portrait';
 import { personSchema } from '../lib/schema';
 import { SITE } from '../lib/site';
 import { EARLIER_WORK, FEATURED_WORK, WEB_WORK } from '../lib/work';
@@ -16,7 +17,8 @@ import { EARLIER_WORK, FEATURED_WORK, WEB_WORK } from '../lib/work';
 const lang = toLang(Astro.currentLocale);
 const t = ui(lang);
 // `site` is always set in astro.config.mjs; the fallback only satisfies the type.
-const schema = personSchema(Astro.site ?? new URL(Astro.url.origin));
+const site = Astro.site ?? new URL(Astro.url.origin);
+const schema = personSchema(site, await portraitUrl(site));
 
 const HERO: { headline: Localized; lead: Localized } = {
   headline: {

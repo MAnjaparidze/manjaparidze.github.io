@@ -1,11 +1,13 @@
 ---
 /** About, in either language: rendered by src/pages/about.astro and src/pages/ka/about.astro. */
+import { Picture } from 'astro:assets';
 import ContentSection from '../components/ContentSection.astro';
 import PageIntro from '../components/PageIntro.astro';
 import RuleList, { type RuleListItem } from '../components/RuleList.astro';
 import { toLang, translatedPath, type Lang } from '../i18n';
 import { ui } from '../i18n/ui';
 import Base from '../layouts/Base.astro';
+import { portrait, portraitUrl } from '../lib/portrait';
 import { profilePageSchema } from '../lib/schema';
 import { TOPTAL_URL } from '../lib/site';
 
@@ -17,6 +19,8 @@ interface Copy {
   title: string;
   description: string;
   heading: string;
+  /** Alt text for the portrait. */
+  portraitAlt: string;
   lead: string;
   offer: { title: string; intro: string; items: readonly { strong: string; rest: string }[]; demo: readonly [string, string, string] };
   built: { title: string; paragraphs: readonly string[] };
@@ -32,6 +36,8 @@ const COPY: Record<Lang, Copy> = {
     description:
       'Mamuka Anjaparidze is a senior web and mobile developer with a cybersecurity background. He builds websites, SEO and AEO, and apps for e-commerce and growing companies.',
     heading: 'About Mamuka Anjaparidze',
+    portraitAlt:
+      'Portrait of Mamuka Anjaparidze: smiling, seated at a table in a green striped shirt, against a dark navy wall.',
     lead: "I'm a senior web and mobile developer. I build websites and apps for e-commerce and growing companies, and make sure search engines and AI assistants can read, trust and recommend them.",
     offer: {
       title: 'What do I offer?',
@@ -102,6 +108,8 @@ const COPY: Record<Lang, Copy> = {
     description:
       'მამუკა ანჯაფარიძე Senior ვებ და მობილური დეველოპერია კიბერუსაფრთხოების გამოცდილებით. ქმნის ვებსაიტებს, SEO-სა და AEO-ს და აპლიკაციებს ელ-კომერციისა და მზარდი კომპანიებისთვის.',
     heading: 'მამუკა ანჯაფარიძის შესახებ',
+    portraitAlt:
+      'მამუკა ანჯაფარიძის პორტრეტი: მაგიდასთან მჯდარი, ღიმილით, მწვანე ზოლებიანი პერანგით, მუქ ლურჯ კედელთან.',
     lead: 'ვარ Senior ვებ და მობილური დეველოპერი. ვქმნი ვებსაიტებსა და აპლიკაციებს ელ-კომერციისა და მზარდი კომპანიებისთვის და ვზრუნავ, რომ საძიებო სისტემებმა და AI ასისტენტებმა შეძლონ მათი წაკითხვა, ენდონ და მომხმარებლებს ურჩიონ.',
     offer: {
       title: 'რას გთავაზობთ?',
@@ -178,14 +186,29 @@ const COPY: Record<Lang, Copy> = {
 const c = COPY[lang];
 const thisSiteHref = translatedPath(lang, '/projects/this-site/') ?? '/projects/this-site/';
 const site = Astro.site ?? new URL(Astro.url.origin);
-const schema = profilePageSchema(site, new URL(Astro.url.pathname, site), lang);
+const schema = profilePageSchema(site, new URL(Astro.url.pathname, site), lang, await portraitUrl(site));
 ---
 
 <Base title={c.title} description={c.description}>
   <script slot="head" type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 
   <div class="mx-auto max-w-page px-5 pb-18 sm:px-8 lg:pb-24">
-    <PageIntro label={t.nav.about} title={c.heading} lead={c.lead} />
+    <div class="grid gap-x-16 lg:grid-cols-[minmax(0,1fr)_19rem] lg:items-center">
+      <PageIntro label={t.nav.about} title={c.heading} lead={c.lead} />
+      <figure class="rise pb-12 [animation-delay:120ms] max-lg:max-w-[16rem] lg:pt-14 lg:pb-16">
+        <Picture
+          src={portrait}
+          alt={c.portraitAlt}
+          formats={['avif', 'webp']}
+          widths={[240, 360, 480, 683]}
+          sizes="(min-width: 1024px) 19rem, 16rem"
+          loading="eager"
+          fetchpriority="high"
+          class="aspect-[4/5] w-full rounded-xl object-cover object-[50%_55%]"
+          pictureAttributes={{ class: 'block' }}
+        />
+      </figure>
+    </div>
 
     <ContentSection id="offer" title={c.offer.title}>
       <p>{c.offer.intro}</p>
