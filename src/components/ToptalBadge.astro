@@ -31,14 +31,16 @@ const href = `${TOPTAL_URL}#NY4REA`;
         ></path>
       </g>
     </svg>
-    <a class="hire" {href}>Hire me</a>
+    <a class="hire" {href} aria-label="Check Profile on Toptal">Check Profile</a>
   </div>
 </div>
 
 <style>
   .badge-frame {
     --hex: polygon(50% 0, 100% 24%, 100% 76%, 50% 100%, 0 76%, 0 24%);
-    display: inline-block;
+    /* Shrink to the badge: as a grid item it would otherwise stretch full width on mobile, leaving the badge off to the left. */
+    width: fit-content;
+    margin-inline: auto;
     padding: 6px;
     background: #25a9ef;
     clip-path: var(--hex);
