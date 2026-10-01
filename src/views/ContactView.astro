@@ -80,7 +80,7 @@ const schema = contactPageSchema(site, new URL(Astro.url.pathname, site), lang);
     </ContentSection>
 
     <ContentSection id="direct" title={c.elsewhere.title}>
-      <ul class="flex flex-col gap-1">
+      <ul class="flex flex-col gap-1 [overflow-wrap:anywhere]">
         <li>
           {c.elsewhere.email}: <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
         </li>

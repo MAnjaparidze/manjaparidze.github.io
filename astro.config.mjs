@@ -72,7 +72,7 @@ export default defineConfig({
       name: 'IBM Plex Sans',
       cssVariable: '--font-plex-sans',
       weights: [400, 500, 600],
-      styles: ['normal', 'italic'],
+      styles: ['normal'],
       fallbacks: ['system-ui', 'sans-serif'],
     },
     {

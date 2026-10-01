@@ -20,7 +20,7 @@ const t = ui(lang);
 ---
 
 <figure>
-  <div class="-mx-5 overflow-x-auto px-5 pb-3 [scrollbar-color:var(--color-rule)_transparent] [scrollbar-width:thin] sm:mx-0 sm:px-0" tabindex="0" aria-label={`${label}, ${t.scrollable}`}>
+  <div class="-mx-5 overflow-x-auto px-5 pb-3 [scrollbar-color:var(--color-rule)_transparent] [scrollbar-width:thin] sm:mx-0 sm:px-0" role="region" tabindex="0" aria-label={`${label}, ${t.scrollable}`}>
     <ul class="flex snap-x snap-mandatory gap-4">
       {
         screens.map(({ label: screenLabel, image, alt }) => (
