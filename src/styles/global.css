@@ -215,17 +215,13 @@
       z-index: -1;
       border-radius: inherit;
       pointer-events: none;
-      background: radial-gradient(
-        95% 100% at 50% 50%,
-        color-mix(in oklab, var(--glow) 38%, transparent),
-        transparent 80%
-      );
+      background:
+        radial-gradient(45% 60% at 50% 50%, color-mix(in oklab, var(--glow) 45%, transparent), transparent),
+        radial-gradient(100% 105% at 50% 50%, color-mix(in oklab, var(--glow) 55%, transparent), transparent 85%);
       @variant dark {
-        background: radial-gradient(
-          95% 100% at 50% 50%,
-          color-mix(in oklab, var(--glow) 58%, transparent),
-          transparent 80%
-        );
+        background:
+          radial-gradient(45% 60% at 50% 50%, color-mix(in oklab, var(--glow) 60%, transparent), transparent),
+          radial-gradient(100% 105% at 50% 50%, color-mix(in oklab, var(--glow) 75%, transparent), transparent 85%);
       }
     }
   }

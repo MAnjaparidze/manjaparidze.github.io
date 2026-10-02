@@ -25,6 +25,8 @@ const caseStudyInEnglish = href !== undefined && lang !== 'en' && translatedPath
         <div
           class:list={[
             'w-[11.875rem] shrink-0 items-center justify-center overflow-hidden lg:w-[15.625rem]',
+            // Grows a little under a real pointer; Tailwind's hover: already requires hover support.
+            'motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-out motion-safe:hover:scale-[1.07]',
             i === 0 ? 'flex' : 'hidden md:flex',
             // Store artwork keeps its own proportions; bare app screens get the phone bezel.
             screen.bare
