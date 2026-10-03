@@ -88,7 +88,7 @@ export interface WebWork {
   /** Case study on this site, or the public page that proves it exists. */
   link: { label: Localized; href: string };
   /** Desktop screenshots, with the gallery caption. */
-  gallery?: { screens: readonly ScreenImage[]; caption: Localized };
+  gallery?: { screens: readonly ScreenImage[]; caption: Localized; /** 2:1 frames for wide page screenshots instead of 4:3. */ wide?: boolean };
 }
 
 /**
@@ -119,6 +119,7 @@ export const WEB_WORK: readonly WebWork[] = [
     link: { label: { en: 'Visit 08.ge', ka: 'გადადით 08.ge-ზე' }, href: 'https://www.08.ge/' },
     gallery: {
       screens: WEB_08GE,
+      wide: true,
       caption: {
         en: 'The live site: homepage, currency converter and business directory. Visuals and markup by me.',
         ka: 'მოქმედი საიტი: მთავარი გვერდი, ვალუტის კონვერტორი და კომპანიების კატალოგი. ვიზუალები და მარკაპი ჩემია.',

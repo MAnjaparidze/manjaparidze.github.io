@@ -23,6 +23,7 @@
   --color-ground: light-dark(#f6f7f8, #0e1116); /* page background */
   --color-surface: light-dark(#ffffff, #161b22); /* raised areas: footer, cards */
   --color-panel: light-dark(#eceef1, #131820); /* media panels behind screenshots */
+  --color-shot: #ffffff; /* fixed light backdrop for website screenshots, so transparent artwork reads in dark mode too */
   --color-ink: light-dark(#111418, #e8eaed); /* primary text */
   --color-muted: light-dark(#555d6b, #9aa3af); /* secondary text, labels */
   --color-rule: light-dark(#d9dde3, #2a313b); /* borders, dividers */

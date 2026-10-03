@@ -11,9 +11,11 @@ interface Props {
   screens: readonly ScreenImage[];
   caption: string;
   variant?: 'phone' | 'desktop';
+  /** Desktop only: 2:1 frames for wide page screenshots instead of 4:3. */
+  wide?: boolean;
 }
 
-const { label, screens, caption, variant = 'phone' } = Astro.props;
+const { label, screens, caption, variant = 'phone', wide = false } = Astro.props;
 const desktop = variant === 'desktop';
 const lang = toLang(Astro.currentLocale);
 const t = ui(lang);
@@ -25,14 +27,16 @@ const t = ui(lang);
       {
         screens.map(({ label: screenLabel, image, alt }) => (
           <li class:list={['flex shrink-0 snap-start flex-col gap-2', desktop ? 'w-80 sm:w-[30rem]' : 'w-44 sm:w-48']}>
-            <Picture
-              src={image}
-              alt={alt[lang]}
-              formats={['avif', 'webp']}
-              widths={desktop ? [320, 480, 640, 960] : [180, 360, 540]}
-              sizes={desktop ? '(min-width: 640px) 480px, 320px' : '(min-width: 640px) 192px, 176px'}
-              class:list={['h-auto w-full border border-rule', desktop ? 'rounded-lg' : 'rounded-[1.25rem]']}
-            />
+            <div class:list={[desktop && 'flex items-center justify-center overflow-hidden rounded-lg border border-rule bg-shot p-2', desktop && (wide ? 'aspect-[2/1]' : 'aspect-[4/3]')]}>
+              <Picture
+                src={image}
+                alt={alt[lang]}
+                formats={['avif', 'webp']}
+                widths={desktop ? [320, 480, 640, 960] : [180, 360, 540]}
+                sizes={desktop ? '(min-width: 640px) 480px, 320px' : '(min-width: 640px) 192px, 176px'}
+                class:list={desktop ? 'max-h-full w-full object-contain' : 'h-auto w-full rounded-[1.25rem] border border-rule'}
+              />
+            </div>
             <span class="font-mono text-[0.8125rem] text-muted">{screenLabel[lang]}</span>
           </li>
         ))
